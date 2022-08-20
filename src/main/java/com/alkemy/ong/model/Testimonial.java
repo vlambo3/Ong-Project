@@ -32,4 +32,10 @@ public class Testimonial {
 
     private boolean deleted = Boolean.FALSE;
 
+    public Testimonial (String name, String image, String content) {
+        this.name = name;
+        this.image = image;
+        this.content = content;
+    }
+
 }
