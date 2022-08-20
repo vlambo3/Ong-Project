@@ -28,6 +28,7 @@ public class Testimonial {
 
     private String content;
 
+    @Column(name = "creation_date")
     private LocalDateTime creationDate = LocalDateTime.now();
 
     private boolean deleted = Boolean.FALSE;
