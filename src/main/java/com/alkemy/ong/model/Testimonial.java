@@ -1,6 +1,8 @@
 package com.alkemy.ong.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
 @Table(name = "testimonials")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @SQLDelete(sql = "UPDATE testimonials SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Testimonial {
@@ -39,11 +43,5 @@ public class Testimonial {
     private LocalDateTime updateDate;
 
     private boolean deleted = Boolean.FALSE;
-
-    public Testimonial (String name, String image, String content) {
-        this.name = name;
-        this.image = image;
-        this.content = content;
-    }
 
 }
