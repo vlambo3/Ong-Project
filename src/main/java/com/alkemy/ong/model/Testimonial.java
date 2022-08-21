@@ -2,7 +2,9 @@ package com.alkemy.ong.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -28,8 +30,13 @@ public class Testimonial {
 
     private String content;
 
-    @Column(name = "creation_date")
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
     private LocalDateTime creationDate = LocalDateTime.now();
+
+    @UpdateTimestamp
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 
     private boolean deleted = Boolean.FALSE;
 
