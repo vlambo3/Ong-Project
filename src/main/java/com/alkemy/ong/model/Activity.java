@@ -3,7 +3,9 @@ package com.alkemy.ong.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.validation.constraints.NotNull;
@@ -20,10 +22,10 @@ import java.time.LocalDateTime;
 public class Activity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "the name can´t be null")
     private String name;
 
     @Lob
@@ -33,7 +35,13 @@ public class Activity {
     @NotNull
     private String image;
 
-    LocalDateTime timestamps = LocalDateTime.now();
+    @Column(name = "creation_date", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime creationDate;
+
+    @Column(name = "update_date")
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
 
     private boolean deleted = Boolean.FALSE;
 }
