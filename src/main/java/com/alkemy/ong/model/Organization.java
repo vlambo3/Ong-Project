@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "organizations")
@@ -53,6 +54,9 @@ public class Organization {
     @UpdateTimestamp
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "organization",fetch = FetchType.LAZY)
+    private Set<Slide> slides = new HashSet<>();
 
     private Boolean deleted = Boolean.FALSE;
 }
