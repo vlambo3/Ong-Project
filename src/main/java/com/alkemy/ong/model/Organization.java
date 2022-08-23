@@ -7,7 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
@@ -34,9 +34,11 @@ public class Organization {
     @Column(nullable = true, length = 50)
     private String address;
 
-    @Column(nullable = true, length = 8)
-    private Integer phone;
+    @Pattern(regexp = "^(\\+?\\d{1,3})?(\\d{10})$", message = "the number phone es invalid")
+    @Column(nullable = true, length = 15)
+    private String phone;
 
+    @Email(regexp = "^[a-zA-Z]+((\\.|_)*[a-zA-Z0-9]+)*((\\.|_)[a-zA-Z0-9]+)*@[a-z]+\\.\\w\\w\\w(\\.\\w\\w)?$", message = "the email is invalid")
     @NotNull(message = "field email cannot be null")
     @Column(nullable = false, length = 50, unique = true)
     private String email;
