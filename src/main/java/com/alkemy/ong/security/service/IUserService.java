@@ -1,9 +1,10 @@
 package com.alkemy.ong.security.service;
 
-import com.alkemy.ong.security.dto.UserDto;
+import com.alkemy.ong.security.dto.UserRequestDto;
+import com.alkemy.ong.security.dto.UserResponseDto;
 
 public interface IUserService {
 
-    UserDto save(UserDto dto);
+    UserResponseDto save(UserRequestDto dto);
 
 }

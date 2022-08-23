@@ -1,7 +1,8 @@
 package com.alkemy.ong.security.mapper;
 
 import com.alkemy.ong.model.User;
-import com.alkemy.ong.security.dto.UserDto;
+import com.alkemy.ong.security.dto.UserRequestDto;
+import com.alkemy.ong.security.dto.UserResponseDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ public class UserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User userDto2UserEntity(UserDto dto) {
+    public User userRequestDto2UserEntity(UserRequestDto dto) {
         User entity = new User();
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
@@ -25,13 +26,12 @@ public class UserMapper {
         return entity;
     }
 
-    public UserDto userEntity2UserDto(User entity) {
-        UserDto dto = new UserDto();
+    public UserResponseDto userEntity2UserResponseDto(User entity) {
+        UserResponseDto dto = new UserResponseDto();
         dto.setId(entity.getId());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
         dto.setEmail(entity.getEmail());
-        dto.setPassword("Protected");
         dto.setPhoto(entity.getPhoto());
         dto.setRoleId(entity.getRoleId());
         return dto;
