@@ -2,6 +2,7 @@ package com.alkemy.ong.security.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import com.alkemy.ong.model.Role;
 
 @Getter
 @Setter
@@ -17,5 +18,6 @@ public class UserResponseDto {
 
     private String photo;
 
-    private Long roleId;
+    private Role role;
+
 }
