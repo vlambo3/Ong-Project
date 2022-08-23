@@ -1,21 +1,20 @@
-package com.alkemy.ong.security.service.impl;
+package com.alkemy.ong.security.service;
 
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.mapper.UserMapper;
-import com.alkemy.ong.security.service.IUserService;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements IUserService, UserDetailsService {
+public class UserService implements UserDetailsService {
 
     UserRepository userRepository;
     UserMapper userMapper;
 
-    UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }

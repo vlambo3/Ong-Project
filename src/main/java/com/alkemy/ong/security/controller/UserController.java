@@ -2,7 +2,7 @@ package com.alkemy.ong.security.controller;
 
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
-import com.alkemy.ong.security.service.IUserService;
+import com.alkemy.ong.security.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +16,9 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class UserController {
 
-    private final IUserService service;
+    private final UserService service;
 
-    UserController(IUserService service) {
+    UserController(UserService service) {
         this.service = service;
     }
 
