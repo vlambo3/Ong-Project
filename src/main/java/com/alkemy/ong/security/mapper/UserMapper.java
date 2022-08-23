@@ -3,7 +3,6 @@ package com.alkemy.ong.security.mapper;
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
