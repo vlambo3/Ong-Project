@@ -9,18 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    PasswordEncoder passwordEncoder;
-
-    UserMapper (PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
     public User userRequestDto2UserEntity(UserRequestDto dto) {
         User entity = new User();
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity.setPassword(dto.getPassword());
         entity.setPhoto(dto.getPhoto());
         entity.setRoleId(dto.getRoleId());
         return entity;
