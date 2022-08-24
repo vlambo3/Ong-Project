@@ -11,6 +11,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 
@@ -39,6 +40,7 @@ public class User {
     @Column(unique = true)
     @NotNull(message = "Email cannot be null.")
     @Email
+    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", message = "Wrong email.")
     private String email;
 
     @NotNull(message = "Password cannot be null.")
@@ -47,6 +49,7 @@ public class User {
     private String photo;
 
     @OneToOne
+    @Column(name = "role_id")
     private Role role;
 
     private boolean deleted = Boolean.FALSE;
@@ -58,6 +61,8 @@ public class User {
     @UpdateTimestamp
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+
 
 
 
