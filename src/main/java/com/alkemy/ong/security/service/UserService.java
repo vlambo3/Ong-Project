@@ -13,11 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-
 @Service
 public class UserService implements UserDetailsService {
 
@@ -33,8 +28,7 @@ public class UserService implements UserDetailsService {
         if(user == null) {
             throw new UsernameNotFoundException("Username or password not found");
         }
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        return new User(user.getUsername(), user.getPassword(), grantedAuthorities(user.getRole()));
+        return new User(user.getUsername(), user.getPassword(), user.getRole());
     }
 
     public final String jwtToken (AuthenticationRequest authRequest) throws Exception {
