@@ -21,7 +21,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDto> signUp(@Valid @RequestBody UserRequestDto user) throws Exception {
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
         UserResponseDto savedUser = service.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
