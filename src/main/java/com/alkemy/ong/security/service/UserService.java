@@ -22,6 +22,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private JwtUtils jwtTokenUtil;
 
+    @Autowired
+    private UserResponseDTO userResponseDTO;
+
     @Override
     public UserDetails loadUserByUsername (String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(userName);
@@ -31,7 +34,14 @@ public class UserService implements UserDetailsService {
         return new User(user.getUsername(), user.getPassword(), user.getRole());
     }
 
+    public boolean checkIfUserExist(String username) {
+        return userRepository.findByUsername(username) != null;
+    }
+
     public final String jwtToken (AuthenticationRequest authRequest) throws Exception {
+        if(checkIfUserExist(userResponseDTO.getEmail())){
+            throw new UsernameNotFoundException("There is no user with the requested email");
+        }
         UserDetails userDetails;
         try {
             Authentication auth = authenticationManager.authenticate(
@@ -39,7 +49,7 @@ public class UserService implements UserDetailsService {
             );
             userDetails = (UserDetails) auth.getPrincipal();
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            throw new Exception("ok: false", e);
         }
         return jwtTokenUtil.generateToken(userDetails);
     }
