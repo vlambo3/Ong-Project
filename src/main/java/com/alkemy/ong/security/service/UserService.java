@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean checkIfUserExist(String username) {
-        return userRepository.findByUsername(username) != null;
+        return userRepository.findByEmail(username) != null;
     }
 
     public final String jwtToken (AuthenticationRequest authRequest) throws Exception {
