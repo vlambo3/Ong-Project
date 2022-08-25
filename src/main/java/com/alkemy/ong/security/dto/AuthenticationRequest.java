@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 public class AuthenticationRequest {
     @NotNull(message = "Username cannot be null")
     @Email(message = "Username must be an email")
-    private String username;
+    private String email;
     @NotNull(message = "Password cannot be null")
     @Size(min=7)
     private String password;

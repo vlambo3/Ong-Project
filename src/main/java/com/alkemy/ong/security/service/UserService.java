@@ -1,13 +1,13 @@
 package com.alkemy.ong.security.service;
 
+import com.alkemy.ong.model.User;
+import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.security.dto.AuthenticationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,13 +25,16 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserResponseDTO userResponseDTO;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
-    public UserDetails loadUserByUsername (String userName) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(userName);
+    public UserDetails loadUserByUsername (String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if(user == null) {
             throw new UsernameNotFoundException("Username or password not found");
         }
-        return new User(user.getUsername(), user.getPassword(), user.getRole());
+        return new User(user.getEmail(), user.getPassword(), user.getRole());
     }
 
     public boolean checkIfUserExist(String username) {
@@ -45,7 +48,7 @@ public class UserService implements UserDetailsService {
         UserDetails userDetails;
         try {
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
             );
             userDetails = (UserDetails) auth.getPrincipal();
         } catch (BadCredentialsException e) {
