@@ -20,16 +20,16 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Column(name = "user_id")
     private User user;
 
     @NotNull(message = "Body can't be null.")
     private String body;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    /*@ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Column(name = "news_id")
-    private New new;
+    private New new;*/
 
 
 }
