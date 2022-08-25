@@ -20,7 +20,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Column(name = "user_id")
     private User user;
 
@@ -29,7 +29,7 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Column(name = "news_id")
-    private New new;
+    private News news;
 
 
 }

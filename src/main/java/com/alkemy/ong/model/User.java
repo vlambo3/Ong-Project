@@ -48,7 +48,7 @@ public class User {
 
     private String photo;
 
-    @OneToOne
+    @ManyToOne
     @Column(name = "role_id")
     private Role role;
 
