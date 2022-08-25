@@ -2,70 +2,22 @@ package com.alkemy.ong.security.service;
 
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.UserRepository;
-<<<<<<< HEAD
 import com.alkemy.ong.security.dto.AuthenticationRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-@Service
-public class UserService implements UserDetailsService {
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtils jwtTokenUtil;
-
-    @Autowired
-    private UserResponseDTO userResponseDTO;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Override
-    public UserDetails loadUserByUsername (String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if(user == null) {
-            throw new UsernameNotFoundException("Username or password not found");
-        }
-        return new User(user.getEmail(), user.getPassword(), user.getRole());
-    }
-
-    public boolean checkIfUserExist(String username) {
-        return userRepository.findByEmail(username) != null;
-    }
-
-    public final String jwtToken (AuthenticationRequest authRequest) throws Exception {
-        if(checkIfUserExist(userResponseDTO.getEmail())){
-            throw new UsernameNotFoundException("There is no user with the requested email");
-        }
-        UserDetails userDetails;
-        try {
-            Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
-            );
-            userDetails = (UserDetails) auth.getPrincipal();
-        } catch (BadCredentialsException e) {
-            throw new Exception("ok: false", e);
-        }
-        return jwtTokenUtil.generateToken(userDetails);
-    }
-=======
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +26,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
+    private AuthenticationManager authenticationManager;
 
     public UserResponseDto save(UserRequestDto dto) {
         User userCheck = userRepository.findByEmail(dto.getEmail());
@@ -86,5 +40,31 @@ public class UserService implements UserDetailsService {
         return userMapper.userEntity2UserResponseDto(newUser);
     }
 
->>>>>>> develop
+    @Override
+    public UserDetails loadUserByUsername (String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new UsernameNotFoundException("Username not found");
+        }
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
+        grantedAuthorities.add((GrantedAuthority) user.getRole());
+
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), grantedAuthorities);
+    }
+
+    public UserResponseDto authentication (AuthenticationRequest authRequest) throws Exception {
+        User user = userRepository.findByEmail(authRequest.getEmail());
+        if(user == null)
+            return null;
+
+        String decrypt = passwordEncoder.encode(authRequest.getPassword());
+        if(!authRequest.getPassword().equalsIgnoreCase(decrypt))
+            return null;
+
+        return userMapper.userEntity2UserResponseDto(user);
+    }
+
+
+
+
 }
