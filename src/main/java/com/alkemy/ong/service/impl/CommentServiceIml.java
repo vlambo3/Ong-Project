@@ -20,6 +20,7 @@ public class CommentServiceIml implements CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
+    //TODO to review as required
     @Override
     public CommentDto save(CommentDto commentDto) {
         Comment comment = commentMapper.commentDto2Entity(commentDto);
@@ -29,12 +30,15 @@ public class CommentServiceIml implements CommentService {
         return result;
     }
 
+    //TODO to review as required
     @Override
     public void delete(Long id) {
     commentRepository.deleteById(id);
     }
 
-    @Override
+
+    //TODO to review as required
+    // @Override
     public CommentDto put(Long id, CommentDto edit) {
 
         try {
@@ -48,6 +52,7 @@ public class CommentServiceIml implements CommentService {
         }
 
     }
+    //TODO to review as required
     public Comment getCommentById(Long id) throws Exception {
         Optional<Comment> savedComment = commentRepository.findById(id);
         if(!savedComment.isPresent()){

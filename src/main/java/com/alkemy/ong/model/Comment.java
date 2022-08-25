@@ -27,9 +27,9 @@ public class Comment {
     @NotNull(message = "Body can't be null.")
     private String body;
 
-    /*@ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @Column(name = "news_id")
-    private New new;*/
+    private News news;
 
 
 }
