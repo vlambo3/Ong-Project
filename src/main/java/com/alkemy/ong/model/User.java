@@ -1,5 +1,6 @@
 package com.alkemy.ong.model;
 
+import com.alkemy.ong.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "users")
@@ -48,7 +48,7 @@ public class User {
 
     private String photo;
 
-    @OneToOne
+    @ManyToOne
     @Column(name = "role_id")
     private Role role;
 
@@ -63,7 +63,6 @@ public class User {
     private LocalDateTime updateDate;
 
 
-
-
-
+    public User(String email, String password, Role role) {
+    }
 }

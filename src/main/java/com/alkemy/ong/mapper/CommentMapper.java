@@ -11,8 +11,18 @@ public class CommentMapper {
 
         Comment comment = new Comment();
         comment.setBody(commentDto.getBody());
-        comment.set
 
-        return generoEntity;
+        return comment;
+    }
+
+    public CommentDto entity2CommentDto(Comment comment){
+
+        CommentDto commentDto = new CommentDto();
+
+        commentDto.setBody(comment.getBody());
+        commentDto.setId(comment.getId());
+
+        return commentDto;
+
     }
 }
