@@ -23,17 +23,17 @@ public class EmailServiceImpl implements IEmailService {
     private Request request;
     private final static String ENDPOINT = "mail/send";
 
-    @Value("${sendgrid.organization.email}")
-    private final String FROM;
+    //@Value("${sendgrid.organization.email}")
+    private final String FROM = "prueba@hotmail.com";
 
-    @Value("${sendgrid.organization.subject}")
-    private final String SUBJECT;
+    //@Value("${sendgrid.organization.subject}")
+    private final String SUBJECT ="Welcome";
 
-    @Value("${sendgrid.organization.type}")
-    private final String TYPE;
+    //@Value("${sendgrid.organization.type}")
+    private final String TYPE = "text/play";
 
-    @Value("${sendgrid.organization.body}")
-    private final String BODY;
+    //@Value("${sendgrid.organization.body}")
+    private final String BODY = "Welcome to the ONG";
 
     @Override
     public Response sendEmail(String toEmail) {
