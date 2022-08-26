@@ -15,7 +15,7 @@ public class ContactDTO implements Serializable {
 
     private Long id;
 
-    private int phone;
+    private String phone;
 
     private String email;
 
