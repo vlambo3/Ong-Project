@@ -45,8 +45,8 @@ public class News {
     @UpdateTimestamp
     private Date updated;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+   // @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    //@JoinColumn(name = "category_id")
+    //private Category category;
 
 }

@@ -56,6 +56,7 @@ public class UserService {
         return userMapper.userEntity2UserResponseDto(user);
     }
 
+
     public AuthenticationResponse authenticate(AuthenticationRequest dto){
         final Authentication authentication = authenticatorManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 

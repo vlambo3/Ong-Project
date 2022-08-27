@@ -26,6 +26,7 @@ public class CustomDetailsService implements UserDetailsService {
         if(user == null) {
             throw new UsernameNotFoundException("Username not found");
         }
+
         //TODO
         //esto debera modificarse mas adelante, lo dejo porque lo vamos a necesitar cuando definamos los roles
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
