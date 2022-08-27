@@ -19,15 +19,11 @@ public class ContactDTO implements Serializable {
 
     private Long id;
 
-    @NotNull(message = "Field name cannot be null")
     private String name;
 
-    @Pattern(regexp = "^(\\+?\\d{1,3})?(\\d{10})$", message = "The number phone es invalid")
-    @NotNull(message = "Phone cannot be null")
+    private String name;
+
     private String phone;
 
-    @Email(regexp = "^[a-zA-Z]+((\\.|_)*[a-zA-Z0-9]+)*((\\.|_)[a-zA-Z0-9]+)*@[a-z]+\\.\\w\\w\\w(\\.\\w\\w)?$",
-            message = "The email is invalid")
-    @NotNull(message = "Field email cannot be null")
     private String email;
 }
