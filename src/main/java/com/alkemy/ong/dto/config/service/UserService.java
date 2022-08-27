@@ -56,24 +56,6 @@ public class UserService {
         return userMapper.userEntity2UserResponseDto(user);
     }
 
-    /*
-    public AuthenticationResponse authenticationResponse(AuthenticationRequest authRequest) throws NotFoundException {
-        String jwt = null;
-        try {
-            Authentication authentication = authenticatorManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest
-                    .getPassword()));
-            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated())
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getEmail());
-            jwt = jwtUtils.generateToken(userDetails);
-
-
-        } catch (BadCredentialsException e) {
-            throw new NotFoundException("Incorrect username or password", e);
-        }
-        return new AuthenticationResponse(jwt);
-    }*/
-
     public AuthenticationResponse authenticate(AuthenticationRequest dto){
         final Authentication authentication = authenticatorManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
