@@ -9,12 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
@@ -30,8 +25,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+    private Long id;
 
     @NotNull(message = "Name cannot be empty")
     private String name;
@@ -47,8 +41,7 @@ public class Category {
     @UpdateTimestamp
     private Timestamp UpdateTimeStamp;
 
-
-
     private boolean deleted = Boolean.FALSE;
 
 }
+

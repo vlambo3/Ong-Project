@@ -21,14 +21,12 @@ public class Comment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @Column(name = "user_id")
     private User user;
 
     @NotNull(message = "Body can't be null.")
     private String body;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @Column(name = "news_id")
     private News news;
 
 
