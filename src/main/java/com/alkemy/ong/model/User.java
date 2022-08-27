@@ -1,10 +1,6 @@
 package com.alkemy.ong.model;
 
-import com.alkemy.ong.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,7 +36,6 @@ public class User {
     @Column(unique = true)
     @NotNull(message = "Email cannot be null.")
     @Email
-    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", message = "Wrong email.")
     private String email;
 
     @NotNull(message = "Password cannot be null.")
@@ -49,7 +44,6 @@ public class User {
     private String photo;
 
     @ManyToOne
-    @Column(name = "role_id")
     private Role role;
 
     private boolean deleted = Boolean.FALSE;
@@ -63,6 +57,4 @@ public class User {
     private LocalDateTime updateDate;
 
 
-    public User(String email, String password, Role role) {
-    }
 }

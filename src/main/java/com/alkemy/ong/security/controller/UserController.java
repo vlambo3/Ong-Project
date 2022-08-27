@@ -1,7 +1,8 @@
 package com.alkemy.ong.security.controller;
 
 import com.alkemy.ong.security.dto.AuthenticationRequest;
-import com.alkemy.ong.security.service.UserService;
+import com.alkemy.ong.security.dto.AuthenticationResponse;
+import com.alkemy.ong.dto.config.service.UserService;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
-        UserResponseDto authenticatedUser = service.authentication(authRequest);
-        if(authenticatedUser != null) {
-            return ResponseEntity.status(HttpStatus.FOUND).body(authenticatedUser);
-        }
-        else {
-        return ResponseEntity.ok("ok:false");
-        }
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
+        return ResponseEntity.ok(service.authenticate(authRequest));
     }
 
 }
