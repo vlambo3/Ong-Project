@@ -51,5 +51,9 @@ public class Category {
 
     private boolean deleted = Boolean.FALSE;
 
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> develop
