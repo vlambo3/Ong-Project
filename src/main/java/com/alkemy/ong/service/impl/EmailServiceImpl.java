@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.utils.MailUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +31,10 @@ public class EmailServiceImpl implements IEmailService {
     private final String SUBJECT ="Welcome";
 
     //@Value("${sendgrid.organization.type}")
-    private final String TYPE = "text/play";
+    private final String TYPE = MailUtils.TYPE;
 
     //@Value("${sendgrid.organization.body}")
-    private final String BODY = "Welcome to the ONG";
+    private final String BODY = MailUtils.TEMPLATE;
 
     @Override
     public Response sendEmail(String toEmail) {

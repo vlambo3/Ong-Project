@@ -1,5 +1,6 @@
-package com.alkemy.ong.dto.config.service.jwt;
+package com.alkemy.ong.security.jwt;
 
+import com.alkemy.ong.security.auth.CustomDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package com.alkemy.ong.dto.config.service.jwt;
+package com.alkemy.ong.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
