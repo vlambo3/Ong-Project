@@ -1,4 +1,4 @@
-package com.alkemy.ong.dto.config.service.jwt;
+package com.alkemy.ong.security.auth;
 
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.UserRepository;
