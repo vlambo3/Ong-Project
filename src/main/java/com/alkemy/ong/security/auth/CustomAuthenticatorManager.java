@@ -1,4 +1,4 @@
-package com.alkemy.ong.dto.config.service.jwt;
+package com.alkemy.ong.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

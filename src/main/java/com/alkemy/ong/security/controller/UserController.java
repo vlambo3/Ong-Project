@@ -2,7 +2,7 @@ package com.alkemy.ong.security.controller;
 
 import com.alkemy.ong.security.dto.AuthenticationRequest;
 import com.alkemy.ong.security.dto.AuthenticationResponse;
-import com.alkemy.ong.dto.config.service.UserService;
+import com.alkemy.ong.security.auth.UserService;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
