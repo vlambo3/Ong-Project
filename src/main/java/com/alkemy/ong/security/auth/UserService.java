@@ -7,8 +7,6 @@ import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.mapper.UserMapper;
-import com.alkemy.ong.security.auth.CustomAuthenticatorManager;
-import com.alkemy.ong.security.auth.CustomDetailsService;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
