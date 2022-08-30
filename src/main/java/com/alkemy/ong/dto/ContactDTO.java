@@ -22,6 +22,7 @@ public class ContactDTO implements Serializable {
     @NotNull(message = "Field name cannot be null")
     private String name;
 
+
     @Pattern(regexp = "^(\\+?\\d{1,3})?(\\d{10})$", message = "The number phone es invalid")
     @NotNull(message = "Phone cannot be null")
     private String phone;
