@@ -37,7 +37,7 @@ public class AmazonClientImpl implements IAmazonClient {
         s3 = AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(Regions.US_EAST_1)
+                .withRegion(Regions.US_EAST_2)
                 .build();
     }
 
