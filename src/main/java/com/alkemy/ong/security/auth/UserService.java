@@ -1,4 +1,4 @@
-package com.alkemy.ong.dto.config.service;
+package com.alkemy.ong.security.auth;
 
 import com.alkemy.ong.model.User;
 import com.alkemy.ong.repository.UserRepository;
@@ -7,9 +7,9 @@ import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.mapper.UserMapper;
-import com.alkemy.ong.dto.config.service.jwt.CustomAuthenticatorManager;
-import com.alkemy.ong.dto.config.service.jwt.CustomDetailsService;
-import com.alkemy.ong.dto.config.service.jwt.JwtUtils;
+import com.alkemy.ong.security.auth.CustomAuthenticatorManager;
+import com.alkemy.ong.security.auth.CustomDetailsService;
+import com.alkemy.ong.security.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,7 +31,7 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final CustomDetailsService userDetailsService;
 
-    public UserResponseDto save(UserRequestDto dto) {
+    public AuthenticationResponse save(UserRequestDto dto) {
         User userCheck = userRepository.findByEmail(dto.getEmail());
         if(userCheck != null)
             throw new BadCredentialsException("Email is already in use");
@@ -39,7 +39,8 @@ public class UserService {
         User newUser = userMapper.userRequestDto2UserEntity(dto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         newUser = userRepository.save(newUser);
-        return userMapper.userEntity2UserResponseDto(newUser);
+        AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
+        return authenticate(authenticationRequest);
     }
 
 
@@ -56,7 +57,6 @@ public class UserService {
         return userMapper.userEntity2UserResponseDto(user);
     }
 
-
     public AuthenticationResponse authenticate(AuthenticationRequest dto){
         final Authentication authentication = authenticatorManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
@@ -72,7 +72,4 @@ public class UserService {
             throw new RuntimeException("User not found, please check the data entered");
         }
     }
-
-
-
 }

@@ -1,6 +1,7 @@
 package com.alkemy.ong.security.mapper;
 
 import com.alkemy.ong.model.User;
+import com.alkemy.ong.security.dto.AuthenticationRequest;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,13 @@ public class UserMapper {
         dto.setPhoto(entity.getPhoto());
         dto.setRole(entity.getRole());
         return dto;
+    }
+
+    public AuthenticationRequest userRequestDto2AuthenticationRequest(UserRequestDto dto){
+        AuthenticationRequest authRequestDto = new AuthenticationRequest();
+        authRequestDto.setEmail(dto.getEmail());
+        authRequestDto.setPassword(dto.getPassword());
+        return authRequestDto;
     }
 
 }
