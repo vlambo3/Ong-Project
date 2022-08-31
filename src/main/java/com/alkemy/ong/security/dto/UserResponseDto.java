@@ -20,4 +20,6 @@ public class UserResponseDto {
 
     private Role role;
 
+    private String token;
+
 }

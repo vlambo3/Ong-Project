@@ -30,7 +30,7 @@ public class UserService {
     private final CustomDetailsService userDetailsService;
 
 
-    public AuthenticationResponse save(UserRequestDto dto) {
+   public UserResponseDto save(UserRequestDto dto) {
 
         User userCheck = userRepository.findByEmail(dto.getEmail());
         if(userCheck != null)
@@ -39,9 +39,11 @@ public class UserService {
         User newUser = userMapper.userRequestDto2UserEntity(dto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         newUser = userRepository.save(newUser);
-
+        UserResponseDto userResponseDto = userMapper.userEntity2UserResponseDto(newUser);
         AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
-        return authenticate(authenticationRequest);
+        AuthenticationResponse token = authenticate(authenticationRequest);
+        userResponseDto.setToken(token.getJwt());
+        return userResponseDto;
 
     }
 

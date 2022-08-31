@@ -21,10 +21,11 @@ public class UserController {
 
     private final UserService service;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody UserRequestDto user) throws Exception {
-        return ResponseEntity.ok(service.save(user));
-    }
+
+   @PostMapping("/register")
+   public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
+       return ResponseEntity.ok(service.save(user));
+   }
 
 
     @PostMapping("/login")
