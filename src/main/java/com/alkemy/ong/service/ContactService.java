@@ -1,8 +1,8 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.ContactDTO;
+import com.alkemy.ong.dto.ContactDto;
 
 public interface ContactService {
 
-    ContactDTO save(ContactDTO dto);
+    ContactDto save(ContactDto dto);
 }

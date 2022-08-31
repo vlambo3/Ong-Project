@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactDTO implements Serializable {
+public class ContactDto implements Serializable {
 
     private Long id;
 
@@ -32,4 +32,5 @@ public class ContactDTO implements Serializable {
     private String email;
 
     private String message;
+
 }
