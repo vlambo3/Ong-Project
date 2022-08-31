@@ -1,7 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.ContactDto;
-import com.alkemy.ong.service.ContactService;
+import com.alkemy.ong.service.IContactService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ContactController {
 
-    private final ContactService service;
+    private final IContactService service;
 
     @PostMapping
     public ResponseEntity<ContactDto> save(@Valid @RequestBody ContactDto contact) {
