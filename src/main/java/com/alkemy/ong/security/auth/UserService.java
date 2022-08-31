@@ -1,13 +1,14 @@
 package com.alkemy.ong.security.auth;
 
-import com.alkemy.ong.model.User;
-import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.security.dto.AuthenticationRequest;
 import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
-import com.alkemy.ong.security.mapper.UserMapper;
 import com.alkemy.ong.security.jwt.JwtUtils;
+import com.alkemy.ong.service.IEmailService;
+import com.alkemy.ong.security.mapper.UserMapper;
+import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -28,6 +29,7 @@ public class UserService {
     private final CustomAuthenticatorManager authenticatorManager;
     private final JwtUtils jwtUtils;
     private final CustomDetailsService userDetailsService;
+    private final IEmailService emailService;
 
 
    public UserResponseDto save(UserRequestDto dto) {
@@ -43,7 +45,9 @@ public class UserService {
         AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
+        emailService.sendEmail(dto.getEmail());
         return userResponseDto;
+
 
     }
 
