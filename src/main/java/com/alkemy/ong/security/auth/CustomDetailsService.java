@@ -1,7 +1,7 @@
 package com.alkemy.ong.security.auth;
 
-import com.alkemy.ong.model.User;
-import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

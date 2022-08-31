@@ -1,4 +1,4 @@
-package com.alkemy.ong.model;
+package com.alkemy.ong.security.model;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
