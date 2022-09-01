@@ -1,12 +1,7 @@
 package com.alkemy.ong.security.repository;
-<<<<<<< HEAD
+
 
 import com.alkemy.ong.security.model.User;
-=======
-
-import com.alkemy.ong.security.model.User;
-
->>>>>>> develop
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

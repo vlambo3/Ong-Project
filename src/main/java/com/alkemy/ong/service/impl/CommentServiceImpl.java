@@ -1,17 +1,18 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.comment.CommentRequestDto;
+import com.alkemy.ong.dto.comment.CommentResponseDto;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.repository.CommentRepository;
-import com.alkemy.ong.service.CommentService;
+import com.alkemy.ong.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class CommentServiceIml implements CommentService {
+public class CommentServiceImpl implements ICommentService {
 
 
     @Autowired
@@ -20,14 +21,14 @@ public class CommentServiceIml implements CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
-    //TODO to review as required
-    @Override
-    public CommentDto save(CommentDto commentDto) {
-        Comment comment = commentMapper.commentDto2Entity(commentDto);
-        Comment savedComment = commentRepository.save(comment);
-        CommentDto result = commentMapper.entity2CommentDto(savedComment);
 
-        return result;
+    @Override
+    public CommentResponseDto save(CommentRequestDto commentRequestDto) {
+        Comment comment = commentMapper.commentDto2Entity(commentRequestDto);
+        Comment savedComment = commentRepository.save(comment);
+
+        return commentMapper.entity2CommentDto(savedComment);
+
     }
 
     //TODO to review as required
@@ -39,13 +40,13 @@ public class CommentServiceIml implements CommentService {
 
     //TODO to review as required
     // @Override
-    public CommentDto put(Long id, CommentDto edit) {
+    public CommentResponseDto put(Long id, CommentRequestDto edit) {
 
         try {
             Comment savedComment = this.getCommentById(id);
             savedComment.setBody(edit.getBody());
             Comment editComment = commentRepository.save(savedComment);
-            CommentDto saveDto = commentMapper.entity2CommentDto(editComment);
+            CommentResponseDto saveDto = commentMapper.entity2CommentDto(editComment);
             return saveDto;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
