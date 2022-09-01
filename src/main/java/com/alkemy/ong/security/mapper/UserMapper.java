@@ -1,5 +1,7 @@
 package com.alkemy.ong.security.mapper;
 
+import com.alkemy.ong.security.model.User;
+
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.model.User;
