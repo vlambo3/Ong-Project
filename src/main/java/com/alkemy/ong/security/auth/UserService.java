@@ -1,5 +1,8 @@
 package com.alkemy.ong.security.auth;
 
+import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.repository.UserRepository;
+
 import com.alkemy.ong.security.dto.AuthenticationRequest;
 import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.dto.UserRequestDto;

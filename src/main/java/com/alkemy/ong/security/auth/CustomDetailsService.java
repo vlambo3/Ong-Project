@@ -27,11 +27,11 @@ public class CustomDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Username not found");
         }
 
-        //TODO
+        /*TODO
         //esto debera modificarse mas adelante, lo dejo porque lo vamos a necesitar cuando definamos los roles
         Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
         grantedAuthorities.add((GrantedAuthority) user.getRole());
-
+        */
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }
