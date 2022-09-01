@@ -4,6 +4,8 @@ import com.alkemy.ong.dto.OrganizationPublicDTO;
 import com.alkemy.ong.model.Organization;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class OrganizationMapper {
 
@@ -16,7 +18,7 @@ public class OrganizationMapper {
         return organization;
     }
 
-    public OrganizationPublicDTO orgEntity2orgPublicDTO (Organization organization) {
+    public OrganizationPublicDTO orgEntity2orgPublicDTO (Optional<Organization> organization) {
         OrganizationPublicDTO publicdto = new OrganizationPublicDTO();
         publicdto.setName(organization.getName());
         publicdto.setPhone(organization.getPhone());
