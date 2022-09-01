@@ -1,6 +1,5 @@
 package com.alkemy.ong.security.auth;
 
-
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
@@ -49,13 +48,13 @@ public class UserService {
         User newUser = userMapper.userRequestDto2UserEntity(dto);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         newUser = userRepository.save(newUser);
+
         UserResponseDto userResponseDto = userMapper.userEntity2UserResponseDto(newUser);
         AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
         emailService.sendEmail(dto.getEmail());
         return userResponseDto;
-
 
     }
 

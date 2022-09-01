@@ -6,4 +6,4 @@ public class UnableToSaveEntityException extends RuntimeException {
         super(message);
     }
 
-}
+

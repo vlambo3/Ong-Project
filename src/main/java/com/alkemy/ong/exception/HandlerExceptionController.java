@@ -3,6 +3,7 @@ package com.alkemy.ong.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,5 +36,3 @@ public class HandlerExceptionController {
     public CustomExceptionDetails unableToSaveEntity(HttpServletRequest request, Exception exception){
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
-
-}

@@ -24,7 +24,7 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
-                .antMatchers("/categories/new").hasRole("ADMIN")
+                .antMatchers("/categories/new", "/testimonials").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(STATELESS)

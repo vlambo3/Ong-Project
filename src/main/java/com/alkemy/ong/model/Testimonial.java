@@ -32,6 +32,7 @@ public class Testimonial {
 
     private String image;
 
+    @NotNull(message = "Content cannot be empty")
     private String content;
 
     @CreationTimestamp
