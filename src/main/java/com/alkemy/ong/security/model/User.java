@@ -1,6 +1,5 @@
 package com.alkemy.ong.security.model;
 
-import com.alkemy.ong.model.Role;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;

@@ -29,4 +29,11 @@ public class HandlerExceptionController {
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
 
+    @ResponseStatus(CONFLICT)
+    @ExceptionHandler({UnableToSaveEntityException.class})
+    @ResponseBody
+    public CustomExceptionDetails unableToSaveEntity(HttpServletRequest request, Exception exception){
+        return new CustomExceptionDetails(exception, request.getRequestURI());
+    }
+
 }
