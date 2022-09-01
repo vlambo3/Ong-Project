@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.alkemy.ong.security.model.User;
+
 @Entity
 @Table(name = "comments")
 @Getter
