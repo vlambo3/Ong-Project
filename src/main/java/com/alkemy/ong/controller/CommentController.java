@@ -22,7 +22,7 @@ public class CommentController {
     private final CommentServiceImpl commentServiceImlp;
 
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<CommentResponseDto> addNewComment(@RequestBody @Valid CommentRequestDto dto){
 
         return ResponseEntity.status(CREATED).body(commentServiceImlp.save(dto));
