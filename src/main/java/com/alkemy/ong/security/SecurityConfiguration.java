@@ -24,7 +24,6 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
-                //TODO add roles
                 //.antMatchers("/activities").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

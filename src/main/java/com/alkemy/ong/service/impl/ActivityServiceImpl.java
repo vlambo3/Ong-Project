@@ -9,6 +9,7 @@ import com.alkemy.ong.service.IActivityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.spec.PSource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,11 +23,11 @@ public class ActivityServiceImpl implements IActivityService {
 
         List<Activity> activities = activityRepository.findAll();
 
-        for(Activity a : activities) {
-            if(dto.getName().equalsIgnoreCase(a.getName())) {
+        activities.forEach (a -> {
+            if (activityRepository.findByName(a.getName()).equalsIgnoreCase(dto.getName())) {
                 //TODO add exception
-                }
-        }
+            }
+        });
 
         Activity activity = activityMapper.activityDto2ActivityEntity(dto);
 
