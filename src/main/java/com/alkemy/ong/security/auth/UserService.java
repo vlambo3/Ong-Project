@@ -100,6 +100,4 @@ public class UserService {
         return userMapper.userEntity2UserResponseDto(userRepository.save(userModified));
     }
 
-
-
 }
