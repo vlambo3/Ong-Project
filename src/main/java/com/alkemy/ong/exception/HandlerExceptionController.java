@@ -36,3 +36,4 @@ public class HandlerExceptionController {
     public CustomExceptionDetails unableToSaveEntity(HttpServletRequest request, Exception exception){
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
+}

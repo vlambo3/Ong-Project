@@ -12,7 +12,7 @@ public class OrganizationMapper {
         public Organization orgPublicDTO2orgEntity (OrganizationPublicDTO dto) {
             Organization organization = new Organization();
             organization.setName(dto.getName());
-            organization.setImage(dto.getImage());
+            organization.setImg(dto.getImage());
             organization.setPhone(dto.getPhone());
             organization.setAddress(dto.getAddress());
         return organization;
@@ -20,13 +20,12 @@ public class OrganizationMapper {
 
     public OrganizationPublicDTO orgEntity2orgPublicDTO (Optional<Organization> organization) {
         OrganizationPublicDTO publicdto = new OrganizationPublicDTO();
-        publicdto.setName(organization.getName());
-        publicdto.setPhone(organization.getPhone());
-        publicdto.setAddress(organization.getAddress());
-        publicdto.setImage(organization.getImage());
+        Organization org = organization.get();
+        publicdto.setName(org.getName());
+        publicdto.setPhone(org.getPhone());
+        publicdto.setAddress(org.getAddress());
+        publicdto.setImage(org.getImg());
         return publicdto;
     }
 }
 
-
-}

@@ -19,7 +19,7 @@ public class OrganizationPublicDTO implements Serializable {
 
     private String image;
 
-    private int phone;
+    private String phone;
 
     private String address;
 
