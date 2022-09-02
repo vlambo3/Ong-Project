@@ -1,10 +1,14 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.category.CategoryNameDto;
 import org.springframework.stereotype.Component;
 
 import com.alkemy.ong.dto.category.CategoryRequestDto;
 import com.alkemy.ong.dto.category.CategoryResponseDto;
 import com.alkemy.ong.model.Category;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class CategoryMapper {
@@ -31,4 +35,15 @@ public class CategoryMapper {
 
        return dto;
     }
+
+    public List<CategoryNameDto> CategoryEntityList2CategoryNameDtoList(List<Category> entities) {
+        List<CategoryNameDto> dtoList = new ArrayList<>();
+        for (Category entity : entities) {
+            CategoryNameDto dto = new CategoryNameDto();
+            dto.setName(entity.getName());
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
 }
