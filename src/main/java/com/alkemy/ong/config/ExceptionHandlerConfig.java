@@ -6,9 +6,9 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 @Configuration
 public class ExceptionHandlerConfig {
-    
+
     @Bean
-    public ResourceBundleMessageSource messageSource() {
+    public ResourceBundleMessageSource messageSource(){
 
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
         source.setBasenames("locale/messages");
@@ -16,5 +16,4 @@ public class ExceptionHandlerConfig {
 
         return source;
     }
-
 }

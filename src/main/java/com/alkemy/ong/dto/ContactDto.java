@@ -15,12 +15,13 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactDTO implements Serializable {
+public class ContactDto implements Serializable {
 
     private Long id;
 
     @NotNull(message = "Field name cannot be null")
     private String name;
+
 
     @Pattern(regexp = "^(\\+?\\d{1,3})?(\\d{10})$", message = "The number phone es invalid")
     @NotNull(message = "Phone cannot be null")
@@ -32,4 +33,5 @@ public class ContactDTO implements Serializable {
     private String email;
 
     private String message;
+
 }
