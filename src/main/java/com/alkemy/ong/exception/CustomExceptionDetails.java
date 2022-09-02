@@ -3,7 +3,6 @@ package com.alkemy.ong.exception;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class CustomExceptionDetails {

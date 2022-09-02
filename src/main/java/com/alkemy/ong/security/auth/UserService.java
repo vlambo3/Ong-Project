@@ -1,6 +1,7 @@
 package com.alkemy.ong.security.auth;
 
 import com.alkemy.ong.exception.NotFoundException;
+
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
 
@@ -55,7 +56,6 @@ public class UserService {
         userResponseDto.setToken(token.getJwt());
         emailService.sendEmail(dto.getEmail());
         return userResponseDto;
-
     }
 
 

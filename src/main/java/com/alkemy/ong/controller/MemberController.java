@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alkemy.ong.dto.category.CategoryRequestDto;
-import com.alkemy.ong.dto.category.CategoryResponseDto;
-import com.alkemy.ong.service.impl.CategoryServiceImpl;
+import com.alkemy.ong.dto.member.MemberRequestDto;
+import com.alkemy.ong.dto.member.MemberResponseDto;
+import com.alkemy.ong.service.impl.MemberServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/members")
 @RequiredArgsConstructor
-public class CategoryController {
+public class MemberController {
 
-    private final CategoryServiceImpl categoryServiceImpl;
-
+    private final MemberServiceImpl memberServiceImpl;
+    
     @PostMapping
-    public ResponseEntity<CategoryResponseDto> addNewCategory(@RequestBody @Valid CategoryRequestDto dto){        
+    public ResponseEntity<MemberResponseDto> addNewMember(@RequestBody @Valid MemberRequestDto dto){
 
-        return ResponseEntity.status(CREATED).body(categoryServiceImpl.create(dto));
+        return ResponseEntity.status(CREATED).body(memberServiceImpl.create(dto));
     }
 }
