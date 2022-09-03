@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.alkemy.ong.dto.category.CategoryNameDto;
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,8 @@ public class CategoryServiceImpl implements ICategoryService {
 
     public List<CategoryNameDto> getAll() {
         List<Category> entities = repository.findAll();
+        if (entities.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return mapper.CategoryEntityList2CategoryNameDtoList(entities);
     }
 

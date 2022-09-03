@@ -9,6 +9,7 @@ import com.alkemy.ong.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
@@ -37,13 +38,15 @@ public class CategoryMapper {
     }
 
     public List<CategoryNameDto> CategoryEntityList2CategoryNameDtoList(List<Category> entities) {
-        List<CategoryNameDto> dtoList = new ArrayList<>();
-        for (Category entity : entities) {
-            CategoryNameDto dto = new CategoryNameDto();
-            dto.setName(entity.getName());
-            dtoList.add(dto);
-        }
-        return dtoList;
+        return entities.stream()
+                    .map(this::CategoryEntity2CategoryNameDto)
+                    .collect(Collectors.toList());
+    }
+
+    public CategoryNameDto CategoryEntity2CategoryNameDto(Category entity) {
+        CategoryNameDto dto = new CategoryNameDto();
+        dto.setName(entity.getName());
+        return dto;
     }
 
 }
