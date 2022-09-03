@@ -1,28 +1,33 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.dto.CommentDto;
+import com.alkemy.ong.dto.comment.CommentRequestDto;
+import com.alkemy.ong.dto.comment.CommentResponseDto;
 import com.alkemy.ong.model.Comment;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommentMapper {
 
-    public Comment commentDto2Entity(CommentDto commentDto) {
+    public Comment commentDto2Entity(CommentRequestDto commentRequestDto) {
 
-        Comment comment = new Comment();
-        comment.setBody(commentDto.getBody());
+        Comment entity = new Comment();
+        entity.setUserId(commentRequestDto.getUser_id());
+        entity.setBody(commentRequestDto.getBody());
+        entity.setNewsId(commentRequestDto.getNews_id());
 
-        return comment;
+        return entity;
     }
 
-    public CommentDto entity2CommentDto(Comment comment){
+    public CommentResponseDto entity2CommentDto(Comment comment){
 
-        CommentDto commentDto = new CommentDto();
+        CommentResponseDto dto = new CommentResponseDto();
 
-        commentDto.setBody(comment.getBody());
-        commentDto.setId(comment.getId());
+        dto.setId(comment.getId());
+        dto.setUser_id(comment.getUserId());
+        dto.setBody(comment.getBody());
+        dto.setNews_id(comment.getNewsId());
 
-        return commentDto;
+        return dto;
 
     }
 }
