@@ -30,6 +30,6 @@ public class Slide {
     private Integer position;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "organization_id")
-    private Organization organization;
+    @Column(name = "organization_id")
+    private Long organizationId;
 }
