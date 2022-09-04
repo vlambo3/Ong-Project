@@ -49,7 +49,7 @@ public class EmailServiceImpl implements IEmailService {
             request.setEndpoint(ENDPOINT);
             request.setBody(mail.build());
 
-            response = sendGrid.api(request);
+           // response = sendGrid.api(request);
 
         } catch (Exception e) {
             throw new RuntimeException("Error sending email via SendGrid to " + toEmail + ": " + e.getMessage());

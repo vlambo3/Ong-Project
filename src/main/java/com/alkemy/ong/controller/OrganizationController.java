@@ -15,7 +15,6 @@ public class OrganizationController {
     @Autowired
     private OrganizationService organizationService;
 
-
     @GetMapping("/public")
     public ResponseEntity<OrganizationPublicDTO> getPublicInfo() {
         OrganizationPublicDTO dtos = organizationService.getPublicInfo();

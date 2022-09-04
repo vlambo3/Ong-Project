@@ -10,4 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SlideResponseDTO {
+    private Long id;
+    private String imageUrl;
+    private String text;
+    private Integer position;
+    private String message;
+    //private Long organizationId;
 }

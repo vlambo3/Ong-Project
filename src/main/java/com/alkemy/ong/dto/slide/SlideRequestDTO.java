@@ -11,4 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SlideRequestDTO {
 
+    private String imageUrl;
+    private String text;
+    private Integer position;
+
 }
