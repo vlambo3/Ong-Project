@@ -58,8 +58,8 @@ public class Organization {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    //@OneToMany(mappedBy = "organization",fetch = FetchType.LAZY)
-    //private Set<Slide> slides = new HashSet<>();
+    @OneToMany(mappedBy = "organization",fetch = FetchType.LAZY)
+    private Set<Slide> slides = new HashSet<>();
 
     private Boolean deleted = Boolean.FALSE;
 }

@@ -26,12 +26,6 @@ public class SlideServiceImpl implements ISlideService {
 
         slide.setPosition(slidesList.size()+1);
              slidesList.add(slide);
-    /*
-        while (slideRepository.findAll().isEmpty()) {
-            slide.setPosition(1);
-            slidesList.add(slide);
-            break;
-        }*/
 
         return slideMapper.slideEntity2SlideDTO(slideRepository.save(slide));
     }

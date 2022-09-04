@@ -28,11 +28,11 @@ public class Slide {
     @NotNull(message = "field position cannot be null")
     @Column(nullable = false)
     private Integer position;
-    /*
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "organization_id", insertable = false, updatable = false)
     private Organization organization;
 
     @Column(name = "organization_id", nullable = false)
-    private Long organizationId;*/
+    private Long organizationId;
 }
