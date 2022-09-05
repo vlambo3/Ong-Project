@@ -26,7 +26,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
                 .antMatchers("/activities").hasRole("ADMIN")
-                .antMatchers("/categories/new").hasRole("ADMIN")
+                .antMatchers("/categories").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST ,"/testimonials").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/organization/public").hasRole("ADMIN")
                 .anyRequest().authenticated()
