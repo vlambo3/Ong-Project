@@ -28,10 +28,10 @@ public class EmailServiceImpl implements IEmailService {
     private final static String ENDPOINT = "mail/send";
 
     @Value("${sendgrid.organization.email}")
-    private final String FROM;
+    private String FROM;
 
     @Value("${sendgrid.organization.subject}")
-    private final String SUBJECT;
+    private String SUBJECT;
 
     private final String TYPE = MailUtils.TYPE;
     private final String BODY = MailUtils.TEMPLATE;

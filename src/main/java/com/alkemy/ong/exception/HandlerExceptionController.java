@@ -22,10 +22,7 @@ public class HandlerExceptionController {
     }
 
     @ResponseStatus(NOT_FOUND)
-    @ExceptionHandler({
-            NotFoundException.class,
-            EmptyListException.class
-    })
+    @ExceptionHandler({NotFoundException.class})
     @ResponseBody
     public CustomExceptionDetails notFoundRequest(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
