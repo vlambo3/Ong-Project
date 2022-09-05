@@ -6,9 +6,9 @@ import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
+import com.alkemy.ong.service.ISlideService;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
-import com.alkemy.ong.service.ISlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -2,15 +2,10 @@ package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.slide.SlideRequestDTO;
 import com.alkemy.ong.dto.slide.SlideResponseDTO;
-import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.repository.SlideRepository;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 @Component
 public class SlideMapper {

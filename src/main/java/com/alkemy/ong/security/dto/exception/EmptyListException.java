@@ -1,4 +1,4 @@
-package com.alkemy.ong.exception;
+package com.alkemy.ong.security.dto.exception;
 
 public class EmptyListException extends RuntimeException {
 

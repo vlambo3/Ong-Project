@@ -2,7 +2,6 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.slide.SlideRequestDTO;
 import com.alkemy.ong.dto.slide.SlideResponseDTO;
-import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.service.impl.SlideServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
