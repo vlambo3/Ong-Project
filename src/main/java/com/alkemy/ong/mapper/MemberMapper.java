@@ -1,5 +1,8 @@
 package com.alkemy.ong.mapper;
 
+import java.util.List;
+import static java.util.stream.Collectors.toList;
+
 import org.springframework.stereotype.Component;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
@@ -36,5 +39,11 @@ public class MemberMapper {
        dto.setImage(entity.getImage());
 
        return dto;
+    }
+
+    public List<MemberResponseDto> allMembers2MembersDtos(List<Member> members){
+        return members.stream()
+                      .map(m -> memberEntity2MemberDto(m))
+                      .collect(toList());
     }
 }
