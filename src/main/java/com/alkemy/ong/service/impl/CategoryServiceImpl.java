@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 
+import com.alkemy.ong.dto.category.CategoryNameDto;
+import com.alkemy.ong.exception.EmptyListException;
+import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,6 @@ import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
-import com.alkemy.ong.service.ICategoryService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class CategoryServiceImpl implements ICategoryService {
 
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryRepository repository;
     private final MessageSource messageSource;
     private final CategoryMapper mapper;
 
@@ -33,7 +35,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public CategoryResponseDto create(CategoryRequestDto dto) {
         Category categorySaved;
         try {
-            List<Category> categories = categoryRepository.findAll();
+            List<Category> categories = repository.findAll();
 
             categories.forEach(c -> {
                 if (c.getName().equalsIgnoreCase(dto.getName())) {
@@ -54,7 +56,7 @@ public class CategoryServiceImpl implements ICategoryService {
              */
             category.setImage(dto.getImage());
 
-            categorySaved = categoryRepository.save(category);
+            categorySaved = repository.save(category);
         } catch (Exception e) {
             throw new UnableToSaveEntityException(
                     messageSource.getMessage("unable-to-save-entity", new Object[] { "the new Category: " }, Locale.US)
@@ -63,4 +65,12 @@ public class CategoryServiceImpl implements ICategoryService {
 
         return mapper.CategoryEntity2CategoryDto(categorySaved);
     }
+
+    public List<CategoryNameDto> getAll() {
+        List<Category> entities = repository.findAll();
+        if (entities.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        return mapper.CategoryEntityList2CategoryNameDtoList(entities);
+    }
+
 }
