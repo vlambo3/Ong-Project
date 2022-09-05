@@ -34,8 +34,8 @@ public class TestimonialServiceImpl implements ITestimonialService {
     }
 
     public TestimonialDto update(TestimonialDto dto, Long id) {
+        Testimonial entity = getFromRepositoryById(id);
         try {
-            Testimonial entity = getFromRepositoryById(id);
             entity.setName(dto.getName());
             // TODO: Implement image service
             entity.setImage(dto.getImage());
@@ -43,14 +43,14 @@ public class TestimonialServiceImpl implements ITestimonialService {
             repository.save(entity);
             return mapper.testimonialEntity2testimonialDto(entity);
         } catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity", null, Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity", new Object[] { "Testimonial" }, Locale.US));
         }
     }
 
     private Testimonial getFromRepositoryById(Long id) {
         Optional<Testimonial> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",null ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
         return entity.get();
     }
 
