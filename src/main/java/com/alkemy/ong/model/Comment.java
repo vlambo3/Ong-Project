@@ -24,13 +24,21 @@ public class Comment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @NotNull(message = "Body can't be null.")
     private String body;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "news_id", insertable = false, updatable = false)
     private News news;
+
+    @Column(name = "news_id")
+    private Long newsId;
 
 
 }

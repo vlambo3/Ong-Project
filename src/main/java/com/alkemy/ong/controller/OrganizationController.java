@@ -1,23 +1,28 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.OrganizationPublicDTO;
-import com.alkemy.ong.service.OrganizationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
+import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
+import com.alkemy.ong.service.IOrganizationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/organization")
+@RequiredArgsConstructor
 public class OrganizationController {
+    private final IOrganizationService service;
 
-    @Autowired
-    private OrganizationService organizationService;
+    @PostMapping("/public")
+    public ResponseEntity<OrganizationResponseDTO> update(@Valid @RequestBody OrganizationRequestDTO dto) {
+        return ResponseEntity.ok().body(service.update(dto));
+    }
 
     @GetMapping("/public")
-    public ResponseEntity<OrganizationPublicDTO> getPublicInfo() {
-        OrganizationPublicDTO dtos = organizationService.getPublicInfo();
+    public ResponseEntity<OrganizationResponseDTO> getPublicInfo() {
+        OrganizationResponseDTO dtos = service.getPublicInfo();
         return ResponseEntity.ok().body(dtos);
     }
 }
