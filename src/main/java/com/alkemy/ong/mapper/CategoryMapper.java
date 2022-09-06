@@ -7,7 +7,6 @@ import com.alkemy.ong.dto.category.CategoryRequestDto;
 import com.alkemy.ong.dto.category.CategoryResponseDto;
 import com.alkemy.ong.model.Category;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,9 +28,6 @@ public class CategoryMapper {
        dto.setId(entity.getId());
        dto.setName(entity.getName());
        dto.setDescription(entity.getDescription());
-       dto.setCreationTimestamp(entity.getCreationTimestamp());
-       dto.setUpdateTimeStamp(entity.getUpdateTimeStamp());
-       dto.setDeleted(entity.isDeleted());
        dto.setImage(entity.getImage());
 
        return dto;

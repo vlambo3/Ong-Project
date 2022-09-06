@@ -35,4 +35,5 @@ public class Slide {
 
     @Column(name = "organization_Id")
     private Long organizationId;
+
 }
