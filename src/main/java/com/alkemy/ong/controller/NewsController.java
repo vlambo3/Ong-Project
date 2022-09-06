@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.news.NewsRequestDto;
+import com.alkemy.ong.dto.news.NewsResponseDto;
 import com.alkemy.ong.service.INewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class NewsController {
     private final INewsService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<NewsDto> getById(@PathVariable Long id)  {
+    public ResponseEntity<NewsResponseDto> getById(@PathVariable Long id)  {
         return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
     }
 

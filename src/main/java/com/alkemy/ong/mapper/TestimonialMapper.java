@@ -1,13 +1,14 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.dto.TestimonialDto;
+import com.alkemy.ong.dto.testimonial.TestimonialRequestDto;
+import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
 import com.alkemy.ong.model.Testimonial;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TestimonialMapper {
 
-    public Testimonial testimonialDto2TestimonialEntity(TestimonialDto dto) {
+    public Testimonial testimonialDto2TestimonialEntity(TestimonialRequestDto dto) {
         Testimonial entity = new Testimonial();
         entity.setName(dto.getName());
         entity.setImage(dto.getImage());
@@ -15,8 +16,8 @@ public class TestimonialMapper {
         return entity;
     }
 
-    public TestimonialDto testimonialEntity2testimonialDto(Testimonial entity) {
-        TestimonialDto dto = new TestimonialDto();
+    public TestimonialResponseDto testimonialEntity2testimonialDto(Testimonial entity) {
+        TestimonialResponseDto dto = new TestimonialResponseDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setImage(entity.getImage());

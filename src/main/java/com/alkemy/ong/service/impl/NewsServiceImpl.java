@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.news.NewsRequestDto;
+import com.alkemy.ong.dto.news.NewsResponseDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.News;
@@ -21,7 +22,7 @@ public class NewsServiceImpl implements INewsService {
     private final NewsMapper mapper;
     private final MessageSource messageSource;
 
-    public NewsDto getById(Long id) {
+    public NewsResponseDto getById(Long id) {
         if (id <= 0) {
             throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
         }

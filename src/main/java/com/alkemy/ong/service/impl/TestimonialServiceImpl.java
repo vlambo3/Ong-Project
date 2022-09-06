@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.TestimonialDto;
+import com.alkemy.ong.dto.testimonial.TestimonialRequestDto;
+import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
@@ -23,7 +24,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
     private final TestimonialMapper mapper;
     private final MessageSource messageSource;
 
-    public TestimonialDto save(TestimonialDto dto) {
+    public TestimonialResponseDto save(TestimonialRequestDto dto) {
         try {
             Testimonial entity = mapper.testimonialDto2TestimonialEntity(dto);
             Testimonial savedEntity = repository.save(entity);
@@ -33,7 +34,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
         }
     }
 
-    public TestimonialDto update(TestimonialDto dto, Long id) {
+    public TestimonialResponseDto update(TestimonialRequestDto dto, Long id) {
         Testimonial entity = getFromRepositoryById(id);
         try {
             entity.setName(dto.getName());

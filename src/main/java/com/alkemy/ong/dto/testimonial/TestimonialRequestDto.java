@@ -1,4 +1,4 @@
-package com.alkemy.ong.dto;
+package com.alkemy.ong.dto.testimonial;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,9 +12,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestimonialDto implements Serializable {
-
-    private long id;
+public class TestimonialRequestDto implements Serializable {
 
     @NotBlank(message = "Name cannot be empty")
     private String name;

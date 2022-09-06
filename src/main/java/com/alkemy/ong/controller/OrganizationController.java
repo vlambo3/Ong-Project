@@ -1,7 +1,7 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.OrganizationPublicDTO;
+import com.alkemy.ong.dto.organization.OrganizationDto;
+import com.alkemy.ong.dto.organization.OrganizationPublicDTO;
 import com.alkemy.ong.service.IOrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

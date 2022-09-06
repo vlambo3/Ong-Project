@@ -1,8 +1,8 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.news.NewsResponseDto;
 
 public interface INewsService {
 
-    NewsDto getById(Long id);
+    NewsResponseDto getById(Long id);
 }

@@ -1,7 +1,7 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.OrganizationPublicDTO;
+import com.alkemy.ong.dto.organization.OrganizationDto;
+import com.alkemy.ong.dto.organization.OrganizationPublicDTO;
 
 public interface IOrganizationService {
 
