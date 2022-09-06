@@ -6,17 +6,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SlideMapper {
 
-    public List<SlideResponseDto> slideEntityList2DtoList(List<Slide> entities){
-        List<SlideResponseDto> dtoList = new ArrayList<>();
-        for (Slide aux: entities) {
-            dtoList.add(this.slideEntity2Dto(aux));
-        }
-        return dtoList;
-    }
+ public List<SlideResponseDto> slideEntityList2DtoList(List<Slide> entities){
+     return entities.stream()
+             .map(this::slideEntity2Dto)
+             .collect(Collectors.toList());
+ }
 
     public SlideResponseDto slideEntity2Dto(Slide entity){
 

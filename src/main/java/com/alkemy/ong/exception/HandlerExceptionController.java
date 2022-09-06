@@ -41,15 +41,15 @@ public class HandlerExceptionController {
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
-<<<<<<< HEAD
+
     public CustomExceptionDetails unableToSaveEntity(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
-}
-=======
+
+
     public CustomExceptionDetails fatalErrorUnexpectedException(HttpServletRequest request, Exception exception){
         return new CustomExceptionDetails(exception,request.getRequestURI());
     }
 }
 
->>>>>>> develop
+
