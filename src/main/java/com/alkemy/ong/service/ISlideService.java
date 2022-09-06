@@ -6,4 +6,6 @@ import com.alkemy.ong.model.Organization;
 
 public interface ISlideService {
     SlideResponseDTO create(SlideRequestDTO dto);
+    List<SlideResponseDto> getAll();
+
 }

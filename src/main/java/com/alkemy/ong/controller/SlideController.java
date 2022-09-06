@@ -1,17 +1,22 @@
 package com.alkemy.ong.controller;
 
+
 import com.alkemy.ong.dto.slide.SlideRequestDTO;
 import com.alkemy.ong.dto.slide.SlideResponseDTO;
+
 import com.alkemy.ong.service.impl.SlideServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/slides")
@@ -20,8 +25,17 @@ public class SlideController {
 
     private final SlideServiceImpl slideService;
 
+
+    @GetMapping
+    public ResponseEntity<List<SlideResponseDto>> getAll(){
+        List<SlideResponseDto> allSlides = slideService.getAll();
+        return ResponseEntity.status(HttpStatus.OK).body(allSlides);
+    }
+
+
     @PostMapping
     public ResponseEntity<SlideResponseDTO> createNewSlide(@Valid @RequestBody SlideRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(slideService.create(dto));
     }
+
 }
