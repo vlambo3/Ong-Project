@@ -12,15 +12,16 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestimonialDto implements Serializable {
+public class NewsDto implements Serializable {
 
-    private long id;
+    private Long id;
 
-    @NotBlank(message = "Name cannot be empty")
+    @NotBlank(message = "Name cannot be null")
     private String name;
 
-    private String image;
-
-    @NotBlank(message = "Content cannot be empty")
+    @NotBlank(message = "Content cannot be null")
     private String content;
+
+    @NotBlank(message = "Image cannot be null")
+    private String image;
 }

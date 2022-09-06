@@ -5,9 +5,11 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 @Getter @Setter
-public class OrganizationDto {
+public class OrganizationDto implements Serializable {
+
     private String name;
     private String img;
     private String address;
