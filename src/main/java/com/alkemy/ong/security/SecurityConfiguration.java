@@ -25,6 +25,7 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
+                .antMatchers("/users*").hasRole("ADMIN")
                 .antMatchers("/activities").hasRole("ADMIN")
                 .antMatchers("/categories").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST ,"/testimonials").hasRole("ADMIN")
