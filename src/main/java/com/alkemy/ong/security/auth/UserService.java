@@ -53,7 +53,7 @@ public class UserService {
         AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
-        emailService.sendEmail(dto.getEmail());
+        //emailService.sendEmail(dto.getEmail());
         return userResponseDto;
     }
 

@@ -1,32 +1,28 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.organization.OrganizationDto;
-import com.alkemy.ong.dto.organization.OrganizationPublicDTO;
+import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
+import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
 import com.alkemy.ong.service.IOrganizationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/organization")
+@RequiredArgsConstructor
 public class OrganizationController {
-
-    @Autowired
-    private IOrganizationService service;
+    private final IOrganizationService service;
 
     @PostMapping("/public")
-    public ResponseEntity<OrganizationDto> update(@Valid @RequestBody OrganizationDto organizationDto) throws Exception {
-        return ResponseEntity.ok().body(service.update(organizationDto));
+    public ResponseEntity<OrganizationResponseDTO> update(@Valid @RequestBody OrganizationRequestDTO dto) {
+        return ResponseEntity.ok().body(service.update(dto));
     }
+
     @GetMapping("/public")
-    public ResponseEntity<OrganizationPublicDTO> getPublicInfo() {
-        OrganizationPublicDTO dtos = service.getPublicInfo();
+    public ResponseEntity<OrganizationResponseDTO> getPublicInfo() {
+        OrganizationResponseDTO dtos = service.getPublicInfo();
         return ResponseEntity.ok().body(dtos);
     }
 }

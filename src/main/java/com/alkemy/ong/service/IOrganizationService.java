@@ -1,10 +1,10 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.organization.OrganizationDto;
-import com.alkemy.ong.dto.organization.OrganizationPublicDTO;
+import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
+import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
 
 public interface IOrganizationService {
 
-    OrganizationDto update(OrganizationDto organizationDto) throws Exception;
-    public OrganizationPublicDTO getPublicInfo();
+    OrganizationResponseDTO update(OrganizationRequestDTO dto);
+    public OrganizationResponseDTO getPublicInfo();
 }
