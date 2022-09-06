@@ -29,7 +29,10 @@ public class Slide {
     @Column(nullable = false)
     private Integer position;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "organization_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.PERSIST)
+    @JoinColumn(name = "organization_Id", insertable=false, updatable = false)
     private Organization organization;
+
+    @Column(name = "organization_Id")
+    private Long organizationId;
 }

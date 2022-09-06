@@ -19,20 +19,21 @@ public class HandlerExceptionController {
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler({NotFoundException.class})
     @ResponseBody
-    public CustomExceptionDetails notFoundRequest(HttpServletRequest request, Exception exception){
+    public CustomExceptionDetails notFoundRequest(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({AlreadyExistsException.class})
     @ResponseBody
-    public CustomExceptionDetails elementAlreadyExists(HttpServletRequest request, Exception exception){
+    public CustomExceptionDetails elementAlreadyExists(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
 
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({UnableToSaveEntityException.class})
     @ResponseBody
-    public CustomExceptionDetails unableToSaveEntity(HttpServletRequest request, Exception exception){
+    public CustomExceptionDetails unableToSaveEntity(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
     }
+}
