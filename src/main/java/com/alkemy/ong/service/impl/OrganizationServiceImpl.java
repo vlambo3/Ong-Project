@@ -2,7 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
 import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
-import com.alkemy.ong.security.dto.exception.NotFoundException;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;

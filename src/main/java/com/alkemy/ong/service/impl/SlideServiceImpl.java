@@ -10,9 +10,12 @@ import com.alkemy.ong.service.ISlideService;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,8 @@ public class SlideServiceImpl implements ISlideService {
     private final SlideRepository slideRepository;
     private final OrganizationRepository organizationRepository;
     private final SlideMapper slideMapper;
-    private final OrganizationMapper organizationMapper;
+
+    private final MessageSource messageSource;
 
 
     public SlideResponseDTO create(SlideRequestDTO dto) {
@@ -32,16 +36,24 @@ public class SlideServiceImpl implements ISlideService {
 
         List<Slide> slidesList = slideRepository.findAll();
 
-        slide.setPosition(slidesList.size()+1);
-             slidesList.add(slide);
+        int n = 0;
 
-        Slide slideSaved = slideRepository.save(slide);
+        if (dto.getPosition() == null){
+            slide.setPosition(slidesList.size() + 1);
+            slidesList.add(slide);
+            n++;
+        } else if (slidesList.isEmpty() || (slidesList.size() < dto.getPosition())) {
+            slide.setPosition(slidesList.size()+1);
+            slidesList.add(slide);
+        } else if (!slidesList.isEmpty() && (slidesList.size() >= dto.getPosition())) {
+            slide.setPosition(dto.getPosition());
+            slidesList.add(dto.getPosition(), slide);
+        }
 
-        SlideResponseDTO responseDTO = slideMapper.slideEntity2SlideDTO(slideSaved);
+        SlideResponseDTO responseDTO = slideMapper.slideEntity2SlideDTO(slideRepository.save(slide));
 
-        if (slideSaved.getPosition() == 1)
-            responseDTO.setMessage("The slide was saved in the first position.");
-        else responseDTO.setMessage("The slide was saved in the last position, the position " + slide.getPosition());
+        if (n == 1)
+            responseDTO.setMessage(messageSource.getMessage("slide-position", null, Locale.US));
 
         return responseDTO;
     }

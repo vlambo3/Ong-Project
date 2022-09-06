@@ -1,4 +1,4 @@
-package com.alkemy.ong.security.dto.exception;
+package com.alkemy.ong.exception;
 
 import javax.servlet.http.HttpServletRequest;
 

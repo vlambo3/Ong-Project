@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
 import com.alkemy.ong.dto.member.MemberResponseDto;
-import com.alkemy.ong.security.dto.exception.EmptyListException;
-import com.alkemy.ong.security.dto.exception.UnableToSaveEntityException;
+import com.alkemy.ong.exception.EmptyListException;
+import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;

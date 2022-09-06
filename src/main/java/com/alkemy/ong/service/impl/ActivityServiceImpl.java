@@ -2,7 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.activity.ActivityRequestDTO;
 import com.alkemy.ong.dto.activity.ActivityResponseDTO;
-import com.alkemy.ong.security.dto.exception.AlreadyExistsException;
+import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.mapper.ActivityMapper;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.service.IActivityService;

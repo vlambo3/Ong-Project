@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ public class SlideRequestDTO {
 
     private String imageUrl;
     private String text;
+    @Nullable
     private Integer position;
 
 }

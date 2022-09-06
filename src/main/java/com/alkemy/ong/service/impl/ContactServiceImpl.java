@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.ContactDto;
-import com.alkemy.ong.security.dto.exception.UnableToSaveEntityException;
+import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.mapper.ContactMapper;
 import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.service.IContactService;

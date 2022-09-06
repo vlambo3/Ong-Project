@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Locale;
 
 import com.alkemy.ong.dto.category.CategoryNameDto;
-import com.alkemy.ong.security.dto.exception.EmptyListException;
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.category.CategoryRequestDto;
 import com.alkemy.ong.dto.category.CategoryResponseDto;
-import com.alkemy.ong.security.dto.exception.AlreadyExistsException;
-import com.alkemy.ong.security.dto.exception.UnableToSaveEntityException;
+import com.alkemy.ong.exception.AlreadyExistsException;
+import com.alkemy.ong.exception.UnableToSaveEntityException;
 
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;

@@ -1,4 +1,4 @@
-package com.alkemy.ong.security.dto.exception;
+package com.alkemy.ong.exception;
 
 public class AlreadyExistsException extends RuntimeException{
 
