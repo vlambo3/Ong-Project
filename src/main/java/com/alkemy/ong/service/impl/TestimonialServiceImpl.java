@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -34,12 +35,13 @@ public class TestimonialServiceImpl implements ITestimonialService {
     }
 
     public TestimonialDto update(TestimonialDto dto, Long id) {
-        Testimonial entity = getFromRepositoryById(id);
+        Testimonial entity = getTestimonialById(id);
         try {
             entity.setName(dto.getName());
             // TODO: Implement image service
             entity.setImage(dto.getImage());
             entity.setContent(dto.getContent());
+            entity.setUpdateDate(LocalDateTime.now());
             repository.save(entity);
             return mapper.testimonialEntity2testimonialDto(entity);
         } catch (Exception e) {
@@ -47,7 +49,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
         }
     }
 
-    private Testimonial getFromRepositoryById(Long id) {
+    private Testimonial getTestimonialById(Long id) {
         Optional<Testimonial> entity = repository.findById(id);
         if (entity.isEmpty())
             throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));

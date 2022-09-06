@@ -73,15 +73,16 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     public void delete(Long id) {
-        getFromRepositoryById(id);
+        Category entity = getCategoryById(id);
         try {
+            entity.setUpdateTimeStamp(Timestamp.valueOf(LocalDateTime.now()));
             repository.deleteById(id);
         } catch (Exception e) {
             throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
         }
     }
 
-    private Category getFromRepositoryById(Long id) {
+    private Category getCategoryById(Long id) {
         Optional<Category> entity = repository.findById(id);
         if (entity.isEmpty())
             throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
