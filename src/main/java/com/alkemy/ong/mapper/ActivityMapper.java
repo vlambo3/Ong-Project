@@ -26,4 +26,8 @@ public class ActivityMapper {
         dto.setImage(activity.getImage());
         return dto;
     }
+
+    public ActivityResponseDTO activityUpdated (ActivityRequestDTO dto) {
+
+    }
 }
