@@ -12,8 +12,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OrganizationMapper {
 
-    private final SlideMapper slideMapper;
-
     public Organization organizationDto2Entity(OrganizationRequestDTO dto){
         Organization organization = new Organization();
         organization.setName(dto.getName());
