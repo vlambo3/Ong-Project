@@ -11,4 +11,5 @@ public interface ICategoryService {
 
     List<CategoryNameDto> getAll();
 
+    void delete(Long id);
 }

@@ -32,7 +32,8 @@ public class HandlerExceptionController {
     @ExceptionHandler({
             AlreadyExistsException.class,
             UnableToSaveEntityException.class,
-            UnableToUpdateEntityException.class
+            UnableToUpdateEntityException.class,
+            UnableToDeleteEntityException.class
     })
     @ResponseBody
     public CustomExceptionDetails elementAlreadyExists(HttpServletRequest request, Exception exception) {
