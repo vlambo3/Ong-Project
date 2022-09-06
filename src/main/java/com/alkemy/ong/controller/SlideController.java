@@ -23,10 +23,5 @@ public class SlideController {
         List<SlideResponseDto> allSlides = slideService.getAll();
         return ResponseEntity.status(HttpStatus.OK).body(allSlides);
     }
-     /*@GetMapping("/all")
-    public  ResponseEntity<List<PeliculaBasicDTO>> getAllBasic(){
-        List<PeliculaBasicDTO> basicMovies = peliculaService.getAllBasics();
-        return ResponseEntity.status(HttpStatus.OK).body(basicMovies);
-    }*/
 
 }
