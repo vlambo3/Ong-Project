@@ -6,6 +6,8 @@ import com.alkemy.ong.mapper.ContactMapper;
 import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.repository.ContactRepository;
 import com.alkemy.ong.service.IContactService;
+import com.alkemy.ong.service.IEmailService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,14 @@ public class ContactServiceImpl implements IContactService {
 
     private final ContactMapper mapper;
     private final ContactRepository repository;
+    private final IEmailService emailService;
     private final MessageSource messageSource;
 
     public ContactDto save(ContactDto dto) {
         try {
             Contact entity = mapper.contactDto2ContactEntity(dto);
             Contact savedEntity = repository.save(entity);
+            emailService.sendEmail(savedEntity.getEmail());
             return mapper.contactEntity2ContactDto(savedEntity);
         } catch (Exception e) {
             throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-entity", null, Locale.US));
