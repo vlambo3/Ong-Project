@@ -46,18 +46,18 @@ public class AmazonClientImpl implements IAmazonClient {
                 .build();
     }
 
-    public String uploadFile(MultipartFile multipartFile) {
-        String fileUrl = "";
+    public Image uploadFile(MultipartFile multipartFile) {
+
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+            String fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return new Image(fileName, fileUrl);
+        } catch (AmazonServiceException | IOException e) {
+            throw new UnableToSaveEntityException("s3 amazon not available for save File");
         }
-        return fileUrl;
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -77,29 +77,15 @@ public class AmazonClientImpl implements IAmazonClient {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    @Override
-    public Image save(MultipartFile multipartFile) {
-
-        try {
-            File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
-            String fileUrl = generateFileUrl(fileName);
-            uploadFileTos3bucket(fileName, file);
-            file.delete();
-            return new Image(fileName, fileUrl);
-        } catch (AmazonServiceException | IOException e) {
-            throw new UnableToSaveEntityException("s3 amazon not available for save File");
-        }
-    }
 
     @Override
-    public Image save(String base64, String fileName) {
+    public Image uploadFile(String base64, String fileName) {
         MultipartFile image = this.base64ToImage(base64, fileName);
-        return this.save(image);
+        return this.uploadFile(image);
     }
 
-    public MultipartFile base64ToImage(String encoded, String fileName) {
-        // Quito "data:image/jpeg;base64" para quedarme solo con los bytes a decodear
+    private MultipartFile base64ToImage(String encoded, String fileName) {
+
         String trimmedEncodedImage = encoded.substring(encoded.indexOf(",") + 1);
 
         byte[] decodedBytes = Base64.decode(trimmedEncodedImage);
