@@ -1,45 +1,49 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.OrganizationDto;
-import com.alkemy.ong.dto.OrganizationPublicDTO;
+import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
+import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.IOrganizationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrganizationServiceImpl implements IOrganizationService {
 
-    @Autowired
-    private OrganizationRepository repository;
-    @Autowired
-    private OrganizationMapper mapper;
-    @Autowired
-    private MessageSource messageSource;
+    private final OrganizationRepository repository;
+    private final OrganizationMapper mapper;
+    private final MessageSource messageSource;
 
-    public OrganizationDto update(OrganizationDto edited) throws Exception {
-        try {
-            Optional<Organization> exists = repository.findAll().stream().findFirst();
-            if (!exists.isPresent()) {
-                throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"Organization"}, Locale.US));
-            }
-            Organization old = exists.get();
-            Organization organization = mapper.organizationDto2Entity(edited);
-            organization.setId(old.getId());
-            return mapper.organizationEntity2Dto(repository.save(organization));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    @Transactional
+    public OrganizationResponseDTO update(OrganizationRequestDTO dto) {
+        if (repository.findAll().isEmpty()) {
+            Organization organization = mapper.organizationDto2Entity(dto);
+            organization.setCreationDate(LocalDateTime.now());
+            organization.setUpdateDate(LocalDateTime.now());
+            Organization saved = repository.save(organization);
+            return mapper.organizationEntity2Dto(saved);
+        } else {
+            Organization organizationToUpdate = repository.findAll().get(0);
+            Organization updated = mapper.updateOrganizationDto2Entity(dto, organizationToUpdate.getId());
+            updated.setCreationDate(organizationToUpdate.getCreationDate());
+            updated.setUpdateDate(LocalDateTime.now());
+            return mapper.organizationEntity2Dto(repository.save(updated));
+                   }
     }
+
+
     @Override
-    public OrganizationPublicDTO getPublicInfo() {
+    public OrganizationResponseDTO getPublicInfo() {
         Optional<Organization> orgPublicInfo = repository.findAll().stream().findFirst();
 
         if (orgPublicInfo.isEmpty()) {

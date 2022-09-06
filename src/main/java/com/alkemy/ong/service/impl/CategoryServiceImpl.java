@@ -46,8 +46,8 @@ public class CategoryServiceImpl implements ICategoryService {
 
             Category category = mapper.categoryDto2CategoryEntity(dto);
 
-            category.setCreationTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-            category.setUpdateTimeStamp(Timestamp.valueOf(LocalDateTime.now()));
+            category.setCreationDate(LocalDateTime.now());
+            category.setUpdateDate(LocalDateTime.now());
 
             /*
              * TODO: <- ImageService should validate and return the path of the File...

@@ -1,9 +1,8 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.contact.ContactRequestDto;
-import com.alkemy.ong.dto.contact.ContactResponseDto;
-import com.alkemy.ong.service.IContactService;
-
+import com.alkemy.ong.dto.slide.SlideRequestDTO;
+import com.alkemy.ong.dto.slide.SlideResponseDTO;
+import com.alkemy.ong.service.impl.SlideServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/contacts")
+@RequestMapping("/slides")
 @RequiredArgsConstructor
-public class ContactController {
+public class SlideController {
 
-    private final IContactService service;
+    private final SlideServiceImpl slideService;
 
     @PostMapping
-    public ResponseEntity<ContactResponseDto> save(@Valid @RequestBody ContactRequestDto contact) {
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(contact));
+    public ResponseEntity<SlideResponseDTO> createNewSlide(@Valid @RequestBody SlideRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(slideService.create(dto));
     }
-
 }

@@ -1,4 +1,4 @@
-package com.alkemy.ong.dto;
+package com.alkemy.ong.dto.contact;
 
 
 import lombok.AllArgsConstructor;
@@ -15,13 +15,10 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactDto implements Serializable {
-
-    private Long id;
+public class ContactRequestDto implements Serializable {
 
     @NotNull(message = "Field name cannot be null")
     private String name;
-
 
     @Pattern(regexp = "^(\\+?\\d{1,3})?(\\d{10})$", message = "The number phone es invalid")
     @NotNull(message = "Phone cannot be null")

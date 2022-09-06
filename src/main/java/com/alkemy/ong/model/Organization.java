@@ -9,8 +9,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "organizations")
@@ -30,7 +28,7 @@ public class Organization {
 
     @NotNull(message = "field img cannot be null")
     @Column(nullable = false, length = 100)
-    private String img;
+    private String image;
 
     @Column(nullable = true, length = 50)
     private String address;
@@ -41,7 +39,7 @@ public class Organization {
 
     @Email(regexp = "^[a-zA-Z]+((\\.|_)*[a-zA-Z0-9]+)*((\\.|_)[a-zA-Z0-9]+)*@[a-z]+\\.\\w\\w\\w(\\.\\w\\w)?$", message = "the email is invalid")
     @NotNull(message = "field email cannot be null")
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50)
     private String email;
 
     @Column(nullable = true, name = "welcome_text", length = 150)
@@ -50,16 +48,13 @@ public class Organization {
     @Column(nullable = true,name = "about_us", length = 150)
     private String aboutUs;
 
-    @CreationTimestamp
     @Column(name = "creation_date",nullable = false,updatable = false)
-    private LocalDateTime creationDate = LocalDateTime.now();
+    @CreationTimestamp
+    private LocalDateTime creationDate;
 
-    @UpdateTimestamp
     @Column(name = "update_date")
+    @UpdateTimestamp
     private LocalDateTime updateDate;
-
-    @OneToMany(mappedBy = "organization",fetch = FetchType.LAZY)
-    private Set<Slide> slides = new HashSet<>();
 
     private Boolean deleted = Boolean.FALSE;
 }
