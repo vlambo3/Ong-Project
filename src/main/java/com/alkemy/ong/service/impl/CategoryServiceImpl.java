@@ -4,17 +4,16 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import com.alkemy.ong.dto.category.CategoryNameDto;
-import com.alkemy.ong.exception.EmptyListException;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.category.CategoryRequestDto;
 import com.alkemy.ong.dto.category.CategoryResponseDto;
-import com.alkemy.ong.exception.AlreadyExistsException;
-import com.alkemy.ong.exception.UnableToSaveEntityException;
 
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
@@ -71,6 +70,23 @@ public class CategoryServiceImpl implements ICategoryService {
         if (entities.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return mapper.CategoryEntityList2CategoryNameDtoList(entities);
+    }
+
+    public void delete(Long id) {
+        Category entity = getCategoryById(id);
+        try {
+            entity.setUpdateDate(LocalDateTime.now());
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
+        }
+    }
+
+    private Category getCategoryById(Long id) {
+        Optional<Category> entity = repository.findById(id);
+        if (entity.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
+        return entity.get();
     }
 
 }
