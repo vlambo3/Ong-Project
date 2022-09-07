@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import com.alkemy.ong.security.model.Role;
 import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.repository.RolesRepository;
 import com.alkemy.ong.security.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
 
+    private final RolesRepository rolesRepository;
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final MessageSource messageSource;
@@ -35,8 +37,8 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
     @Override
     public void run(String... args) throws Exception {
         seedActivitiesTable(5);
-        seedUsersTable(10,);
-        seedActivitiesTable(5);
+        seedRolesTable(2);
+        seedUsersTable(20);
     }
 
     @Override
@@ -59,23 +61,41 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
             activityRepository.saveAll(activities);
 
             LOG.info(messageSource.getMessage("info-positive",
-                    new Object[] { "Activities table", amount }, Locale.US));
+                    new Object[]{"Activities table", amount}, Locale.US));
         } else {
             LOG.info(messageSource.getMessage("info-negative",
-                    new Object[] { "Activities table" }, Locale.US));
+                    new Object[]{"Activities table"}, Locale.US));
         }
 
     }
 
     @Override
-    public void seedRoleTable(int amount) {
+    public void seedRolesTable(int amount) {
+        if (rolesRepository.count() == 0) {
+            List<Role> roles = new ArrayList<>(amount);
+            LocalDateTime date = LocalDateTime.now();
+
+            Role role1 = new Role("ADMIN", "ADMIN", date, date);
+            Role role2 = new Role("USER", "USER", date, date);
+            roles.add(role1);
+            roles.add(role2);
+            rolesRepository.saveAll(roles);
+
+            LOG.info(messageSource.getMessage("info-positive",
+                    new Object[]{"Roles table", amount}, Locale.US));
+        } else {
+            LOG.info(messageSource.getMessage("info-negative",
+                    new Object[]{"Roles table"}, Locale.US));
+        }
 
     }
 
+
     @Override
-    public void seedUsersTable(int amount, String role) {
-        if(userRepository.count() == 0) {
+    public void seedUsersTable(int amount) {
+        if (userRepository.count() == 0) {
             List<User> users = new ArrayList<>(amount);
+            List<Role> roles = rolesRepository.findAll();
             int number = 1;
             LocalDateTime date = LocalDateTime.now();
 
@@ -84,21 +104,25 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
                 user.setFirstName("firstname" + number);
                 user.setLastName("lastname" + number);
                 user.setEmail("email" + number + "@gmail.com");
-                user.setPassword(encoder.encode("123asd"));
+                user.setPassword(encoder.encode("password"));
                 user.setCreationDate(date);
                 user.setUpdateDate(date);
-                user.setRole(new);
+                user.setRole((i < (amount/2) ? roles.get(0) : roles.get(1)));
+                users.add(user);
+                number++;
 
             }
+            userRepository.saveAll(users);
+
+            LOG.info(messageSource.getMessage("info-positive",
+                    new Object[]{"Users table", amount}, Locale.US));
+        } else {
+            LOG.info(messageSource.getMessage("info-negative",
+                    new Object[]{"Users table"}, Locale.US));
         }
     }
 
-
-
-    private Role getRole(int id) {
-
-
-
-    }
-
 }
+
+
+

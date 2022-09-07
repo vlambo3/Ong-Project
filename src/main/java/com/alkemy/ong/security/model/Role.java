@@ -33,4 +33,10 @@ public class Role {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
+    public Role(String name, String description, LocalDateTime creationDate, LocalDateTime updateDate) {
+        this.name = name;
+        this.description = description;
+        this.creationDate = creationDate;
+        this.updateDate = updateDate;
+    }
 }

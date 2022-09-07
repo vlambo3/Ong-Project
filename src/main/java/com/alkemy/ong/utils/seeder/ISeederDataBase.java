@@ -4,9 +4,9 @@ public interface ISeederDataBase {
     
     void seedActivitiesTable(int amount);
 
-    void seedUsersTable(int amount, String role);
+    void seedUsersTable(int amount);
 
-    void seedRoleTable(int amount);
+    void seedRolesTable(int amount);
 
     /*
       TODO:Example pattern for next seeders:
