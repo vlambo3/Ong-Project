@@ -16,5 +16,4 @@ public class SlideResponseDto {
     private Integer position;
     private String message;
     private Long organizationId;
-
 }
