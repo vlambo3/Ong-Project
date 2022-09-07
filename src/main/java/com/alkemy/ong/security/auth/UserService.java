@@ -1,14 +1,12 @@
 package com.alkemy.ong.security.auth;
 
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 
+import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
 
-import com.alkemy.ong.security.dto.AuthenticationRequest;
-import com.alkemy.ong.security.dto.AuthenticationResponse;
-import com.alkemy.ong.security.dto.UserRequestDto;
-import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.IEmailService;
 import com.alkemy.ong.security.mapper.UserMapper;
@@ -24,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -54,7 +53,7 @@ public class UserService {
         AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
-        emailService.sendEmail(dto.getEmail());
+        //emailService.sendEmail(dto.getEmail());
         return userResponseDto;
     }
 
@@ -98,6 +97,13 @@ public class UserService {
         userModified.setId(id);
         userModified.setPassword(passwordEncoder.encode(userModified.getPassword()));
         return userMapper.userEntity2UserResponseDto(userRepository.save(userModified));
+    }
+
+    public List<UserDto> getAll() {
+        List<User> list = userRepository.findAll();
+        if (list.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        return userMapper.userEntityList2UserDtoList(list);
     }
 
 }

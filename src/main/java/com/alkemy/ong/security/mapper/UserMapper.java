@@ -1,9 +1,13 @@
 package com.alkemy.ong.security.mapper;
 import com.alkemy.ong.security.dto.AuthenticationRequest;
+import com.alkemy.ong.security.dto.UserDto;
 import com.alkemy.ong.security.dto.UserRequestDto;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.model.User;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
@@ -35,6 +39,23 @@ public class UserMapper {
         authRequestDto.setEmail(dto.getEmail());
         authRequestDto.setPassword(dto.getPassword());
         return authRequestDto;
+    }
+
+    public List<UserDto> userEntityList2UserDtoList(List<User> entities) {
+        return entities.stream()
+                .map(this::userEntity2UserDto)
+                .collect(Collectors.toList());
+    }
+
+    public UserDto userEntity2UserDto(User entity) {
+        UserDto dto = new UserDto();
+        dto.setId(entity.getId());
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setEmail(entity.getEmail());
+        dto.setPhoto(entity.getPhoto());
+        dto.setRole(entity.getRole());
+        return dto;
     }
 
 }

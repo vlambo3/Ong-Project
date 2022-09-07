@@ -1,7 +1,6 @@
 package com.alkemy.ong.model;
 
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,8 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -34,12 +32,13 @@ public class Category {
 
     private String image;
 
-
     @CreationTimestamp
-    private Timestamp creationTimestamp;
+    @Column(name = "creation_date", updatable = false)
+    private LocalDateTime creationDate = LocalDateTime.now();
 
     @UpdateTimestamp
-    private Timestamp UpdateTimeStamp;
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 
     private boolean deleted = Boolean.FALSE;
 

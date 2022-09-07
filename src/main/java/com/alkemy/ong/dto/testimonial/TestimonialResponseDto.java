@@ -1,25 +1,18 @@
-package com.alkemy.ong.dto;
+package com.alkemy.ong.dto.testimonial;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestimonialDto {
+public class TestimonialResponseDto {
 
-    private long id;
-
-    @NotBlank(message = "Name cannot be empty")
+    private Long id;
     private String name;
-
     private String image;
-
-    @NotBlank(message = "Content cannot be empty")
     private String content;
 }
