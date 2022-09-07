@@ -1,11 +1,13 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.slide.SlideRequestDTO;
-import com.alkemy.ong.dto.slide.SlideResponseDTO;
-import com.alkemy.ong.model.Organization;
+import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
+import com.alkemy.ong.dto.slide.SlideRequestDto;
+import com.alkemy.ong.dto.slide.SlideResponseDto;
+
+import java.util.List;
 
 public interface ISlideService {
-    SlideResponseDTO create(SlideRequestDTO dto);
-    List<SlideResponseDto> getAll();
+    SlideResponseDto create(SlideRequestDto dto);
+    List<SlideBasicResponseDto> getAll();
 
 }

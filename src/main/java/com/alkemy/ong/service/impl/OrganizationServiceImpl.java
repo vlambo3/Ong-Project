@@ -47,7 +47,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
         Optional<Organization> orgPublicInfo = repository.findAll().stream().findFirst();
 
         if (orgPublicInfo.isEmpty()) {
-            throw new NotFoundException(messageSource.getMessage("organization.not-found", null, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("not-found", null, Locale.US));
         }
         return mapper.orgEntity2orgPublicDTO(orgPublicInfo);
 
