@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SlideResponseDTO {
+public class SlideResponseDto {
     private Long id;
     private String imageUrl;
     private String text;
