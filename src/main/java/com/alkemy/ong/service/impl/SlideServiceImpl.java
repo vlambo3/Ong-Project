@@ -12,7 +12,9 @@ import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Locale;
@@ -68,4 +70,16 @@ public class SlideServiceImpl implements ISlideService {
         return responseDTO;
 
     }
+
+    public List<SlideResponseDto> getSlidesForOrganizationByOrder(Long organizationId)  {
+        if (organizationRepository.findById(organizationId).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no Organization with the entered Id");
+        } else {
+            List<Slide> slideEntityList;
+            slideEntityList = slideRepository.findAllByOrderByPositionAsc();
+            return mapper.slideEntityList2DtoSlideList(slideEntityList);
+        }
+    }
+
 }
