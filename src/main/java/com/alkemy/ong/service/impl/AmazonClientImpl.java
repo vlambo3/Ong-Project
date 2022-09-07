@@ -13,6 +13,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +26,8 @@ import java.util.Date;
 
 @Service
 public class AmazonClientImpl implements IAmazonClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(AmazonClientImpl.class);
 
     private AmazonS3 s3;
 
@@ -95,9 +99,9 @@ public class AmazonClientImpl implements IAmazonClient {
         try {
             customMultipartFile.transferTo(customMultipartFile.getFile());
         } catch (IllegalStateException e) {
-            System.out.println("IllegalStateException : " + e);
+            logger.info("IllegalStateException : " + e);
         } catch (IOException e) {
-            System.out.println("IOException : " + e);
+            logger.info("IOException : " + e);
         }
 
         return customMultipartFile;
