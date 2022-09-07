@@ -1,13 +1,14 @@
 package com.alkemy.ong.mapper;
 
 
-import com.alkemy.ong.dto.slide.SlideRequestDTO;
-import com.alkemy.ong.dto.slide.SlideResponseDTO;
+import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
+import com.alkemy.ong.dto.slide.SlideRequestDto;
+import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.repository.SlideRepository;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class SlideMapper {
 
     private SlideRepository slideRepository;
 
-    public Slide slideDTO2SlideEntity (SlideRequestDTO dto, Organization org) {
+    public Slide slideDTO2SlideEntity (SlideRequestDto dto, Organization org) {
         Slide slide = new Slide();
 
         //TODO ad method to convert amazon S3
@@ -26,8 +27,8 @@ public class SlideMapper {
         return slide;
     }
 
-    public SlideResponseDTO slideEntity2SlideDTO (Slide slide) {
-        SlideResponseDTO dto = new SlideResponseDTO();
+    public SlideResponseDto slideEntity2SlideDTO (Slide slide) {
+        SlideResponseDto dto = new SlideResponseDto();
         dto.setId(slide.getId());
         dto.setImageUrl(slide.getImageUrl());
         dto.setText(slide.getText());
@@ -36,19 +37,16 @@ public class SlideMapper {
         return dto;
     }
   
-  public List<SlideResponseDto> slideEntityList2DtoList(List<Slide> entities){
+  public List<SlideBasicResponseDto> slideEntityList2DtoList(List<Slide> entities){
      return entities.stream()
-             .map(this::slideEntity2Dto)
+             .map(this::slideEntity2SlideBasicDto)
              .collect(Collectors.toList());
  }
 
-    public SlideResponseDto slideEntity2Dto(Slide entity){
-
-        SlideResponseDto dto = new SlideResponseDto();
-
+    public SlideBasicResponseDto slideEntity2SlideBasicDto(Slide entity){
+        SlideBasicResponseDto dto = new SlideBasicResponseDto();
         dto.setImageUrl(entity.getImageUrl());
         dto.setPosition(entity.getPosition());
-
         return dto;
     }
 
