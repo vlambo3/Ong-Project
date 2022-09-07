@@ -2,8 +2,6 @@ package com.alkemy.ong.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-
 import static org.springframework.http.HttpStatus.*;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,5 +44,5 @@ public class HandlerExceptionController {
     public CustomExceptionDetails fatalErrorUnexpectedException(HttpServletRequest request, Exception exception){
         return new CustomExceptionDetails(exception,request.getRequestURI());
     }
-}
 
+}

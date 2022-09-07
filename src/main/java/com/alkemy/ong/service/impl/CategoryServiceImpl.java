@@ -45,8 +45,8 @@ public class CategoryServiceImpl implements ICategoryService {
 
             Category category = mapper.categoryDto2CategoryEntity(dto);
 
-            category.setCreationTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-            category.setUpdateTimeStamp(Timestamp.valueOf(LocalDateTime.now()));
+            category.setCreationDate(LocalDateTime.now());
+            category.setUpdateDate(LocalDateTime.now());
 
             /*
              * TODO: <- ImageService should validate and return the path of the File...
@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public void delete(Long id) {
         Category entity = getCategoryById(id);
         try {
-            entity.setUpdateTimeStamp(Timestamp.valueOf(LocalDateTime.now()));
+            entity.setUpdateDate(LocalDateTime.now());
             repository.deleteById(id);
         } catch (Exception e) {
             throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));

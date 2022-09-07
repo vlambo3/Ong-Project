@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.ContactDto;
+import com.alkemy.ong.dto.contact.ContactRequestDto;
+import com.alkemy.ong.dto.contact.ContactResponseDto;
 import com.alkemy.ong.service.IContactService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class ContactController {
     private final IContactService service;
 
     @PostMapping
-    public ResponseEntity<ContactDto> save(@Valid @RequestBody ContactDto contact) {
+    public ResponseEntity<ContactResponseDto> save(@Valid @RequestBody ContactRequestDto contact) {
         
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(contact));
     }
