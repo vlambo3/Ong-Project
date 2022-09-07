@@ -1,7 +1,9 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
@@ -21,16 +23,23 @@ public class SlideServiceImpl implements ISlideService {
 
     private final SlideRepository slideRepository;
     private final OrganizationRepository organizationRepository;
-    private final SlideMapper slideMapper;
-
+    private final SlideMapper mapper;
     private final MessageSource messageSource;
+
+    @Override
+    public List<SlideBasicResponseDto> getAll() {
+        List<Slide> slides =  slideRepository.findAllByOrderByPositionAsc();
+        if (slides.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        return mapper.slideEntityList2DtoList(slides);
+    }
 
 
     public SlideResponseDto create(SlideRequestDto dto) {
 
         Organization org = organizationRepository.findAll().get(0);
 
-        Slide slide = slideMapper.slideDTO2SlideEntity(dto, org);
+        Slide slide = mapper.slideDTO2SlideEntity(dto, org);
 
         List<Slide> slidesList = slideRepository.findAll();
 
@@ -48,7 +57,7 @@ public class SlideServiceImpl implements ISlideService {
             slidesList.add(dto.getPosition(), slide);
         }
 
-        SlideResponseDto responseDTO = slideMapper.slideEntity2SlideDTO(slideRepository.save(slide));
+        SlideResponseDto responseDTO = mapper.slideEntity2SlideDTO(slideRepository.save(slide));
 
         if (n == 1)
             responseDTO.setMessage(messageSource.getMessage("slide-position", null, Locale.US));

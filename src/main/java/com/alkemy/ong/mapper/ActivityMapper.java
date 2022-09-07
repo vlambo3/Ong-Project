@@ -20,6 +20,7 @@ public class ActivityMapper {
         dto.setName(activity.getName());
         dto.setContent(activity.getContent());
         dto.setCreationDate(activity.getCreationDate());
+        dto.setUpdateDate(activity.getUpdateDate());
         dto.setImage(activity.getImage());
         return dto;
     }

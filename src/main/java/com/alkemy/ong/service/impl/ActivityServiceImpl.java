@@ -46,9 +46,13 @@ public class ActivityServiceImpl implements IActivityService {
         Activity activityToUpdate = activityRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException(
                         messageSource.getMessage("is not found", new Object[] { "Category name" }, Locale.US)));
-        Activity updated = activityMapper.activityUpdated(activityToUpdate,dto);
+
+        Activity updated = activityMapper.activityUpdated(activityToUpdate  ,dto);
         updated.setCreationDate(activityToUpdate.getCreationDate());
         updated.setUpdateDate(LocalDateTime.now());
         return activityMapper.activityEntity2ActivityDTO(activityRepository.save(updated));
     }
+
+
+
 }
