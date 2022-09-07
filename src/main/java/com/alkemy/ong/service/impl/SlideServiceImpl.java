@@ -1,8 +1,7 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.slide.SlideRequestDTO;
-import com.alkemy.ong.dto.slide.SlideResponseDTO;
-import com.alkemy.ong.mapper.OrganizationMapper;
+import com.alkemy.ong.dto.slide.SlideRequestDto;
+import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
@@ -10,7 +9,6 @@ import com.alkemy.ong.service.ISlideService;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +26,7 @@ public class SlideServiceImpl implements ISlideService {
     private final MessageSource messageSource;
 
 
-    public SlideResponseDTO create(SlideRequestDTO dto) {
+    public SlideResponseDto create(SlideRequestDto dto) {
 
         Organization org = organizationRepository.findAll().get(0);
 
@@ -50,7 +48,7 @@ public class SlideServiceImpl implements ISlideService {
             slidesList.add(dto.getPosition(), slide);
         }
 
-        SlideResponseDTO responseDTO = slideMapper.slideEntity2SlideDTO(slideRepository.save(slide));
+        SlideResponseDto responseDTO = slideMapper.slideEntity2SlideDTO(slideRepository.save(slide));
 
         if (n == 1)
             responseDTO.setMessage(messageSource.getMessage("slide-position", null, Locale.US));

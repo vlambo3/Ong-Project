@@ -10,7 +10,7 @@ import org.springframework.lang.Nullable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SlideRequestDTO {
+public class SlideRequestDto {
 
     private String imageUrl;
     private String text;
