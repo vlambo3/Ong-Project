@@ -38,7 +38,7 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
     public void run(String... args) throws Exception {
         seedActivitiesTable(5);
         seedRolesTable(2);
-        seedUsersTable(20);
+        seedUsersTable();
     }
 
     @Override
@@ -75,8 +75,8 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
             List<Role> roles = new ArrayList<>(amount);
             LocalDateTime date = LocalDateTime.now();
 
-            Role role1 = new Role("ADMIN", "ADMIN", date, date);
-            Role role2 = new Role("USER", "USER", date, date);
+            Role role1 = new Role(1L,"ADMIN", "ADMIN", date, date);
+            Role role2 = new Role(2L,"USER", "USER", date, date);
             roles.add(role1);
             roles.add(role2);
             rolesRepository.saveAll(roles);
@@ -90,8 +90,49 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
 
     }
 
-
     @Override
+    public void seedUsersTable() {
+        List<User> users = null;
+        if (userRepository.count() == 0) {
+            users = new ArrayList<>();
+            List<Role> roles = rolesRepository.findAll();
+            LocalDateTime date = LocalDateTime.now();
+            users.add(new User(1L, "Antonio", "García", "antoniogarcia@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(2L, "Carmen", "Martinez", "carmenmartinez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(3L, "Francisco", "Lopez", "franciscolopez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(4L, "Isabel", "Sanchez", "isabelsanchez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(5L, "Manuel", "Gomez", "manuelgomez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(6L, "Martín", "Canales", "martincanales@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(7L, "Francisca", "Fernandez", "franciscafernandez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(8L, "Juan", "Perez", "juanperez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(9L, "Luciano", "Gonzalez", "lucianogonzalez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(10L, "Natalia", "Moreno", "nataliamoreno@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(0), Boolean.FALSE, date, date));
+            users.add(new User(11L, "Miguel", "Gimenez", "miguelgimenez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(12L, "Dolores", "Rodriguez", "doloresrodriguez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(13L, "José", "Navarro", "josenavarro@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(14L, "Ana", "Ruiz", "anaruiz@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(15L, "Carlos", "Diaz", "carlosdiaz@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(16L, "Lucía", "Serrano", "luciaserrano@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(17L, "Daniel", "Hernandez", "danielhernandez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(18L, "Cristina", "Munoz", "cristinamunoz@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(19L, "Luis", "Saez", "luissaez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(20L, "Juana", "Alfaro", "juanaalfaro@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+
+
+            userRepository.saveAll(users);
+
+            LOG.info(messageSource.getMessage("info-positive",
+                    new Object[]{"Users table", 20}, Locale.US));
+        } else {
+
+            LOG.info(messageSource.getMessage("info-negative",
+                    new Object[]{"Users table"}, Locale.US));
+        }
+    }
+}
+
+
+  /*  @Override
     public void seedUsersTable(int amount) {
         if (userRepository.count() == 0) {
             List<User> users = new ArrayList<>(amount);
@@ -120,9 +161,9 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
             LOG.info(messageSource.getMessage("info-negative",
                     new Object[]{"Users table"}, Locale.US));
         }
-    }
+    }*/
 
-}
+
 
 
 

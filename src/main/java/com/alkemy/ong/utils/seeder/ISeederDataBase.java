@@ -4,7 +4,7 @@ public interface ISeederDataBase {
     
     void seedActivitiesTable(int amount);
 
-    void seedUsersTable(int amount);
+    void seedUsersTable();
 
     void seedRolesTable(int amount);
 
