@@ -6,7 +6,7 @@ import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.News;
-import com.alkemy.ong.repository.NewsRepository;
+import com.alkemy.ong.mapper.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -55,5 +55,9 @@ public class NewsServiceImpl implements INewsService {
         entity.setCreationDate(LocalDateTime.now());
         entity.setUpdateDate(LocalDateTime.now());
         return mapper.newsEntity2NewsDto(repository.save(entity));
+    }
+
+    public void delete (Long id) {
+        repository.deleteById(id);
     }
 }

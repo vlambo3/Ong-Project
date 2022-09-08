@@ -1,4 +1,4 @@
-package com.alkemy.ong.repository;
+package com.alkemy.ong.mapper.repository;
 
 import com.alkemy.ong.model.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;

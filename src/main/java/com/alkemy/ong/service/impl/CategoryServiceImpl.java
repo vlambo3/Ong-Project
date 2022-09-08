@@ -6,10 +6,8 @@ import java.util.Locale;
 import java.util.Optional;
 
 import com.alkemy.ong.dto.category.CategoryNameDto;
-import com.alkemy.ong.dto.news.NewsResponseDto;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.model.News;
 
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.service.ICategoryService;
@@ -21,7 +19,7 @@ import com.alkemy.ong.dto.category.CategoryResponseDto;
 
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
-import com.alkemy.ong.repository.CategoryRepository;
+import com.alkemy.ong.mapper.repository.CategoryRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -8,7 +8,7 @@ import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.TestimonialMapper;
 import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.service.ITestimonialService;
-import com.alkemy.ong.repository.TestimonialRepository;
+import com.alkemy.ong.mapper.repository.TestimonialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;

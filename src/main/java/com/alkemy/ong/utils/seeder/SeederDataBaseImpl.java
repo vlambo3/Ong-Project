@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.alkemy.ong.model.Activity;
-import com.alkemy.ong.repository.ActivityRepository;
+import com.alkemy.ong.mapper.repository.ActivityRepository;
 
 import lombok.RequiredArgsConstructor;
 
