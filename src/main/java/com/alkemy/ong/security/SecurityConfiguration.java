@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.POST ,"/testimonials").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/testimonials/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/organization/public").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/contacts").permitAll()
+                .antMatchers(HttpMethod.GET,"/contacts").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/news").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
