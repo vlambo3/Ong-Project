@@ -132,36 +132,6 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
 }
 
 
-  /*  @Override
-    public void seedUsersTable(int amount) {
-        if (userRepository.count() == 0) {
-            List<User> users = new ArrayList<>(amount);
-            List<Role> roles = rolesRepository.findAll();
-            int number = 1;
-            LocalDateTime date = LocalDateTime.now();
-
-            for (int i = 0; i < amount; i++) {
-                User user = new User();
-                user.setFirstName("firstname" + number);
-                user.setLastName("lastname" + number);
-                user.setEmail("email" + number + "@gmail.com");
-                user.setPassword(encoder.encode("password"));
-                user.setCreationDate(date);
-                user.setUpdateDate(date);
-                user.setRole((i < (amount/2) ? roles.get(0) : roles.get(1)));
-                users.add(user);
-                number++;
-
-            }
-            userRepository.saveAll(users);
-
-            LOG.info(messageSource.getMessage("info-positive",
-                    new Object[]{"Users table", amount}, Locale.US));
-        } else {
-            LOG.info(messageSource.getMessage("info-negative",
-                    new Object[]{"Users table"}, Locale.US));
-        }
-    }*/
 
 
 
