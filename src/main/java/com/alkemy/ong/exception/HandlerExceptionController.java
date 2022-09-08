@@ -2,9 +2,8 @@ package com.alkemy.ong.exception;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-
 import static org.springframework.http.HttpStatus.*;
+
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +30,6 @@ public class HandlerExceptionController {
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({
             AlreadyExistsException.class,
-            UnableToSaveEntityException.class,
-            UnableToUpdateEntityException.class
     })
     @ResponseBody
     public CustomExceptionDetails elementAlreadyExists(HttpServletRequest request, Exception exception) {
@@ -40,10 +37,14 @@ public class HandlerExceptionController {
     }
 
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({Exception.class,
+            UnableToSaveEntityException.class,
+            UnableToUpdateEntityException.class,
+            UnableToDeleteEntityException.class
+    })
     @ResponseBody
     public CustomExceptionDetails fatalErrorUnexpectedException(HttpServletRequest request, Exception exception){
         return new CustomExceptionDetails(exception,request.getRequestURI());
     }
-}
 
+}

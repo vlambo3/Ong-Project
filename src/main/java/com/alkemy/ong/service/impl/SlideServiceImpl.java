@@ -22,8 +22,11 @@ import java.util.Locale;
 public class SlideServiceImpl implements ISlideService {
 
     private final SlideRepository slideRepository;
+
     private final OrganizationRepository organizationRepository;
+
     private final SlideMapper mapper;
+
     private final MessageSource messageSource;
 
     @Override
@@ -33,7 +36,6 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return mapper.slideEntityList2DtoList(slides);
     }
-
 
     public SlideResponseDto create(SlideRequestDto dto) {
 
@@ -63,5 +65,6 @@ public class SlideServiceImpl implements ISlideService {
             responseDTO.setMessage(messageSource.getMessage("slide-position", null, Locale.US));
 
         return responseDTO;
+
     }
 }
