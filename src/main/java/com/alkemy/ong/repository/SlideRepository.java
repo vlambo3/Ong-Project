@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface SlideRepository extends JpaRepository<Slide, Long> {
 
-
     public List<Slide> findAllByOrderByPositionAsc();
 
     public Integer findByPosition (@Param("position") Integer position);

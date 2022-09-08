@@ -51,6 +51,6 @@ public class Contact {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    private boolean deletedAt = Boolean.FALSE;
+    private boolean deleted = Boolean.FALSE;
 
 }

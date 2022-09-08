@@ -26,4 +26,9 @@ public class OrganizationResponseDTO implements Serializable {
     private LocalDateTime updateDate;
     private Boolean deleted;
 
+    private String facebookUrl;
+    private String instagramUrl;
+    private String linkedinUrl;
+
+
 }

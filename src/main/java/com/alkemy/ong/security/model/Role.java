@@ -33,4 +33,5 @@ public class Role {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
+
 }
