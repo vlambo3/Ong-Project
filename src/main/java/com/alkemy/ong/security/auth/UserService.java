@@ -98,6 +98,12 @@ public class UserService {
         userModified.setPassword(passwordEncoder.encode(userModified.getPassword()));
         return userMapper.userEntity2UserResponseDto(userRepository.save(userModified));
     }
+    
+    public UserResponseDto getLoggerUserData(String auth){
+        String jwt = auth.substring(7);
+        User user = userRepository.findByEmail(jwtUtils.extractUsername(jwt));
+        return userMapper.userEntity2UserResponseDto(user);
+    }
 
     public List<UserDto> getAll() {
         List<User> list = userRepository.findAll();
@@ -105,5 +111,5 @@ public class UserService {
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return userMapper.userEntityList2UserDtoList(list);
     }
-
+    
 }
