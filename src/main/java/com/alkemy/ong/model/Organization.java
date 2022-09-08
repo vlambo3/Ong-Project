@@ -9,6 +9,8 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "organizations")
@@ -37,16 +39,10 @@ public class Organization {
     @Column(nullable = true, length = 15)
     private String phone;
 
-<<<<<<< HEAD
     @Email(regexp = "^[a-zA-Z]+((\\.|_)*[a-zA-Z0-9]+)*((\\.|_)[a-zA-Z0-9]+)*@[a-z]+\\.\\w\\w\\w(\\.\\w\\w)?$", 
            message = "the email is invalid")
     @NotBlank(message = "Field email cannot be null or empty")
     @Column(nullable = false, length = 50, unique = true)
-=======
-    @Email(regexp = "^[a-zA-Z]+((\\.|_)*[a-zA-Z0-9]+)*((\\.|_)[a-zA-Z0-9]+)*@[a-z]+\\.\\w\\w\\w(\\.\\w\\w)?$", message = "the email is invalid")
-    @NotNull(message = "field email cannot be null")
-    @Column(nullable = false, length = 50)
->>>>>>> develop
     private String email;
 
     @Column(nullable = true, name = "welcome_text", length = 150)
@@ -63,7 +59,6 @@ public class Organization {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
-<<<<<<< HEAD
     @OneToMany(mappedBy = "organization",fetch = FetchType.LAZY)
     private Set<Slide> slides = new HashSet<>();
 
@@ -82,7 +77,5 @@ public class Organization {
     @Column(name = "linkedin_url")
     private String linkedinUrl;
 
-=======
->>>>>>> develop
     private Boolean deleted = Boolean.FALSE;
 }
