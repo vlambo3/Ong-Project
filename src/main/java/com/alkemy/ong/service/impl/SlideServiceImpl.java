@@ -47,7 +47,7 @@ public class SlideServiceImpl implements ISlideService {
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("not-found", new Object[] { "Slide" }, Locale.US)));
 
-        return mapper2.mapSlideToResponseDto(slide);
+        return mapper2.map(slide, SlideResponseDto.class);
     }
 
     public SlideResponseDto create(SlideRequestDto dto) {
