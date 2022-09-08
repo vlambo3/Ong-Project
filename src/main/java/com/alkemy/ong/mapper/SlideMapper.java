@@ -1,12 +1,11 @@
 package com.alkemy.ong.mapper;
 
-
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
-import com.alkemy.ong.repository.SlideRepository;
+import com.alkemy.ong.service.ISlideService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 public class SlideMapper {
 
-    private SlideRepository slideRepository;
+    private ISlideService slideRepository;
 
     public Slide slideDTO2SlideEntity (SlideRequestDto dto, Organization org) {
         Slide slide = new Slide();
