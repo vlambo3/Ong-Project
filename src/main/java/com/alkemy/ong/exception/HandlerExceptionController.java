@@ -29,9 +29,6 @@ public class HandlerExceptionController {
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({
             AlreadyExistsException.class,
-            UnableToSaveEntityException.class,
-            UnableToUpdateEntityException.class,
-            UnableToDeleteEntityException.class
     })
     @ResponseBody
     public CustomExceptionDetails elementAlreadyExists(HttpServletRequest request, Exception exception) {
@@ -39,7 +36,11 @@ public class HandlerExceptionController {
     }
 
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({Exception.class,
+            UnableToSaveEntityException.class,
+            UnableToUpdateEntityException.class,
+            UnableToDeleteEntityException.class
+    })
     @ResponseBody
     public CustomExceptionDetails fatalErrorUnexpectedException(HttpServletRequest request, Exception exception){
         return new CustomExceptionDetails(exception,request.getRequestURI());

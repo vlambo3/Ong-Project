@@ -1,6 +1,5 @@
 package com.alkemy.ong.service.impl;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
@@ -70,6 +69,21 @@ public class CategoryServiceImpl implements ICategoryService {
         if (entities.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return mapper.CategoryEntityList2CategoryNameDtoList(entities);
+    }
+
+    @Override
+    public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
+        try{
+            Optional<Category> exists = repository.findById(id);
+            if (!exists.isPresent()) {
+                throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"Category"}, Locale.US));
+            }
+            Category category = mapper.categoryDto2CategoryEntity(dto);
+            category.setId(id);
+            return mapper.CategoryEntity2CategoryDto(repository.save(category));
+        }catch (Exception e){
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"Category"},Locale.US));
+        }
     }
 
     public void delete(Long id) {
