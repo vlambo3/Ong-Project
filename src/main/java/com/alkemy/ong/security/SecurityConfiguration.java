@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                 .antMatchers("/slides").hasRole("ADMIN")
                 .antMatchers("/activities").hasRole("ADMIN")
                 .antMatchers("/categories").hasRole("ADMIN")
-                //.antMatchers("/slides").hasRole("ADMIN")
+                .antMatchers("/slides").hasRole("ADMIN")
                 .antMatchers("/categories/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST ,"/testimonials").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/testimonials/*").hasRole("ADMIN")

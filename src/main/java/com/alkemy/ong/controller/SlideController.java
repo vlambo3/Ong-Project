@@ -1,7 +1,6 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
-import com.alkemy.ong.dto.slide.SlideFullResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.service.ISlideService;
@@ -34,7 +33,7 @@ public class SlideController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SlideFullResponseDto> getById(@PathVariable(value = "id") Long id){
+    public ResponseEntity<SlideResponseDto> getById(@PathVariable Long id){
         return ResponseEntity.status(OK).body(service.getById(id));
     }
 

@@ -19,7 +19,7 @@ public class SlideMapper {
         Slide slide = new Slide();
 
         // TODO ad method to convert amazon S3
-        slide.setImage(dto.getImageUrl());
+        slide.setImage(dto.getImage());
         slide.setText(dto.getText());
         slide.setOrganizationId(id);
         return slide;
@@ -28,7 +28,7 @@ public class SlideMapper {
     public SlideResponseDto slideEntity2SlideDTO(Slide slide) {
         SlideResponseDto dto = new SlideResponseDto();
         dto.setId(slide.getId());
-        dto.setImageUrl(slide.getImage());
+        dto.setImage(slide.getImage());
         dto.setText(slide.getText());
         dto.setPosition(slide.getPosition());
         dto.setOrganizationId(slide.getOrganizationId());
@@ -44,7 +44,7 @@ public class SlideMapper {
 
     public SlideBasicResponseDto slideEntity2SlideBasicDto(Slide entity) {
         SlideBasicResponseDto dto = new SlideBasicResponseDto();
-        dto.setImageUrl(entity.getImage());
+        dto.setImage(entity.getImage());
         dto.setPosition(entity.getPosition());
         return dto;
     }

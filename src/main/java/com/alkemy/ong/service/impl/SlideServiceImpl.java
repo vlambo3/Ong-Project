@@ -1,7 +1,6 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
-import com.alkemy.ong.dto.slide.SlideFullResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.exception.BadRequestException;
 import com.alkemy.ong.exception.EmptyListException;
@@ -28,7 +27,7 @@ public class SlideServiceImpl implements ISlideService {
     private final SlideRepository slideRepository;
     private final OrganizationRepository organizationRepository;
     private final SlideMapper mapper;
-    private final GenericMapper mapper2;
+    private final GenericMapper mapper2; //TODO: 
     private final MessageSource messageSource;
 
     @Override
@@ -40,15 +39,15 @@ public class SlideServiceImpl implements ISlideService {
     }
 
     @Override
-    public SlideFullResponseDto getById(Long id) {
-        if(id < 1){
-            throw new BadRequestException(messageSource.getMessage("invalid-id",new Object[] {id}, Locale.US));
+    public SlideResponseDto getById(Long id) {
+        if (id < 1) {
+            throw new BadRequestException(messageSource.getMessage("invalid-id", new Object[] { id }, Locale.US));
         }
         Slide slide = slideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("not-found", new Object[] { "Slide" }, Locale.US)));
 
-        return mapper2.map(slide, SlideFullResponseDto.class);
+        return mapper2.mapSlideToResponseDto(slide);
     }
 
     public SlideResponseDto create(SlideRequestDto dto) {

@@ -7,6 +7,9 @@ import static java.util.stream.Collectors.toList;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import com.alkemy.ong.dto.slide.SlideResponseDto;
+import com.alkemy.ong.model.Slide;
+
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -23,5 +26,11 @@ public class GenericMapper implements Serializable {
         return sourceList.stream()
                 .map(e -> map(e, destinationClass))
                 .collect(toList());
+    }
+
+    public SlideResponseDto mapSlideToResponseDto(Slide slide){
+        return mapper.typeMap(Slide.class, SlideResponseDto.class)
+                     .addMapping(s -> s.getOrganizationId(), SlideResponseDto::setOrganizationId)
+                     .map(slide);
     }
 }
