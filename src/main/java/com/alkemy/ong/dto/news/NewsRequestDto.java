@@ -21,6 +21,5 @@ public class NewsRequestDto implements Serializable {
     private String content;
     @NotBlank(message = "Image cannot be empty or null")
     private String image;
-
     private Long categoryId;
 }
