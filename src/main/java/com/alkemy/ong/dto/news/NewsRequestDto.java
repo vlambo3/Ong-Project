@@ -15,11 +15,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class NewsRequestDto implements Serializable {
 
-    @NotBlank(message = "Name cannot be null")
+    @NotBlank(message = "Name cannot be empty or null")
     private String name;
-    @NotBlank(message = "Content cannot be null")
+    @NotBlank(message = "Content cannot be empty or null")
     private String content;
-    @NotBlank(message = "Image cannot be null")
+    @NotBlank(message = "Image cannot be empty or null")
     private String image;
-    private Category category;
+
+    private Long categoryId;
 }

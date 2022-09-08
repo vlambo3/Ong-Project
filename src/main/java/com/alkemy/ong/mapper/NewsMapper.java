@@ -13,7 +13,7 @@ public class NewsMapper {
         entity.setName(dto.getName());
         entity.setContent(dto.getContent());
         entity.setImage(dto.getImage());
-        entity.setCategory(dto.getCategory());
+        entity.setCategoryId(dto.getCategoryId());
         return entity;
     }
 
@@ -23,7 +23,9 @@ public class NewsMapper {
         dto.setName(entity.getName());
         dto.setContent(entity.getContent());
         dto.setImage(entity.getImage());
-        dto.setCategory(entity.getCategory());
+        dto.setCreationDate(entity.getCreationDate());
+        dto.setUpdateDate(entity.getUpdateDate());
+        dto.setCategoryId(entity.getCategoryId());
         return dto;
     }
 }
