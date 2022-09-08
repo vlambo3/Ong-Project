@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
@@ -22,11 +23,9 @@ import java.util.Locale;
 public class SlideServiceImpl implements ISlideService {
 
     private final SlideRepository slideRepository;
-
-    private final OrganizationRepository organizationRepository;
-   
+    private final OrganizationRepository organizationRepository;   
     private final SlideMapper mapper;
-
+    private final GenericMapper mapper2;
     private final MessageSource messageSource;
       
     @Override
@@ -34,15 +33,22 @@ public class SlideServiceImpl implements ISlideService {
         List<Slide> slides =  slideRepository.findAllByOrderByPositionAsc();
         if (slides.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        return mapper.slideEntityList2DtoList(slides);
+        return mapper.slideEntityList2DtoBasicList(slides);
     }
 
+    @Override
+    public List<SlideResponseDto> getById(Long id) {
+        List<Slide> slides =  slideRepository.findAllByOrderByPositionAsc();
+        if (slides.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        return mapper2.mapAll(slides, SlideResponseDto.class);
+    }
 
     public SlideResponseDto create(SlideRequestDto dto) {
 
         Organization org = organizationRepository.findAll().get(0);
 
-        Slide slide = mapper.slideDTO2SlideEntity(dto, org);
+        Slide slide = mapper.slideDTO2SlideEntity(dto, org.getId());
 
         List<Slide> slidesList = slideRepository.findAll();
 
@@ -68,4 +74,7 @@ public class SlideServiceImpl implements ISlideService {
         return responseDTO;
 
     }
+
+
+    
 }

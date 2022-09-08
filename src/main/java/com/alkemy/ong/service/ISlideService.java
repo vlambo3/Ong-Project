@@ -7,7 +7,11 @@ import com.alkemy.ong.dto.slide.SlideResponseDto;
 import java.util.List;
 
 public interface ISlideService {
+
     SlideResponseDto create(SlideRequestDto dto);
+
     List<SlideBasicResponseDto> getAll();
+
+    List<SlideFullResponseDto> getById(Long id);
 
 }
