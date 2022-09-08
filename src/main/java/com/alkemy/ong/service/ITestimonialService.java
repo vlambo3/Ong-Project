@@ -9,4 +9,6 @@ public interface ITestimonialService {
 
     TestimonialResponseDto update(TestimonialRequestDto newTestimonial, Long id);
 
+    void delete(Long id);
+
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.alkemy.ong.enums.RoleEnum;
 import com.alkemy.ong.security.model.Role;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.RolesRepository;
@@ -75,8 +76,8 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
             List<Role> roles = new ArrayList<>(amount);
             LocalDateTime date = LocalDateTime.now();
 
-            Role role1 = new Role(1L,"ADMIN", "ADMIN", date, date);
-            Role role2 = new Role(2L,"USER", "USER", date, date);
+            Role role1 = new Role(1L, RoleEnum.ADMIN, "ADMIN", date, date);
+            Role role2 = new Role(2L,RoleEnum.USER, "USER", date, date);
             roles.add(role1);
             roles.add(role2);
             rolesRepository.saveAll(roles);

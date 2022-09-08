@@ -3,6 +3,7 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.testimonial.TestimonialRequestDto;
 import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.exception.UnableToDeleteEntityException;
 import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.TestimonialMapper;
@@ -55,6 +56,16 @@ public class TestimonialServiceImpl implements ITestimonialService {
         if (entity.isEmpty())
             throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
         return entity.get();
+    }
+
+    public void delete(Long id){
+        Testimonial entity = getTestimonialById(id);
+        try {
+            entity.setUpdateDate(LocalDateTime.now());
+            repository.deleteById(id);
+        }catch (Exception e) {
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
+        }
     }
 
 }
