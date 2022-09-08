@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.dto.contact.ContactRequestDto;
 import com.alkemy.ong.dto.contact.ContactResponseDto;
 import com.alkemy.ong.exception.UnableToSaveEntityException;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -35,4 +37,11 @@ public class ContactServiceImpl implements IContactService {
         }
     }
 
+    public List<ContactResponseDto> findAll(){
+        List<Contact> contacts = repository.findAll();
+        if (contacts.isEmpty()) {
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        }
+        return mapper.contactEntityList2ContactDtoList(contacts);
+    }
 }
