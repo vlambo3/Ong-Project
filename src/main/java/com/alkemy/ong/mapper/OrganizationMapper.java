@@ -17,10 +17,16 @@ public class OrganizationMapper {
         organization.setName(dto.getName());
         organization.setImage(dto.getImage());
         organization.setAddress(dto.getAddress());
+<<<<<<< HEAD
+        organization.setInstagramUrl(dto.getInstagramUrl());
+        organization.setFacebookUrl(dto.getFacebookUrl());
+        organization.setLinkedinUrl(dto.getLinkedinUrl());
+=======
         organization.setPhone(dto.getPhone());
         organization.setEmail(dto.getEmail());
         organization.setWelcomeText(dto.getWelcomeText());
         organization.setAboutUs(dto.getAboutUs());
+>>>>>>> develop
         return organization;
     }
 
@@ -38,11 +44,17 @@ public class OrganizationMapper {
         dto.setAddress(organization.getAddress());
         dto.setPhone(organization.getPhone());
         dto.setEmail(organization.getEmail());
+<<<<<<< HEAD
+        dto.setInstagramUrl(organization.getInstagramUrl());
+        dto.setFacebookUrl(organization.getFacebookUrl());
+        dto.setLinkedinUrl(organization.getLinkedinUrl());
+=======
         dto.setWelcomeText(organization.getWelcomeText());
         dto.setAboutUs(organization.getAboutUs());
         dto.setCreationDate(organization.getCreationDate());
         dto.setUpdateDate(organization.getUpdateDate());
         dto.setDeleted(organization.getDeleted());
+>>>>>>> develop
         return dto;
     }
 
