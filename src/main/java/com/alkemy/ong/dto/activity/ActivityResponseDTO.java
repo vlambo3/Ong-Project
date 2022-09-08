@@ -18,4 +18,5 @@ public class ActivityResponseDTO {
     private String content;
     private String image;
     private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
 }

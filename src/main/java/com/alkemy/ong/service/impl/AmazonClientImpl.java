@@ -1,6 +1,10 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.service.IAmazonClient;
+import com.alkemy.ong.utils.image.CustomMultipartFile;
+import com.alkemy.ong.utils.image.Image;
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -8,6 +12,9 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +26,8 @@ import java.util.Date;
 
 @Service
 public class AmazonClientImpl implements IAmazonClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(AmazonClientImpl.class);
 
     private AmazonS3 s3;
 
@@ -41,18 +50,18 @@ public class AmazonClientImpl implements IAmazonClient {
                 .build();
     }
 
-    public String uploadFile(MultipartFile multipartFile) {
-        String fileUrl = "";
+    public Image uploadFile(MultipartFile multipartFile) {
+
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+            String fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return new Image(fileName, fileUrl);
+        } catch (AmazonServiceException | IOException e) {
+            throw new UnableToSaveEntityException("s3 amazon not available for save File");
         }
-        return fileUrl;
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -71,4 +80,35 @@ public class AmazonClientImpl implements IAmazonClient {
         s3.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
+
+
+    @Override
+    public Image uploadFile(String base64, String fileName) {
+        MultipartFile image = this.base64ToImage(base64, fileName);
+        return this.uploadFile(image);
+    }
+
+    private MultipartFile base64ToImage(String encoded, String fileName) {
+
+        String trimmedEncodedImage = encoded.substring(encoded.indexOf(",") + 1);
+
+        byte[] decodedBytes = Base64.decode(trimmedEncodedImage);
+
+        CustomMultipartFile customMultipartFile = new CustomMultipartFile(decodedBytes, fileName);
+
+        try {
+            customMultipartFile.transferTo(customMultipartFile.getFile());
+        } catch (IllegalStateException e) {
+            logger.info("IllegalStateException : " + e);
+        } catch (IOException e) {
+            logger.info("IOException : " + e);
+        }
+
+        return customMultipartFile;
+    }
+
+    private String generateFileUrl(String fileName) {
+        return "https://s3." + s3.getRegionName() + ".amazonaws.com/" + bucketName + "/" + fileName;
+    }
+
 }

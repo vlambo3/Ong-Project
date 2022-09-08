@@ -2,8 +2,8 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
-import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
@@ -24,11 +24,11 @@ public class SlideServiceImpl implements ISlideService {
     private final SlideRepository slideRepository;
 
     private final OrganizationRepository organizationRepository;
-   
+
     private final SlideMapper mapper;
 
     private final MessageSource messageSource;
-      
+
     @Override
     public List<SlideBasicResponseDto> getAll() {
         List<Slide> slides =  slideRepository.findAllByOrderByPositionAsc();
@@ -36,7 +36,6 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return mapper.slideEntityList2DtoList(slides);
     }
-
 
     public SlideResponseDto create(SlideRequestDto dto) {
 
