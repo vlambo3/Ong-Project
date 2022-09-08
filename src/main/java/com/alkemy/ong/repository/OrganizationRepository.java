@@ -1,4 +1,4 @@
-package com.alkemy.ong.mapper.repository;
+package com.alkemy.ong.repository;
 
 import com.alkemy.ong.model.Organization;
 import org.springframework.data.jpa.repository.JpaRepository;

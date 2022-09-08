@@ -14,7 +14,7 @@ import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
-import com.alkemy.ong.mapper.repository.MemberRepository;
+import com.alkemy.ong.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -5,7 +5,7 @@ import com.alkemy.ong.dto.comment.CommentResponseDto;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.service.ICommentService;
-import com.alkemy.ong.mapper.repository.CommentRepository;
+import com.alkemy.ong.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

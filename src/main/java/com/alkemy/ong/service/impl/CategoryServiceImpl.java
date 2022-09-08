@@ -19,7 +19,7 @@ import com.alkemy.ong.dto.category.CategoryResponseDto;
 
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
-import com.alkemy.ong.mapper.repository.CategoryRepository;
+import com.alkemy.ong.repository.CategoryRepository;
 
 import lombok.RequiredArgsConstructor;
 

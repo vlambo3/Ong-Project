@@ -6,7 +6,7 @@ import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.model.News;
-import com.alkemy.ong.mapper.repository.NewsRepository;
+import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

@@ -8,7 +8,7 @@ import com.alkemy.ong.mapper.ContactMapper;
 import com.alkemy.ong.model.Contact;
 import com.alkemy.ong.service.IContactService;
 import com.alkemy.ong.service.IEmailService;
-import com.alkemy.ong.mapper.repository.ContactRepository;
+import com.alkemy.ong.repository.ContactRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
