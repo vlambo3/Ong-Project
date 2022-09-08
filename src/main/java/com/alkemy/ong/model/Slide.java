@@ -20,7 +20,7 @@ public class Slide {
 
     @NotNull(message = "field imageUrl cannot be null")
     @Column(name = "image_url", length = 100,nullable = false)
-    private String imageUrl;
+    private String image;
 
     @Column(nullable = true,length = 150)
     private String text;

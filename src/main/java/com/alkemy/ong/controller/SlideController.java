@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
+import com.alkemy.ong.dto.slide.SlideFullResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.service.ISlideService;
@@ -30,19 +31,19 @@ public class SlideController {
 
 
     @GetMapping
-    public ResponseEntity<List<SlideBasicResponseDto>> getAllBasic(){
-        List<SlideBasicResponseDto> allSlides = service.getAllBasic();
+    public ResponseEntity<List<SlideBasicResponseDto>> getAll(){
+        List<SlideBasicResponseDto> allSlides = service.getAll();
         return ResponseEntity.status(OK).body(allSlides);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<SlideResponseDto>> getById(@PathVariable(value = "id") Long id){
-        return ResponseEntity.status(OK).body(service.getAll());
+    public ResponseEntity<SlideFullResponseDto> getById(@PathVariable(value = "id") Long id){
+        return ResponseEntity.status(OK).body(service.getById(id));
     }
 
     @PostMapping
     public ResponseEntity<SlideResponseDto> createNewSlide(@Valid @RequestBody SlideRequestDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
+        return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
 }

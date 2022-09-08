@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
+import com.alkemy.ong.dto.slide.SlideFullResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 
@@ -12,6 +13,6 @@ public interface ISlideService {
 
     List<SlideBasicResponseDto> getAll();
 
-    List<SlideFullResponseDto> getById(Long id);
+    SlideFullResponseDto getById(Long id);
 
 }
