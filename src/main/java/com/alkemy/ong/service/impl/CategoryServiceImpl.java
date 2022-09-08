@@ -6,6 +6,11 @@ import java.util.Locale;
 import java.util.Optional;
 
 import com.alkemy.ong.dto.category.CategoryNameDto;
+import com.alkemy.ong.dto.news.NewsResponseDto;
+import com.alkemy.ong.exception.EmptyListException;
+import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.model.News;
+
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
@@ -69,6 +74,14 @@ public class CategoryServiceImpl implements ICategoryService {
         if (entities.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return mapper.CategoryEntityList2CategoryNameDtoList(entities);
+    }
+
+    public CategoryResponseDto getById(Long id) {
+        if (id <= 0) {
+            throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
+        }
+        Category entity = getCategoryById(id);
+        return mapper.CategoryEntity2CategoryDto(entity);
     }
 
     @Override
