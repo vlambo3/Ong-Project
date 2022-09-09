@@ -10,6 +10,5 @@ import java.util.List;
 public interface ISlideService {
     SlideResponseDto create(SlideRequestDto dto);
     List<SlideBasicResponseDto> getAll();
-    List<SlideResponseDto> getSlidesForOrganizationByOrder(Long organizationId);
 
 }

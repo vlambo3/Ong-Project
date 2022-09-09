@@ -2,10 +2,13 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
 import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
+import com.alkemy.ong.dto.slide.SlideResponseDTO;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.model.Organization;
+import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.repository.OrganizationRepository;
+import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.IOrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -23,6 +27,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
     private final OrganizationRepository repository;
     private final OrganizationMapper mapper;
     private final MessageSource messageSource;
+    private final SlideServiceImpl slideService;
 
     @Transactional
     public OrganizationResponseDTO update(OrganizationRequestDTO dto) {
@@ -49,7 +54,21 @@ public class OrganizationServiceImpl implements IOrganizationService {
         if (orgPublicInfo.isEmpty()) {
             throw new NotFoundException(messageSource.getMessage("not-found", null, Locale.US));
         }
-        return mapper.orgEntity2orgPublicDTO(orgPublicInfo);
+        OrganizationResponseDTO organization = mapper.orgEntity2orgPublicDTO(orgPublicInfo);
+        List<SlideResponseDTO> slides = slideService.findByOrganizationId(organization.getId());
+        organization.setSlides(slides);
+        return organization;
+
+       // return mapper.orgEntity2orgPublicDTO(orgPublicInfo);
 
     }
+
+
+ //   public OrganizationResponse getOrganizationDetails() {
+  //      List<Organization> organizations = organizationRepository.findAll();
+
+  //      if (CollectionUtils.isEmpty(organizations)) {
+  //          return null;
+  //      }
+
 }
