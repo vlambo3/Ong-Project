@@ -58,6 +58,10 @@ public class NewsServiceImpl implements INewsService {
     }
 
     public void delete (Long id) {
+        News newsToDelete = repository.findById(id).orElseThrow(
+                ()-> new NotFoundException(
+                        messageSource.getMessage("not found", new Object[] {"Category name"}, Locale.US)));
+
         repository.deleteById(id);
     }
 }
