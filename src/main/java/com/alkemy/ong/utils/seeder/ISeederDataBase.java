@@ -6,7 +6,7 @@ public interface ISeederDataBase {
 
     void seedUsersTable();
 
-    void seedRolesTable(int amount);
+    void seedRolesTable();
 
     /*
       TODO:Example pattern for next seeders:

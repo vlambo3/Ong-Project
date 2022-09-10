@@ -29,4 +29,10 @@ public class TestimonialController {
         return ResponseEntity.ok(updatedTestimonial);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id){
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
