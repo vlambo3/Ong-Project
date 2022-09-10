@@ -58,17 +58,6 @@ public class OrganizationServiceImpl implements IOrganizationService {
         List<SlideResponseDTO> slides = slideService.findByOrganizationId(organization.getId());
         organization.setSlides(slides);
         return organization;
-
-       // return mapper.orgEntity2orgPublicDTO(orgPublicInfo);
-
     }
-
-
- //   public OrganizationResponse getOrganizationDetails() {
-  //      List<Organization> organizations = organizationRepository.findAll();
-
-  //      if (CollectionUtils.isEmpty(organizations)) {
-  //          return null;
-  //      }
 
 }

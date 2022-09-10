@@ -25,9 +25,5 @@ public class OrganizationController {
         OrganizationResponseDTO dtos = service.getPublicInfo();
         return ResponseEntity.ok().body(dtos);
     }
-
-   /* public ResponseEntity<?> getOrganizationDetails() {
-        return new ResponseEntity<>(organizationService.getOrganizationDetails(), HttpStatus.OK);
-    }*/
-
+    
 }
