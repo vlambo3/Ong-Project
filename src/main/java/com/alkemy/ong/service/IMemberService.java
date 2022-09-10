@@ -10,4 +10,6 @@ public interface IMemberService {
     MemberResponseDto create(MemberRequestDto dto);
 
     List<MemberResponseDto> findAll();
+
+    void delete(Long id);
 }
