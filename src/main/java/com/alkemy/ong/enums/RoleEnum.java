@@ -5,5 +5,5 @@ import lombok.Getter;
 
 public enum RoleEnum {
 
-    ADMIN, USER
+    ADMIN, USER, DEVELOPER
 }

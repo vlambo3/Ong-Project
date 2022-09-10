@@ -62,6 +62,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
         Testimonial entity = getTestimonialById(id);
         try {
             entity.setUpdateDate(LocalDateTime.now());
+            repository.save(entity);
             repository.deleteById(id);
         }catch (Exception e) {
             throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
