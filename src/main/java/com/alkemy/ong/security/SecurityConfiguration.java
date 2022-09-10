@@ -28,19 +28,29 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
+
                 .antMatchers("/users/*",
                         "/slides",
                         "/activities",
                         "/categories",
+                        "/news",
                         "/categories/{id}",
                         "/testimonials/{id}").hasRole("ADMIN")
-
+                .antMatchers(
+                        "/v2/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/configuration/**",
+                        "/api/docs"
+                ).hasRole("DEVELOPER")
                 .antMatchers(POST, "/testimonials").hasRole("ADMIN")
                 .antMatchers(PUT, "/testimonials/*").hasRole("ADMIN")
                 .antMatchers(POST, "/organization/public").hasRole("ADMIN")
                 .antMatchers(POST, "/contacts").permitAll()
                 .antMatchers(GET, "/contacts").hasRole("ADMIN")
                 .antMatchers(GET, "/news").hasRole("ADMIN")
+                .antMatchers(PUT,"/slides/{id}").hasRole("ADMIN")
+
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(STATELESS)

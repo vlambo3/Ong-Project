@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,5 +18,7 @@ public class NewsResponseDto {
     private String name;
     private String content;
     private String image;
-    private Category category;
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
+    private Long categoryId;
 }
