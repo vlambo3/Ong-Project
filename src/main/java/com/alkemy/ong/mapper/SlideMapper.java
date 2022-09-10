@@ -49,5 +49,10 @@ public class SlideMapper {
         return dto;
     }
 
+    public List<SlideResponseDto> slideEntityList2DtoSlideList(List<Slide> entities){
+        return entities.stream()
+                .map(this::slideEntity2SlideDTO)
+                .collect(Collectors.toList());
+    }
 
 }

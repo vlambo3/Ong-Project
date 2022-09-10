@@ -18,4 +18,3 @@ public class SlideResponseDto {
     private Long organizationId;
 
 }
-

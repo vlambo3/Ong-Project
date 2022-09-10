@@ -25,4 +25,5 @@ public class OrganizationController {
         OrganizationResponseDTO dtos = service.getPublicInfo();
         return ResponseEntity.ok().body(dtos);
     }
+    
 }
