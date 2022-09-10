@@ -29,4 +29,9 @@ public class OrganizationResponseDTO implements Serializable {
     private Boolean deleted;
     private List<SlideResponseDTO> slides;
 
+    private String facebookUrl;
+    private String instagramUrl;
+    private String linkedinUrl;
+
+
 }

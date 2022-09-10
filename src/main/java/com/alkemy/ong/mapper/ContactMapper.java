@@ -5,6 +5,11 @@ import com.alkemy.ong.dto.contact.ContactResponseDto;
 import com.alkemy.ong.model.Contact;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
+
 @Component
 public class ContactMapper {
 
@@ -27,4 +32,9 @@ public class ContactMapper {
         return dto;
     }
 
+    public List<ContactResponseDto> contactEntityList2ContactDtoList(List<Contact> contactDtos){
+        return contactDtos.stream()
+        .map(c -> contactEntity2ContactDto(c))
+                .collect(toList());
+    }
 }

@@ -10,10 +10,7 @@ public class ActivityMapper {
 
     public Activity activityDto2ActivityEntity (ActivityRequestDTO dto) {
         Activity activity = new Activity();
-        activity.setName(dto.getName());
-        activity.setContent(dto.getContent());
-        //TODO method to convert string to file
-        activity.setImage(dto.getImage());
+        convertBasicValues(activity,dto);
         return activity;
     }
 
@@ -23,7 +20,20 @@ public class ActivityMapper {
         dto.setName(activity.getName());
         dto.setContent(activity.getContent());
         dto.setCreationDate(activity.getCreationDate());
+        dto.setUpdateDate(activity.getUpdateDate());
         dto.setImage(activity.getImage());
         return dto;
+    }
+
+    public Activity activityUpdated (Activity activity, ActivityRequestDTO dto) {
+        convertBasicValues(activity, dto);
+        return activity;
+    }
+
+    public void convertBasicValues(Activity activity, ActivityRequestDTO dto) {
+        activity.setName(dto.getName());
+        activity.setContent(dto.getContent());
+        activity.setImage(dto.getImage());
+        //TODO method to convert string to file
     }
 }

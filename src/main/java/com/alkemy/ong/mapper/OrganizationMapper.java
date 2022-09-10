@@ -21,6 +21,9 @@ public class OrganizationMapper {
         organization.setEmail(dto.getEmail());
         organization.setWelcomeText(dto.getWelcomeText());
         organization.setAboutUs(dto.getAboutUs());
+        organization.setInstagramUrl(dto.getInstagramUrl());
+        organization.setFacebookUrl(dto.getFacebookUrl());
+        organization.setLinkedinUrl(dto.getLinkedinUrl());
         return organization;
     }
 
@@ -43,6 +46,9 @@ public class OrganizationMapper {
         dto.setCreationDate(organization.getCreationDate());
         dto.setUpdateDate(organization.getUpdateDate());
         dto.setDeleted(organization.getDeleted());
+        dto.setInstagramUrl(organization.getInstagramUrl());
+        dto.setFacebookUrl(organization.getFacebookUrl());
+        dto.setLinkedinUrl(organization.getLinkedinUrl());
         return dto;
     }
 

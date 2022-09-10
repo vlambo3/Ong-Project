@@ -3,6 +3,7 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.activity.ActivityRequestDTO;
 import com.alkemy.ong.dto.activity.ActivityResponseDTO;
 import com.alkemy.ong.exception.AlreadyExistsException;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.ActivityMapper;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.service.IActivityService;
@@ -40,6 +41,18 @@ public class ActivityServiceImpl implements IActivityService {
 
         return activityMapper.activityEntity2ActivityDTO(activityRepository.save(activity));
     }
+
+    public ActivityResponseDTO update(Long id, ActivityRequestDTO dto) {
+        Activity activityToUpdate = activityRepository.findById(id).orElseThrow(
+                ()-> new NotFoundException(
+                        messageSource.getMessage("is not found", new Object[] { "Category name" }, Locale.US)));
+
+        Activity updated = activityMapper.activityUpdated(activityToUpdate  ,dto);
+        updated.setCreationDate(activityToUpdate.getCreationDate());
+        updated.setUpdateDate(LocalDateTime.now());
+        return activityMapper.activityEntity2ActivityDTO(activityRepository.save(updated));
+    }
+
 
 
 }
