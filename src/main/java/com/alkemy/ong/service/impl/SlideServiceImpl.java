@@ -13,11 +13,8 @@ import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -81,7 +78,7 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage
                     ("slide.list.empty", null, Locale.ENGLISH));
         }
-        Collections.sort(slides, Comparator.comparing(SlideResponseDTO::getPosition));
+        slides.sort(Comparator.comparing(SlideResponseDTO::getPosition));
 
         return slides;
     }
