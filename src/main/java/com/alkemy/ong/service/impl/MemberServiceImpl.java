@@ -68,14 +68,14 @@ public class MemberServiceImpl implements IMemberService {
         try {
             repository.deleteById(id);
         } catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { "Member", id }, Locale.US));
         }
     }
 
     private Member getMemberById(Long id) {
         Optional<Member> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Member with id " + id } ,Locale.US));
         return entity.get();
     }
 
