@@ -2,9 +2,8 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
 import com.alkemy.ong.dto.slide.SlideRequestDto;
-import com.alkemy.ong.dto.slide.SlideResponseDTO;
-import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
+import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.SlideMapper;
@@ -15,9 +14,7 @@ import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -73,14 +70,14 @@ public class SlideServiceImpl implements ISlideService {
 
     }
 
-    public List<SlideResponseDTO> findByOrganizationId(Long organizationId){
-        List<SlideResponseDTO> slides = repository.findByOrganizationId(organizationId);
+    public List<SlideResponseDto> findByOrganizationId(Long organizationId){
+        List<SlideResponseDto> slides = repository.findByOrganizationId(organizationId);
 
         if (slides.isEmpty()) {
             throw new EmptyListException(messageSource.getMessage
                     ("slide.list.empty", null, Locale.ENGLISH));
         }
-        Collections.sort(slides, Comparator.comparing(SlideResponseDTO::getPosition));
+        Collections.sort(slides, Comparator.comparing(SlideResponseDto::getPosition));
 
         return slides;
     }

@@ -1,6 +1,6 @@
 package com.alkemy.ong.dto.organization;
 
-import com.alkemy.ong.dto.slide.SlideResponseDTO;
+import com.alkemy.ong.dto.slide.SlideResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class OrganizationResponseDTO implements Serializable {
     private LocalDateTime creationDate;
     private LocalDateTime updateDate;
     private Boolean deleted;
-    private List<SlideResponseDTO> slides;
+    private List<SlideResponseDto> slides;
 
     private String facebookUrl;
     private String instagramUrl;

@@ -25,6 +25,13 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/auth/*").permitAll()
+                .antMatchers(
+                        "/v2/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/configuration/**",
+                        "/api/docs"
+                ).hasRole("DEVELOPER")
                 .antMatchers("/users*").hasRole("ADMIN")
                 .antMatchers("/slides").hasRole("ADMIN")
                 .antMatchers("/activities").hasRole("ADMIN")
