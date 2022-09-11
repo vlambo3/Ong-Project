@@ -2,13 +2,11 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
 import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
-import com.alkemy.ong.dto.slide.SlideResponseDTO;
+import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.model.Organization;
-import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.repository.OrganizationRepository;
-import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.IOrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -55,7 +53,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
             throw new NotFoundException(messageSource.getMessage("not-found", null, Locale.US));
         }
         OrganizationResponseDTO organization = mapper.orgEntity2orgPublicDTO(orgPublicInfo);
-        List<SlideResponseDTO> slides = slideService.findByOrganizationId(organization.getId());
+        List<SlideResponseDto> slides = slideService.findByOrganizationId(organization.getId());
         organization.setSlides(slides);
         return organization;
     }
