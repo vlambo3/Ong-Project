@@ -16,7 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+
 
 @Service
 @RequiredArgsConstructor
@@ -77,7 +81,7 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage
                     ("slide.list.empty", null, Locale.ENGLISH));
         }
-        Collections.sort(slides, Comparator.comparing(SlideResponseDto::getPosition));
+        slides.sort(Comparator.comparing(SlideResponseDTO::getPosition));
 
         return slides;
     }
