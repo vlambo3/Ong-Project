@@ -1,5 +1,6 @@
 package com.alkemy.ong.dto.organization;
 
+import com.alkemy.ong.dto.slide.SlideResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +27,7 @@ public class OrganizationResponseDTO implements Serializable {
     private LocalDateTime creationDate;
     private LocalDateTime updateDate;
     private Boolean deleted;
+    private List<SlideResponseDto> slides;
 
     private String facebookUrl;
     private String instagramUrl;

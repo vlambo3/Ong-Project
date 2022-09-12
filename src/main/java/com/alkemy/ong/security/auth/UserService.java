@@ -14,7 +14,6 @@ import com.alkemy.ong.security.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +36,9 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final CustomDetailsService userDetailsService;
     private final IEmailService emailService;
-
-
+    private final UserRepository repository;
     private final MessageSource messageSource;
+
     public UserResponseDto save(UserRequestDto dto) {
       
         User userCheck = userRepository.findByEmail(dto.getEmail());
@@ -111,5 +111,23 @@ public class UserService {
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         return userMapper.userEntityList2UserDtoList(list);
     }
-    
+
+    public void delete(Long id) {
+        User user = getById(id);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        final String jwt = jwtUtils.generateToken(userDetails);
+        if (jwtUtils.validateToken(jwt, userDetails)){
+            repository.deleteById(id);
+        } else {
+            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
+        }
+    }
+
+    private User getById(Long id) {
+        Optional<User> user = repository.findById(id);
+        if(user.isEmpty()){
+            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
+        }
+        return user.get();
+    }
 }
