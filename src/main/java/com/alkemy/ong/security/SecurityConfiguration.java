@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                         "/configuration/**",
                         "/api/docs"
                 ).hasRole("DEVELOPER")
+                .antMatchers("/news/{id}/comments").hasAnyRole("USER","ADMIN")
                 .antMatchers(POST, "/testimonials").hasRole("ADMIN")
                 .antMatchers(PUT, "/testimonials/*").hasRole("ADMIN")
                 .antMatchers(POST, "/organization/public").hasRole("ADMIN")
