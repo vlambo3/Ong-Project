@@ -114,13 +114,12 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        String email = getById(id).getEmail();
+        String user = getById(id).getEmail();
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (email.equals(loggedUser)){
+        if (user.equals(loggedUser))
             repository.deleteById(id);
-        } else {
+        else
             throw new NotLoggedUserException(messageSource.getMessage("not-logged-user", new Object[] {id}, Locale.US));
-        }
     }
 
     private User getById(Long id) {
