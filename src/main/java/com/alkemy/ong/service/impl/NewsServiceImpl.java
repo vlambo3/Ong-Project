@@ -59,6 +59,14 @@ public class NewsServiceImpl implements INewsService {
         return mapper.newsEntity2NewsDto(repository.save(entity));
     }
 
+    public void delete (Long id) {
+        News newsToDelete = repository.findById(id).orElseThrow(
+                () -> new NotFoundException(
+                        messageSource.getMessage("not found", new Object[]{"Category name"}, Locale.US)));
+
+        repository.deleteById(id);
+    }
+
     public NewsResponseDto update(NewsRequestDto dto, Long id) {
         try {
             repository.findById(id)
@@ -71,4 +79,6 @@ public class NewsServiceImpl implements INewsService {
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"News"},Locale.US));
         }
     }
+
+
 }
