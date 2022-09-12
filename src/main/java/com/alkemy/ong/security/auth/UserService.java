@@ -4,6 +4,7 @@ import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 
+import com.alkemy.ong.exception.NotLoggedUserException;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
@@ -113,13 +114,12 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        User user = getById(id);
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        final String jwt = jwtUtils.generateToken(userDetails);
-        if (jwtUtils.validateToken(jwt, userDetails)){
+        String email = getById(id).getEmail();
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (email.equals(loggedUser)){
             repository.deleteById(id);
         } else {
-            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
+            throw new NotLoggedUserException(messageSource.getMessage("not-logged-user", new Object[] {id}, Locale.US));
         }
     }
 

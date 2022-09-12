@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.news.NewsRequestDto;
 import com.alkemy.ong.dto.news.NewsResponseDto;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;

@@ -30,6 +30,7 @@ public class HandlerExceptionController {
     @ResponseStatus(CONFLICT)
     @ExceptionHandler({
             AlreadyExistsException.class,
+            NotLoggedUserException.class
     })
     @ResponseBody
     public CustomExceptionDetails elementAlreadyExists(HttpServletRequest request, Exception exception) {
