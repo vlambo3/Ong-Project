@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.exception.UnableToDeleteEntityException;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
 import com.alkemy.ong.dto.member.MemberResponseDto;
-import com.alkemy.ong.exception.EmptyListException;
-import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
@@ -47,8 +44,8 @@ public class MemberServiceImpl implements IMemberService {
             memberSaved = repository.save(member);
         } catch (Exception e) {
             throw new UnableToSaveEntityException(
-                    messageSource.getMessage("error-saving", new Object[] { "the new Member: " }, Locale.US)
-                    + e.getMessage());
+                    messageSource.getMessage("error-saving", new Object[]{"the new Member: "}, Locale.US)
+                            + e.getMessage());
         }
 
         return mapper.memberEntity2MemberDto(memberSaved);
@@ -61,6 +58,22 @@ public class MemberServiceImpl implements IMemberService {
             throw new EmptyListException(messageSource.getMessage("empty-list",null ,Locale.US));
         }
         return mapper.allMembers2MembersDtos(members);
+    }
+
+    public MemberResponseDto update(MemberRequestDto dto, Long id) {
+        Member entity = getMemberById(id);
+        try {
+            entity.setName(dto.getName());
+            entity.setFacebookUrl(dto.getFacebookUrl());
+            entity.setInstagramUrl(dto.getInstagramUrl());
+            entity.setLinkedinUrl(dto.getLinkedinUrl());
+            entity.setImage(dto.getImage());
+            entity.setDescription(dto.getDescription());
+            repository.save(entity);
+            return mapper.memberEntity2MemberDto(entity);
+        } catch (Exception e) {
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", null, Locale.US));
+        }
     }
 
     public void delete(Long id) {

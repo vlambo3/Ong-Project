@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.alkemy.ong.enums.RoleEnum;
 import com.alkemy.ong.security.model.Role;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.RolesRepository;
@@ -37,7 +38,7 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
     @Override
     public void run(String... args) throws Exception {
         seedActivitiesTable(5);
-        seedRolesTable(2);
+        seedRolesTable();
         seedUsersTable();
     }
 
@@ -70,19 +71,21 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
     }
 
     @Override
-    public void seedRolesTable(int amount) {
+    public void seedRolesTable() {
         if (rolesRepository.count() == 0) {
-            List<Role> roles = new ArrayList<>(amount);
+            List<Role> roles = new ArrayList<>();
             LocalDateTime date = LocalDateTime.now();
 
-            Role role1 = new Role(1L,"ADMIN", "ADMIN", date, date);
-            Role role2 = new Role(2L,"USER", "USER", date, date);
+            Role role1 = new Role(1L, RoleEnum.ADMIN, "ADMIN", date, date);
+            Role role2 = new Role(2L,RoleEnum.USER, "USER", date, date);
+            Role role3 = new Role(3L,RoleEnum.DEVELOPER, "DEVELOPER", date, date);
             roles.add(role1);
             roles.add(role2);
+            roles.add(role3);
             rolesRepository.saveAll(roles);
 
             LOG.info(messageSource.getMessage("info-positive",
-                    new Object[]{"Roles table", amount}, Locale.US));
+                    new Object[]{"Roles table", 3}, Locale.US));
         } else {
             LOG.info(messageSource.getMessage("info-negative",
                     new Object[]{"Roles table"}, Locale.US));
@@ -117,12 +120,13 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
             users.add(new User(18L, "Cristina", "Munoz", "cristinamunoz@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
             users.add(new User(19L, "Luis", "Saez", "luissaez@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
             users.add(new User(20L, "Juana", "Alfaro", "juanaalfaro@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
+            users.add(new User(21L, "Federico", "Carrasco", "federicocarrasco@gmail.com", encoder.encode("password"), "photo.jpg", roles.get(1), Boolean.FALSE, date, date));
 
 
             userRepository.saveAll(users);
 
             LOG.info(messageSource.getMessage("info-positive",
-                    new Object[]{"Users table", 20}, Locale.US));
+                    new Object[]{"Users table", 21}, Locale.US));
         } else {
 
             LOG.info(messageSource.getMessage("info-negative",

@@ -27,5 +27,11 @@ public class NewsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
+    @PutMapping("/news/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody NewsRequestDto news, @PathVariable Long id) {
+        NewsResponseDto newResponse = service.update(news, id);
+        return new ResponseEntity<>(newResponse, HttpStatus.CREATED);
+    }
+
 
 }

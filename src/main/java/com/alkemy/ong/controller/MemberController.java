@@ -36,6 +36,11 @@ public class MemberController {
         return ResponseEntity.status(OK).body(service.findAll());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> updateMember(@Valid @RequestBody MemberRequestDto dto, @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(dto, id));
+    }
+
     @DeleteMapping("/:{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         service.delete(id);
