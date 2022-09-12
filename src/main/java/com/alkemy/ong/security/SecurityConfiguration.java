@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                 .antMatchers(GET, "/contacts").hasRole("ADMIN")
                 .antMatchers(GET, "/news").hasRole("ADMIN")
                 .antMatchers(PUT,"/slides/{id}").hasRole("ADMIN")
+                .antMatchers(DELETE,"/slides/{id}").hasRole("ADMIN")
 
                 .anyRequest().authenticated()
                 .and()

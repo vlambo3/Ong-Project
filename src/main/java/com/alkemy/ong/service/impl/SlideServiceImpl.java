@@ -1,10 +1,13 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
+
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.exception.UnableToDeleteEntityException;
+
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
@@ -17,9 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 @Service
@@ -81,7 +82,7 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage
                     ("slide.list.empty", null, Locale.ENGLISH));
         }
-        slides.sort(Comparator.comparing(SlideResponseDTO::getPosition));
+        //Collections.sort(slides, Comparator.comparing(SlideResponseDTO::getPosition));
 
         return slides;
     }
@@ -106,4 +107,17 @@ public class SlideServiceImpl implements ISlideService {
         return entity.get();
     }
 
+    @Override
+    public void delete(Long id){
+        Optional<Slide> exists = repository.findById(id);
+        if (!exists.isPresent()){
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[]{id},Locale.US));
+        }
+        try {
+            Slide slide = exists.get();
+            repository.delete(slide);
+        }catch (Exception e){
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity",new Object[]{id},Locale.US));
+        }
+    }
 }
