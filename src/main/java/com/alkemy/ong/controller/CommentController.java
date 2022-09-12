@@ -1,16 +1,16 @@
 package com.alkemy.ong.controller;
 
+
 import com.alkemy.ong.dto.comment.CommentRequestDto;
 import com.alkemy.ong.dto.comment.CommentResponseDto;
 import com.alkemy.ong.service.impl.CommentServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -27,4 +27,6 @@ public class CommentController {
 
         return ResponseEntity.status(CREATED).body(commentServiceImlp.save(dto));
     }
+
+
 }
