@@ -28,26 +28,9 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/*").permitAll()
-                .antMatchers("/users*").hasRole("ADMIN")
-                .antMatchers("/slides").hasRole("ADMIN")
-                .antMatchers("/activities").hasRole("ADMIN")
-                .antMatchers("/categories").hasRole("ADMIN")
-                .antMatchers("/news").hasRole("ADMIN")
-                .antMatchers("/categories/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST ,"/testimonials").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/testimonials/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/organization/public").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/news").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/contacts").permitAll()
-                .antMatchers(HttpMethod.GET,"/contacts").hasRole("ADMIN")
-                .antMatchers("/users/*",
-                        "/slides",
-                        "/activities",
-                        "/categories",
-                        "/news",
-                        "/categories/{id}",
-                        "/testimonials/{id}").hasRole("ADMIN")
+                .antMatchers(
+                        "/auth/*"
+                ).permitAll()
                 .antMatchers(
                         "/v2/api-docs/**",
                         "/swagger-ui/**",
@@ -55,6 +38,15 @@ public class SecurityConfiguration {
                         "/configuration/**",
                         "/api/docs"
                 ).hasRole("DEVELOPER")
+                .antMatchers(
+                        "/users*",
+                        "/members/**",
+                        "/slides",
+                        "/activities",
+                        "/categories/**",
+                        "/news",
+                        "/testimonials/{id}"
+                ).hasRole("ADMIN")
                 .antMatchers(POST, "/testimonials").hasRole("ADMIN")
                 .antMatchers(PUT, "/testimonials/*").hasRole("ADMIN")
                 .antMatchers(POST, "/organization/public").hasRole("ADMIN")

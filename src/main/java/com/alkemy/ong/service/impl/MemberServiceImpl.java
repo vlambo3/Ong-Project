@@ -5,16 +5,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.exception.UnableToUpdateEntityException;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
 import com.alkemy.ong.dto.member.MemberResponseDto;
-import com.alkemy.ong.exception.EmptyListException;
-import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
@@ -57,8 +54,8 @@ public class MemberServiceImpl implements IMemberService {
     @Override
     public List<MemberResponseDto> findAll() {
         List<Member> members = repository.findAll();
-        if (members.isEmpty()) {
-            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        if (members.isEmpty()){
+            throw new EmptyListException(messageSource.getMessage("empty-list",null ,Locale.US));
         }
         return mapper.allMembers2MembersDtos(members);
     }
@@ -79,10 +76,20 @@ public class MemberServiceImpl implements IMemberService {
         }
     }
 
-    private Member getMemberById (Long id) {
+    public void delete(Long id) {
+        Member entity = getMemberById(id);
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { "Member", id }, Locale.US));
+        }
+    }
+
+    private Member getMemberById(Long id) {
         Optional<Member> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("member-not-found", null ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Member with id " + id } ,Locale.US));
         return entity.get();
     }
+
 }
