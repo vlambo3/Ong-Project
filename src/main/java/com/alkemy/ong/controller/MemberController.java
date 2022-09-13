@@ -7,12 +7,9 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
 import com.alkemy.ong.dto.member.MemberResponseDto;
@@ -25,17 +22,29 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final IMemberService memberService;
+    private final IMemberService service;
     
     @PostMapping
     public ResponseEntity<MemberResponseDto> addNewMember(@RequestBody @Valid MemberRequestDto dto){
 
-        return ResponseEntity.status(CREATED).body(memberService.create(dto));
+        return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<MemberResponseDto>> findAll(){
         
-        return ResponseEntity.status(OK).body(memberService.findAll());
+        return ResponseEntity.status(OK).body(service.findAll());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> updateMember(@Valid @RequestBody MemberRequestDto dto, @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(dto, id));
+    }
+
+    @DeleteMapping("/:{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

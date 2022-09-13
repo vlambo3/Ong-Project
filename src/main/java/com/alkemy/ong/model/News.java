@@ -8,12 +8,11 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "news")
-@SQLDelete(sql = "UPDATE deleted SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE news SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 @Data
 public class News {
@@ -45,8 +44,11 @@ public class News {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade =  CascadeType.PERSIST)
+    @JoinColumn(name = "category_id", insertable=false, updatable = false)
     private Category category;
+
+    @Column(name = "category_id")
+    private Long categoryId;
 
 }

@@ -1,12 +1,15 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.slide.SlideBasicResponseDto;
+
 import com.alkemy.ong.dto.slide.SlideRequestDto;
 import com.alkemy.ong.exception.BadRequestException;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.mapper.GenericMapper;
+import com.alkemy.ong.exception.UnableToDeleteEntityException;
+import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
@@ -17,19 +20,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Locale;
+
+import java.util.*;
+
 
 @Service
 @RequiredArgsConstructor
 public class SlideServiceImpl implements ISlideService {
 
+
     private final SlideRepository slideRepository;
+
     private final OrganizationRepository organizationRepository;
+   
     private final SlideMapper mapper;
     private final GenericMapper mapper2; //TODO: 
     private final MessageSource messageSource;
-
+      
     @Override
     public List<SlideBasicResponseDto> getAll() {
         List<Slide> slides = slideRepository.findAllByOrderByPositionAsc();
@@ -48,6 +55,7 @@ public class SlideServiceImpl implements ISlideService {
 
         return mapper2.map(slide, SlideResponseDto.class);
     }
+
 
     public SlideResponseDto create(SlideRequestDto dto) {
 
@@ -80,4 +88,49 @@ public class SlideServiceImpl implements ISlideService {
 
     }
 
+    public List<SlideResponseDto> findByOrganizationId(Long organizationId){
+        List<SlideResponseDto> slides = slideRepository.findByOrganizationId(organizationId);
+
+        if (slides.isEmpty()) {
+            throw new EmptyListException(messageSource.getMessage
+                    ("slide.list.empty", null, Locale.ENGLISH));
+        }
+        //Collections.sort(slides, Comparator.comparing(SlideResponseDTO::getPosition));
+
+        return slides;
+    }
+
+    public SlideResponseDto update(SlideRequestDto dto, Long id) {
+        Slide entity = getSlideById(id);
+        try {
+            entity.setImage(dto.getImage());
+            entity.setText(dto.getText());
+            entity.setPosition(dto.getPosition());
+            slideRepository.save(entity);
+            return mapper.slideEntity2SlideDTO(entity);
+        } catch (Exception e) {
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-slide", null, Locale.US));
+        }
+    }
+
+    private Slide getSlideById(Long id) {
+        Optional<Slide> entity = slideRepository.findById(id);
+        if (entity.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("slide-not-found", null ,Locale.US));
+        return entity.get();
+    }
+
+    @Override
+    public void delete(Long id){
+        Optional<Slide> exists = slideRepository.findById(id);
+        if (!exists.isPresent()){
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[]{id},Locale.US));
+        }
+        try {
+            Slide slide = exists.get();
+            slideRepository.delete(slide);
+        }catch (Exception e){
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity",new Object[]{id},Locale.US));
+        }
+    }
 }

@@ -14,4 +14,7 @@ public interface ISlideService {
 
     SlideResponseDto getById(Long id);
 
+    SlideResponseDto update(SlideRequestDto dto, Long id);
+
+    void delete(Long id);
 }

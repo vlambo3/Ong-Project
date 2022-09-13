@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.model;
 
+import com.alkemy.ong.enums.RoleEnum;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,7 +22,8 @@ public class Role {
     private Long id;
 
     @NotNull(message = "Name cannot be null")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleEnum name;
 
     private String description;
 
