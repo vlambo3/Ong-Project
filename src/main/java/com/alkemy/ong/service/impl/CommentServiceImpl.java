@@ -49,6 +49,7 @@ public class CommentServiceImpl implements ICommentService {
         Comment entity = getCommentById(id);
         try {
             Comment updatedEntity = mapper.map(dto, Comment.class);
+            updatedEntity.setId(entity.getId());
             updatedEntity.setCreationDate(entity.getCreationDate());
             updatedEntity.setUpdateDate(LocalDateTime.now());
             repository.save(updatedEntity);

@@ -64,6 +64,7 @@ public class MemberServiceImpl implements IMemberService {
         Member entity = getMemberById(id);
         try {
             Member updatedEntity = mapper.map(dto, Member.class);
+            updatedEntity.setId(entity.getId());
             updatedEntity.setCreationDate(entity.getCreationDate());
             updatedEntity.setUpdateDate(LocalDateTime.now());
             repository.save(updatedEntity);

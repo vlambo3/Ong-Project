@@ -10,7 +10,6 @@ import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.exception.UnableToDeleteEntityException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
-import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.model.Slide;
 import com.alkemy.ong.service.ISlideService;
@@ -21,6 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -30,11 +30,8 @@ public class SlideServiceImpl implements ISlideService {
 
 
     private final SlideRepository slideRepository;
-
     private final OrganizationRepository organizationRepository;
-   
-    private final SlideMapper mapper;
-    private final GenericMapper mapper2; //TODO: 
+    private final GenericMapper mapper;
     private final MessageSource messageSource;
       
     @Override
@@ -42,7 +39,7 @@ public class SlideServiceImpl implements ISlideService {
         List<Slide> slides = slideRepository.findAllByOrderByPositionAsc();
         if (slides.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        return mapper.slideEntityList2DtoBasicList(slides);
+        return mapper.mapAll(slides, SlideBasicResponseDto.class);
     }
 
     public SlideResponseDto getById(Long id) {
@@ -53,7 +50,7 @@ public class SlideServiceImpl implements ISlideService {
                 .orElseThrow(() -> new NotFoundException(
                         messageSource.getMessage("not-found", new Object[] { "Slide" }, Locale.US)));
 
-        return mapper2.map(slide, SlideResponseDto.class);
+        return mapper.map(slide, SlideResponseDto.class);
     }
 
 
@@ -61,8 +58,8 @@ public class SlideServiceImpl implements ISlideService {
 
         Organization org = organizationRepository.findAll().get(0);
 
-        Slide slide = mapper.slideDTO2SlideEntity(dto, org.getId());
-
+        Slide slide = mapper.map(dto, Slide.class);
+        slide.setOrganizationId(org.getId());
         List<Slide> slidesList = slideRepository.findAll();
 
         int n = 0;
@@ -78,8 +75,8 @@ public class SlideServiceImpl implements ISlideService {
             slide.setPosition(dto.getPosition());
             slidesList.add(dto.getPosition(), slide);
         }
-
-        SlideResponseDto responseDTO = mapper.slideEntity2SlideDTO(slideRepository.save(slide));
+        slide = slideRepository.save(slide);
+        SlideResponseDto responseDTO = mapper.map(slide, SlideResponseDto.class);
 
         if (n == 1)
             responseDTO.setMessage(messageSource.getMessage("slide-position", null, Locale.US));
@@ -103,11 +100,13 @@ public class SlideServiceImpl implements ISlideService {
     public SlideResponseDto update(SlideRequestDto dto, Long id) {
         Slide entity = getSlideById(id);
         try {
-            entity.setImage(dto.getImage());
-            entity.setText(dto.getText());
-            entity.setPosition(dto.getPosition());
-            slideRepository.save(entity);
-            return mapper.slideEntity2SlideDTO(entity);
+            Slide updatedEntity = mapper.map(dto, Slide.class);
+            updatedEntity.setId(entity.getId());
+            updatedEntity.setOrganizationId(entity.getOrganizationId());
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            updatedEntity = slideRepository.save(updatedEntity);
+            return mapper.map(updatedEntity, SlideResponseDto.class);
         } catch (Exception e) {
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-slide", null, Locale.US));
         }
@@ -123,11 +122,12 @@ public class SlideServiceImpl implements ISlideService {
     @Override
     public void delete(Long id){
         Optional<Slide> exists = slideRepository.findById(id);
-        if (!exists.isPresent()){
+        if (exists.isEmpty()){
             throw new NotFoundException(messageSource.getMessage("not-found",new Object[]{id},Locale.US));
         }
         try {
             Slide slide = exists.get();
+            slide.setUpdateDate(LocalDateTime.now());
             slideRepository.delete(slide);
         }catch (Exception e){
             throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity",new Object[]{id},Locale.US));

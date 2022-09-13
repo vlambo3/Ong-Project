@@ -86,6 +86,7 @@ public class CategoryServiceImpl implements ICategoryService {
         Category entity = getCategoryById(id);
         try{
             Category updatedEntity = mapper.map(dto, Category.class);
+            updatedEntity.setId(entity.getId());
             updatedEntity.setCreationDate(entity.getCreationDate());
             updatedEntity.setUpdateDate(LocalDateTime.now());
             repository.save(updatedEntity);

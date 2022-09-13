@@ -48,6 +48,7 @@ public class ActivityServiceImpl implements IActivityService {
         Activity activity = getActivityById(id);
         try {
             Activity updatedActivity = mapper.map(dto, Activity.class);
+            updatedActivity.setId(activity.getId());
             updatedActivity.setCreationDate(activity.getCreationDate());
             updatedActivity.setUpdateDate(LocalDateTime.now());
             repository.save(updatedActivity);
