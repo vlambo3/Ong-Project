@@ -10,6 +10,7 @@ import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 
 import com.alkemy.ong.exception.*;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
     private final CategoryRepository repository;
     private final MessageSource messageSource;
-    private final CategoryMapper mapper;
+    private final GenericMapper mapper;
 
     @Override
     public CategoryResponseDto create(CategoryRequestDto dto) {
@@ -45,8 +46,7 @@ public class CategoryServiceImpl implements ICategoryService {
                 }
             });
 
-            Category category = mapper.categoryDto2CategoryEntity(dto);
-
+            Category category = mapper.map(dto, Category.class);
             category.setCreationDate(LocalDateTime.now());
             category.setUpdateDate(LocalDateTime.now());
 
@@ -64,14 +64,14 @@ public class CategoryServiceImpl implements ICategoryService {
                     + e.getMessage());
         }
 
-        return mapper.CategoryEntity2CategoryDto(categorySaved);
+        return mapper.map(categorySaved, CategoryResponseDto.class);
     }
 
     public List<CategoryNameDto> getAll() {
         List<Category> entities = repository.findAll();
         if (entities.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        return mapper.CategoryEntityList2CategoryNameDtoList(entities);
+        return mapper.mapAll(entities, CategoryNameDto.class);
     }
 
     public CategoryResponseDto getById(Long id) {
@@ -79,7 +79,7 @@ public class CategoryServiceImpl implements ICategoryService {
             throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
         }
         Category entity = getCategoryById(id);
-        return mapper.CategoryEntity2CategoryDto(entity);
+        return mapper.map(entity, CategoryResponseDto.class);
     }
 
     @Override
@@ -89,9 +89,9 @@ public class CategoryServiceImpl implements ICategoryService {
             if (!exists.isPresent()) {
                 throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"Category"}, Locale.US));
             }
-            Category category = mapper.categoryDto2CategoryEntity(dto);
+            Category category = mapper.map(dto, Category.class);
             category.setId(id);
-            return mapper.CategoryEntity2CategoryDto(repository.save(category));
+            return mapper.map(repository.save(category), CategoryResponseDto.class);
         }catch (Exception e){
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"Category"},Locale.US));
         }
