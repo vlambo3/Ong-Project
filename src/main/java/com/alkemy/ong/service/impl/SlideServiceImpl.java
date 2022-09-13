@@ -38,7 +38,6 @@ public class SlideServiceImpl implements ISlideService {
         return mapper.slideEntityList2DtoBasicList(slides);
     }
 
-    @Override
     public SlideResponseDto getById(Long id) {
         if (id < 1) {
             throw new BadRequestException(messageSource.getMessage("invalid-id", new Object[] { id }, Locale.US));

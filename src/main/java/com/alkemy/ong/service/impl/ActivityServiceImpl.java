@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.activity.ActivityResponseDTO;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.ActivityMapper;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.service.IActivityService;
 import com.alkemy.ong.repository.ActivityRepository;
@@ -20,37 +21,38 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class ActivityServiceImpl implements IActivityService {
 
-    private final ActivityRepository activityRepository;
-    private final ActivityMapper activityMapper;
+    private final ActivityRepository repository;
+    private final GenericMapper mapper;
     private final MessageSource messageSource;
 
     public ActivityResponseDTO create(ActivityRequestDTO dto) {
 
-        List<Activity> activities = activityRepository.findAll();
+        List<Activity> activities = repository.findAll();
 
         activities.forEach (a -> {
-            if (activityRepository.findByName(a.getName()).equalsIgnoreCase(dto.getName())) {
+            if (repository.findByName(a.getName()).equalsIgnoreCase(dto.getName())) {
                 throw new AlreadyExistsException(
                         messageSource.getMessage("already-exists", new Object[] { "Category name" }, Locale.US));
             }
         });
 
-        Activity activity = activityMapper.activityDto2ActivityEntity(dto);
+        Activity activity = mapper.map(dto, Activity.class);
 
         activity.setCreationDate(LocalDateTime.now());
+        activity = repository.save(activity);
 
-        return activityMapper.activityEntity2ActivityDTO(activityRepository.save(activity));
+        return mapper.map(activity, ActivityResponseDTO.class);
     }
 
     public ActivityResponseDTO update(Long id, ActivityRequestDTO dto) {
-        Activity activityToUpdate = activityRepository.findById(id).orElseThrow(
+        Activity activity = repository.findById(id).orElseThrow(
                 ()-> new NotFoundException(
                         messageSource.getMessage("is not found", new Object[] { "Category name" }, Locale.US)));
 
-        Activity updated = activityMapper.activityUpdated(activityToUpdate  ,dto);
-        updated.setCreationDate(activityToUpdate.getCreationDate());
-        updated.setUpdateDate(LocalDateTime.now());
-        return activityMapper.activityEntity2ActivityDTO(activityRepository.save(updated));
+        activity.setUpdateDate(LocalDateTime.now());                
+        activity = repository.save(activity);
+
+        return mapper.map(activity, ActivityResponseDTO.class);
     }
 
 
