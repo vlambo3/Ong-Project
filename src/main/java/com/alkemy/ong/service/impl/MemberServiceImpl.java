@@ -8,6 +8,8 @@ import java.util.Optional;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;

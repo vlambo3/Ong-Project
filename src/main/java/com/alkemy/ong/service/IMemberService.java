@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
 import com.alkemy.ong.dto.member.MemberResponseDto;
+import org.springframework.data.domain.Pageable;
 
 public interface IMemberService {
     
