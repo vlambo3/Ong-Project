@@ -5,8 +5,7 @@ import com.alkemy.ong.dto.news.NewsResponseDto;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
-import com.alkemy.ong.mapper.NewsMapper;
-import com.alkemy.ong.model.Category;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
@@ -24,7 +23,7 @@ import java.util.Optional;
 public class NewsServiceImpl implements INewsService {
 
     private final NewsRepository repository;
-    private final NewsMapper mapper;
+    private final GenericMapper mapper;
     private final MessageSource messageSource;
 
     public NewsResponseDto getById(Long id) {
@@ -32,7 +31,7 @@ public class NewsServiceImpl implements INewsService {
             throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
         }
         News entity = getNewsById(id);
-        return mapper.newsEntity2NewsDto(entity);
+        return mapper.map(entity, NewsResponseDto.class);
     }
 
     private News getNewsById(Long id) {
@@ -52,33 +51,30 @@ public class NewsServiceImpl implements INewsService {
                         messageSource.getMessage("already-exists", new Object[] { "Category name" }, Locale.US));
             }
         });
-
-        News entity = mapper.newsDto2NewsEntity(dto);
+        News entity = mapper.map(dto, News.class);
         entity.setCreationDate(LocalDateTime.now());
-        entity.setUpdateDate(LocalDateTime.now());
-        return mapper.newsEntity2NewsDto(repository.save(entity));
+        entity = repository.save(entity);
+        return mapper.map(entity, NewsResponseDto.class);
     }
 
     public void delete (Long id) {
-        News newsToDelete = repository.findById(id).orElseThrow(
-                () -> new NotFoundException(
-                        messageSource.getMessage("not found", new Object[]{"Category name"}, Locale.US)));
-
+        News entity = getNewsById(id);
+        entity.setUpdateDate(LocalDateTime.now());
         repository.deleteById(id);
     }
 
     public NewsResponseDto update(NewsRequestDto dto, Long id) {
+        News entity = getNewsById(id);
         try {
-            repository.findById(id)
-                    .orElseThrow(() -> new NotFoundException(messageSource.getMessage("NEWS_ID_NOT_FOUND", null, Locale.US)));
-            News entity = mapper.newsDto2NewsEntity(dto);
-            entity.setId(id);
-            entity.setUpdateDate(LocalDateTime.now());
-            return mapper.newsEntity2NewsDto(repository.save(entity));
+            News updatedEntity = mapper.map(dto, News.class);
+            updatedEntity.setId(entity.getId());
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            updatedEntity = repository.save(updatedEntity);
+            return mapper.map(updatedEntity, NewsResponseDto.class);
         }catch (Exception e) {
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"News"},Locale.US));
         }
     }
-
 
 }

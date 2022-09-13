@@ -6,13 +6,13 @@ import java.util.Locale;
 import java.util.Optional;
 
 import com.alkemy.ong.exception.*;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.service.IMemberService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.member.MemberRequestDto;
 import com.alkemy.ong.dto.member.MemberResponseDto;
-import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.model.Member;
 import com.alkemy.ong.repository.MemberRepository;
 
@@ -24,13 +24,13 @@ public class MemberServiceImpl implements IMemberService {
 
     private final MemberRepository repository;
     private final MessageSource messageSource;
-    private final MemberMapper mapper;
+    private final GenericMapper mapper;
 
     @Override
     public MemberResponseDto create(MemberRequestDto dto) {
         Member memberSaved;
         try {
-            Member member = mapper.memberDto2MemberEntity(dto);
+            Member member = mapper.map(dto, Member.class);
 
             member.setCreationDate(LocalDateTime.now());
             member.setDeleted(false);
@@ -48,7 +48,7 @@ public class MemberServiceImpl implements IMemberService {
                             + e.getMessage());
         }
 
-        return mapper.memberEntity2MemberDto(memberSaved);
+        return mapper.map(memberSaved, MemberResponseDto.class);
     }
 
     @Override
@@ -57,20 +57,18 @@ public class MemberServiceImpl implements IMemberService {
         if (members.isEmpty()){
             throw new EmptyListException(messageSource.getMessage("empty-list",null ,Locale.US));
         }
-        return mapper.allMembers2MembersDtos(members);
+        return mapper.mapAll(members, MemberResponseDto.class);
     }
 
     public MemberResponseDto update(MemberRequestDto dto, Long id) {
         Member entity = getMemberById(id);
         try {
-            entity.setName(dto.getName());
-            entity.setFacebookUrl(dto.getFacebookUrl());
-            entity.setInstagramUrl(dto.getInstagramUrl());
-            entity.setLinkedinUrl(dto.getLinkedinUrl());
-            entity.setImage(dto.getImage());
-            entity.setDescription(dto.getDescription());
-            repository.save(entity);
-            return mapper.memberEntity2MemberDto(entity);
+            Member updatedEntity = mapper.map(dto, Member.class);
+            updatedEntity.setId(entity.getId());
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            repository.save(updatedEntity);
+            return mapper.map(updatedEntity, MemberResponseDto.class);
         } catch (Exception e) {
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", null, Locale.US));
         }
@@ -79,6 +77,7 @@ public class MemberServiceImpl implements IMemberService {
     public void delete(Long id) {
         Member entity = getMemberById(id);
         try {
+            entity.setUpdateDate(LocalDateTime.now());
             repository.deleteById(id);
         } catch (Exception e) {
             throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { "Member", id }, Locale.US));

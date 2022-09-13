@@ -56,7 +56,10 @@ public class Member {
 
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
-    
+
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
+
     @Column(nullable = false)
     private Boolean deleted;
 }

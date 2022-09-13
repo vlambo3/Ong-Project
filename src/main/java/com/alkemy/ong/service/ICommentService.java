@@ -12,7 +12,7 @@ public interface ICommentService {
     void delete(Long id);
 
     //TODO to review as required
-    CommentResponseDto put(Long id, CommentRequestDto edit);
+    CommentResponseDto update(Long id, CommentRequestDto edit) throws Exception;
 
 
 }

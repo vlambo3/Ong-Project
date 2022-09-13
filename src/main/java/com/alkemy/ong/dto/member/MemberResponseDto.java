@@ -20,7 +20,5 @@ public class MemberResponseDto {
     private String linkedinUrl;
     private String image;
     private String description;
-    private LocalDateTime creationDate;
-    private Boolean deleted;
 
 }
