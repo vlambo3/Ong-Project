@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.activity.ActivityRequestDTO;
 import com.alkemy.ong.dto.activity.ActivityResponseDTO;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.service.IActivityService;
@@ -44,15 +45,24 @@ public class ActivityServiceImpl implements IActivityService {
     }
 
     public ActivityResponseDTO update(Long id, ActivityRequestDTO dto) {
-        Activity activity = repository.findById(id).orElseThrow(
-                ()-> new NotFoundException(
-                        messageSource.getMessage("is not found", new Object[] { "Category name" }, Locale.US)));
-        activity = mapper.map(dto, Activity.class);
-        activity.setUpdateDate(LocalDateTime.now());
-        activity = repository.save(activity);
-        return mapper.map(activity, ActivityResponseDTO.class);
+        Activity activity = getActivityById(id);
+        try {
+            Activity updatedActivity = mapper.map(dto, Activity.class);
+            updatedActivity.setCreationDate(activity.getCreationDate());
+            updatedActivity.setUpdateDate(LocalDateTime.now());
+            repository.save(updatedActivity);
+            return mapper.map(updatedActivity, ActivityResponseDTO.class);
+        } catch (Exception e) {
+            throw new UnableToUpdateEntityException(
+                    messageSource.getMessage("unable-to-update-entity", new Object[]{id}, Locale.US));
+        }
     }
 
-
+    private Activity getActivityById(Long id) {
+        return repository.findById(id).orElseThrow(
+                ()-> new NotFoundException(
+                messageSource.getMessage("not-found", new Object[] { "Activity" }, Locale.US))
+                );
+    }
 
 }

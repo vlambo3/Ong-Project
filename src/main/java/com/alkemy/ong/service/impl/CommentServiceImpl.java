@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -44,12 +45,14 @@ public class CommentServiceImpl implements ICommentService {
 
     //TODO to review as required
     // @Override
-    public CommentResponseDto put(Long id, CommentRequestDto dto) {
+    public CommentResponseDto update(Long id, CommentRequestDto dto) {
         Comment entity = getCommentById(id);
         try {
-            entity = mapper.map(dto, Comment.class);
-            repository.save(entity);
-            return mapper.map(entity, CommentResponseDto.class);
+            Comment updatedEntity = mapper.map(dto, Comment.class);
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            repository.save(updatedEntity);
+            return mapper.map(updatedEntity, CommentResponseDto.class);
         } catch (Exception e) {
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity", new Object[]{id}, Locale.US));
         }

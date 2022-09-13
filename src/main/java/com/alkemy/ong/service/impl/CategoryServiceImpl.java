@@ -83,14 +83,13 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
+        Category entity = getCategoryById(id);
         try{
-            Optional<Category> exists = repository.findById(id);
-            if (!exists.isPresent()) {
-                throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"Category"}, Locale.US));
-            }
-            Category category = mapper.map(dto, Category.class);
-            category.setId(id);
-            return mapper.map(repository.save(category), CategoryResponseDto.class);
+            Category updatedEntity = mapper.map(dto, Category.class);
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            repository.save(updatedEntity);
+            return mapper.map(updatedEntity, CategoryResponseDto.class);
         }catch (Exception e){
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"Category"},Locale.US));
         }
@@ -109,7 +108,7 @@ public class CategoryServiceImpl implements ICategoryService {
     private Category getCategoryById(Long id) {
         Optional<Category> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Category" } ,Locale.US));
         return entity.get();
     }
 

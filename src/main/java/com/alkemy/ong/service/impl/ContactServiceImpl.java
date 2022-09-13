@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +30,7 @@ public class ContactServiceImpl implements IContactService {
     public ContactResponseDto save(ContactRequestDto dto) {
         try {
             Contact entity = mapper.map(dto, Contact.class);
+            entity.setCreationDate(LocalDateTime.now());
             Contact savedEntity = repository.save(entity);
             emailService.sendEmail(savedEntity.getEmail());
             return mapper.map(savedEntity, ContactResponseDto.class);
