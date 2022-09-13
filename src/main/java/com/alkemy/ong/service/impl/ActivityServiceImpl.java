@@ -4,7 +4,6 @@ import com.alkemy.ong.dto.activity.ActivityRequestDTO;
 import com.alkemy.ong.dto.activity.ActivityResponseDTO;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.mapper.ActivityMapper;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Activity;
 import com.alkemy.ong.service.IActivityService;
