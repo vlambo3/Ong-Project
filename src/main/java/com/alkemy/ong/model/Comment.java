@@ -6,6 +6,8 @@ import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,6 +19,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE comments SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Comment {
 
     @Id
@@ -39,6 +43,8 @@ public class Comment {
 
     @Column(name = "news_id")
     private Long newsId;
+
+    private boolean deleted = Boolean.FALSE;
 
 
 }
