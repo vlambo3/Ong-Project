@@ -13,6 +13,6 @@ public class CommentBasicResponseDto {
 
     private Long id;
     private String body;
-    private Long news_id;
+    private Long newsId;
 
 }

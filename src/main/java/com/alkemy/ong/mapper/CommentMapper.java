@@ -41,7 +41,7 @@ public class CommentMapper {
 
         dto.setId(comment.getId());
         dto.setBody(comment.getBody());
-        dto.setNews_id(comment.getNewsId());
+        dto.setNewsId(comment.getNewsId());
 
         return dto;
     }

@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.comment.CommentRequestDto;
 import com.alkemy.ong.dto.comment.CommentResponseDto;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.IdNullOrNegativeException;
+import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.service.ICommentService;
@@ -80,8 +81,8 @@ public class CommentServiceImpl implements ICommentService {
     //TODO to review as required
     private Comment getCommentById(Long id) throws Exception {
         Optional<Comment> savedComment = repository.findById(id);
-        if(!savedComment.isPresent()){
-            throw new Exception("invalid ID");
+        if(savedComment.isEmpty()){
+            throw new NotFoundException(messageSource.getMessage("comment-not-found", null ,Locale.US));
         }
         return savedComment.get();
     }
