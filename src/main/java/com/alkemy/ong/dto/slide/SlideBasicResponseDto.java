@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SlideBasicResponseDto {
 
-    private String imageUrl;
+    private String image;
     private Integer position;
 
 }

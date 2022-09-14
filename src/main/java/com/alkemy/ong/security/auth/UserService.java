@@ -3,14 +3,13 @@ package com.alkemy.ong.security.auth;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
-
 import com.alkemy.ong.exception.NotLoggedUserException;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.IEmailService;
-import com.alkemy.ong.security.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -30,8 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final GenericMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticatorManager authenticatorManager;
     private final JwtUtils jwtUtils;
@@ -42,26 +40,26 @@ public class UserService {
 
     public UserResponseDto save(UserRequestDto dto) {
       
-        User userCheck = userRepository.findByEmail(dto.getEmail());
+        User userCheck = repository.findByEmail(dto.getEmail());
         if(userCheck != null)
             throw new AlreadyExistsException(messageSource.getMessage("already-exists", new Object[]{"Email"},Locale.US));
 
-        User newUser = userMapper.userRequestDto2UserEntity(dto);
+        User newUser = mapper.map(dto, User.class);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser = userRepository.save(newUser);
+        newUser = repository.save(newUser);
 
-        UserResponseDto userResponseDto = userMapper.userEntity2UserResponseDto(newUser);
-        AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
+        UserResponseDto userResponseDto = mapper.map(newUser, UserResponseDto.class);
+        AuthenticationRequest authenticationRequest = mapper.map(dto, AuthenticationRequest.class);
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
-        //emailService.sendEmail(dto.getEmail());
+        emailService.sendEmail(userResponseDto.getEmail());
         return userResponseDto;
     }
 
 
 
     public UserResponseDto login (AuthenticationRequest authRequest) throws Exception {
-        User user = userRepository.findByEmail(authRequest.getEmail());
+        User user = repository.findByEmail(authRequest.getEmail());
         if(user == null)
             return null;
 
@@ -69,7 +67,7 @@ public class UserService {
         if(!decrypt.equalsIgnoreCase(user.getPassword()))
             return null;
 
-        return userMapper.userEntity2UserResponseDto(user);
+        return mapper.map(user, UserResponseDto.class);
     }
 
 
@@ -90,27 +88,28 @@ public class UserService {
     }
 
 
-    public UserResponseDto update(UserRequestDto updateDto, Long id){
-        if (!userRepository.existsById(id)){
+    public UserResponseDto update(UserRequestDto dto, Long id){
+        if (!repository.existsById(id)){
             throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"User"},Locale.US));
         }
-        User userModified = userMapper.userRequestDto2UserEntity(updateDto);
+        User userModified = mapper.map(dto, User.class);
         userModified.setId(id);
         userModified.setPassword(passwordEncoder.encode(userModified.getPassword()));
-        return userMapper.userEntity2UserResponseDto(userRepository.save(userModified));
+        userModified = repository.save(userModified);
+        return mapper.map(userModified, UserResponseDto.class);
     }
     
     public UserResponseDto getLoggerUserData(String auth){
         String jwt = auth.substring(7);
-        User user = userRepository.findByEmail(jwtUtils.extractUsername(jwt));
-        return userMapper.userEntity2UserResponseDto(user);
+        User user = repository.findByEmail(jwtUtils.extractUsername(jwt));
+        return mapper.map(user, UserResponseDto.class);
     }
 
     public List<UserDto> getAll() {
-        List<User> list = userRepository.findAll();
+        List<User> list = repository.findAll();
         if (list.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        return userMapper.userEntityList2UserDtoList(list);
+        return mapper.mapAll(list, UserDto.class);
     }
 
     public void delete(Long id) {

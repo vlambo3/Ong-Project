@@ -12,4 +12,7 @@ public interface IMemberService {
     List<MemberResponseDto> findAll();
 
     MemberResponseDto update(MemberRequestDto dto, Long id);
+
+    void delete(Long id);
+
 }

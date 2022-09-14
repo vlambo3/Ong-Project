@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 import static org.springframework.http.HttpMethod.*;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,20 +27,10 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeRequests()
+
                 .antMatchers("/auth/*").permitAll()
-                .antMatchers("/users*").hasRole("ADMIN")
-                .antMatchers("/slides").hasRole("ADMIN")
-                .antMatchers("/activities").hasRole("ADMIN")
-                .antMatchers("/categories").hasRole("ADMIN")
-                .antMatchers("/news").hasRole("ADMIN")
-                .antMatchers("/categories/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST ,"/testimonials").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/testimonials/*").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/organization/public").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET,"/news").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/contacts").permitAll()
-                .antMatchers(HttpMethod.GET,"/contacts").hasRole("ADMIN")
-                .antMatchers("/users/*",
+
+                .antMatchers("/users",
                         "/slides",
                         "/activities",
                         "/categories",
@@ -55,6 +44,15 @@ public class SecurityConfiguration {
                         "/configuration/**",
                         "/api/docs"
                 ).hasRole("DEVELOPER")
+                .antMatchers(
+                        "/users*",
+                        "/members/**",
+                        "/slides",
+                        "/activities",
+                        "/categories/**",
+                        "/news",
+                        "/testimonials/{id}"
+                ).hasRole("ADMIN")
                 .antMatchers(POST, "/testimonials").hasRole("ADMIN")
                 .antMatchers(PUT, "/testimonials/*").hasRole("ADMIN")
                 .antMatchers(POST, "/organization/public").hasRole("ADMIN")
@@ -63,6 +61,8 @@ public class SecurityConfiguration {
                 .antMatchers(GET, "/news").hasRole("ADMIN")
                 .antMatchers(PUT,"/slides/{id}").hasRole("ADMIN")
                 .antMatchers(DELETE,"/slides/{id}").hasRole("ADMIN")
+                .antMatchers(GET,"/users/me").hasAnyRole("ADMIN","USER")
+
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(STATELESS)

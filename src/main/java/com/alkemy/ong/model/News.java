@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "news")
-@SQLDelete(sql = "UPDATE deleted SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE news SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
 @Data
 public class News {
