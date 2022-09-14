@@ -91,7 +91,7 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage
                     ("slide.list.empty", null, Locale.ENGLISH));
         }
-        Collections.sort(slides, Comparator.comparing(SlideResponseDTO::getPosition));
+        Collections.sort(slides, Comparator.comparing(SlideResponseDto::getPosition));
 
         return slides;
     }
