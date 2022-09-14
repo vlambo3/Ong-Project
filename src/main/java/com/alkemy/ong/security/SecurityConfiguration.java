@@ -27,9 +27,16 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(
-                        "/auth/*"
-                ).permitAll()
+
+                .antMatchers("/auth/*").permitAll()
+
+                .antMatchers("/users",
+                        "/slides",
+                        "/activities",
+                        "/categories",
+                        "/news",
+                        "/categories/{id}",
+                        "/testimonials/{id}").hasRole("ADMIN")
                 .antMatchers(
                         "/v2/api-docs/**",
                         "/swagger-ui/**",
@@ -54,6 +61,8 @@ public class SecurityConfiguration {
                 .antMatchers(GET, "/news").hasRole("ADMIN")
                 .antMatchers(PUT,"/slides/{id}").hasRole("ADMIN")
                 .antMatchers(DELETE,"/slides/{id}").hasRole("ADMIN")
+                .antMatchers(GET,"/users/me").hasAnyRole("ADMIN","USER")
+
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(STATELESS)
