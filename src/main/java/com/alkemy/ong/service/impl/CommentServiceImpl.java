@@ -2,7 +2,6 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.comment.CommentRequestDto;
 import com.alkemy.ong.dto.comment.CommentResponseDto;
-import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.model.Comment;
 import com.alkemy.ong.service.ICommentService;
@@ -37,8 +36,7 @@ public class CommentServiceImpl implements ICommentService {
 
     }
 
-
-   // @Override
+    @Override
     public void delete(Authentication aut, Long id) {
         try {
             if (checkId(aut, id)) {
@@ -47,7 +45,7 @@ public class CommentServiceImpl implements ICommentService {
                 commentRepository.save(entity);
             }
         }catch (Exception e){
-            throw new NullPointerException(messageSource.getMessage("comment.not.null", null, Locale.US));
+            throw new NullPointerException(messageSource.getMessage("comment.not.found", null, Locale.US));
         }
     }
 
@@ -57,21 +55,11 @@ public class CommentServiceImpl implements ICommentService {
         if (commentEntityOptional.isPresent()) {
             Comment comment = commentEntityOptional.get();
             String emailUserCreator = comment.getUser().getEmail();
-            String authorityUser = String.valueOf(auth.getAuthorities().stream().count());
-            return (username.equals(emailUserCreator) || authorityUser.equals("ROLE_ADMIN"));
-        } else {
-            return false;
-        }
+            String authorityUser = String.valueOf((long) auth.getAuthorities().size());
+            return username.equals(emailUserCreator) || authorityUser.equals("ADMIN");
+        } else return false;
 
     }
-
-    @Override
-    public void existId (Long id){
-        if (!commentRepository.existsById(id)) {
-            throw new NotFoundException(messageSource.getMessage("comment.not.found", null, Locale.US));
-        }
-    }
-
 
     //TODO to review as required
     // @Override

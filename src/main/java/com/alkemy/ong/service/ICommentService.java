@@ -9,10 +9,7 @@ public interface ICommentService {
     //TODO to review as required
     CommentResponseDto save(CommentRequestDto commentRequestDto);
 
-
      void delete(Authentication auth, Long id);
-
-    void existId(Long id);
 
     //TODO to review as required
     CommentResponseDto put(Long id, CommentRequestDto edit);

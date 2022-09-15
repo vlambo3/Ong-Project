@@ -9,7 +9,7 @@ import java.util.List;
 public interface ISlideService {
 
     SlideResponseDto create(SlideRequestDto dto);
-
+    SlideResponseDto update(SlideRequestDto dto, Long id);
     List<SlideBasicResponseDto> getAll();
 
 }

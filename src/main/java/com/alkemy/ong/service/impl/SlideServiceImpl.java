@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 
 @Service
@@ -81,7 +82,7 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage
                     ("slide.list.empty", null, Locale.ENGLISH));
         }
-        slides.sort(Comparator.comparing(SlideResponseDTO::getPosition));
+        slides.sort(Comparator.comparing(SlideResponseDto::getPosition));
 
         return slides;
     }
