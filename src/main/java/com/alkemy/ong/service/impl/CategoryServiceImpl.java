@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements ICategoryService {
             categories.forEach(c -> {
                 if (c.getName().equalsIgnoreCase(dto.getName())) {
                     throw new AlreadyExistsException(
-                            messageSource.getMessage("already-exists", new Object[] { "Category name" }, Locale.US));
+                            messageSource.getMessage("category-name-already-exists", null, Locale.US));
                 }
             });
 
@@ -59,8 +59,7 @@ public class CategoryServiceImpl implements ICategoryService {
             categorySaved = repository.save(category);
         } catch (Exception e) {
             throw new UnableToSaveEntityException(
-                    messageSource.getMessage("unable-to-save-entity", new Object[] { "the new Category: " }, Locale.US)
-                    + e.getMessage());
+                    messageSource.getMessage("unable-to-save-category", null, Locale.US));
         }
 
         return mapper.map(categorySaved, CategoryResponseDto.class);
@@ -92,7 +91,7 @@ public class CategoryServiceImpl implements ICategoryService {
             repository.save(updatedEntity);
             return mapper.map(updatedEntity, CategoryResponseDto.class);
         }catch (Exception e){
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"Category"},Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-category", null,Locale.US));
         }
     }
 
@@ -102,14 +101,14 @@ public class CategoryServiceImpl implements ICategoryService {
             entity.setUpdateDate(LocalDateTime.now());
             repository.deleteById(id);
         } catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-category", null, Locale.US));
         }
     }
 
     private Category getCategoryById(Long id) {
         Optional<Category> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Category" } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("category-not-found", null, Locale.US));
         return entity.get();
     }
 

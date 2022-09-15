@@ -33,7 +33,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
             entity = repository.save(entity);
             return mapper.map(entity, TestimonialResponseDto.class);
         } catch (Exception e){
-            throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-entity", null, Locale.US));
+            throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-testimonial", null, Locale.US));
         }
     }
 
@@ -48,14 +48,14 @@ public class TestimonialServiceImpl implements ITestimonialService {
             updatedEntity = repository.save(updatedEntity);
             return mapper.map(updatedEntity, TestimonialResponseDto.class);
         } catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity", new Object[] { "Testimonial" }, Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-testimonial", null, Locale.US));
         }
     }
 
     private Testimonial getTestimonialById(Long id) {
         Optional<Testimonial> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("testimonial-not-found", null , Locale.US));
         return entity.get();
     }
 
@@ -66,7 +66,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
             repository.save(entity);
             repository.deleteById(id);
         }catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-testimonial", null, Locale.US));
         }
     }
 
