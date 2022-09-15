@@ -16,6 +16,6 @@ public class CommentResponseDto {
 
     private Long id;
     private String body;
-    private Long user_id;
-    private Long news_id;
+    private Long userId;
+    private Long newsId;
 }

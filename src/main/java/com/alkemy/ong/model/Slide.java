@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "slides")
@@ -19,8 +22,8 @@ public class Slide {
     private Long id;
 
     @NotNull(message = "field imageUrl cannot be null")
-    @Column(name = "image_url", length = 100,nullable = false)
-    private String imageUrl;
+    @Column(name = "image", length = 100,nullable = false)
+    private String image;
 
     @Column(nullable = true,length = 150)
     private String text;
@@ -35,5 +38,13 @@ public class Slide {
 
     @Column(name = "organization_Id")
     private Long organizationId;
+
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
+    private LocalDateTime creationDate = LocalDateTime.now();
+
+    @UpdateTimestamp
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 
 }

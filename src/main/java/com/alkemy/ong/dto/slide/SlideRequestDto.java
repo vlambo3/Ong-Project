@@ -12,7 +12,7 @@ import org.springframework.lang.Nullable;
 @AllArgsConstructor
 public class SlideRequestDto {
 
-    private String imageUrl;
+    private String image;
     private String text;
     @Nullable
     private Integer position;

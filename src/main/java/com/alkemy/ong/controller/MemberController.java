@@ -41,7 +41,7 @@ public class MemberController {
         return ResponseEntity.status(OK).body(service.findAll());
     }
    /*@GetMapping
-   public Page<MemberResponseDto> findAllWhitPage(@PageableDefault (page = 0, size = 10)
+   public Page<MemberResponseDto> findAllMembersWhitPage(@PageableDefault (page = 0, size = 10)
                                                           @SortDefault.SortDefaults({
                                                                   @SortDefault(sort = "name", direction = Sort.Direction.ASC)
                                                           })Pageable pageable){

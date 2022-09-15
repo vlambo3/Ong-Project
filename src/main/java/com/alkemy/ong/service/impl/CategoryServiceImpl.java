@@ -10,6 +10,7 @@ import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 
 import com.alkemy.ong.exception.*;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.alkemy.ong.dto.category.CategoryRequestDto;
 import com.alkemy.ong.dto.category.CategoryResponseDto;
 
-import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.model.Category;
 import com.alkemy.ong.repository.CategoryRepository;
 
@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
     private final CategoryRepository repository;
     private final MessageSource messageSource;
-    private final CategoryMapper mapper;
+    private final GenericMapper mapper;
 
     @Override
     public CategoryResponseDto create(CategoryRequestDto dto) {
@@ -45,8 +45,7 @@ public class CategoryServiceImpl implements ICategoryService {
                 }
             });
 
-            Category category = mapper.categoryDto2CategoryEntity(dto);
-
+            Category category = mapper.map(dto, Category.class);
             category.setCreationDate(LocalDateTime.now());
             category.setUpdateDate(LocalDateTime.now());
 
@@ -64,14 +63,14 @@ public class CategoryServiceImpl implements ICategoryService {
                     + e.getMessage());
         }
 
-        return mapper.CategoryEntity2CategoryDto(categorySaved);
+        return mapper.map(categorySaved, CategoryResponseDto.class);
     }
 
     public List<CategoryNameDto> getAll() {
         List<Category> entities = repository.findAll();
         if (entities.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        return mapper.CategoryEntityList2CategoryNameDtoList(entities);
+        return mapper.mapAll(entities, CategoryNameDto.class);
     }
 
     public CategoryResponseDto getById(Long id) {
@@ -79,19 +78,19 @@ public class CategoryServiceImpl implements ICategoryService {
             throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
         }
         Category entity = getCategoryById(id);
-        return mapper.CategoryEntity2CategoryDto(entity);
+        return mapper.map(entity, CategoryResponseDto.class);
     }
 
     @Override
     public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
+        Category entity = getCategoryById(id);
         try{
-            Optional<Category> exists = repository.findById(id);
-            if (!exists.isPresent()) {
-                throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"Category"}, Locale.US));
-            }
-            Category category = mapper.categoryDto2CategoryEntity(dto);
-            category.setId(id);
-            return mapper.CategoryEntity2CategoryDto(repository.save(category));
+            Category updatedEntity = mapper.map(dto, Category.class);
+            updatedEntity.setId(entity.getId());
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            repository.save(updatedEntity);
+            return mapper.map(updatedEntity, CategoryResponseDto.class);
         }catch (Exception e){
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"Category"},Locale.US));
         }
@@ -110,7 +109,7 @@ public class CategoryServiceImpl implements ICategoryService {
     private Category getCategoryById(Long id) {
         Optional<Category> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Category" } ,Locale.US));
         return entity.get();
     }
 
