@@ -61,16 +61,16 @@ public class CommentServiceImpl implements ICommentService {
             }
         }
         Optional<Comment> exists = repository.findById(id);
-        if (!exists.isPresent()){
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[]{id}, Locale.US));
+        if (exists.isEmpty()){
+            throw new NotFoundException(messageSource.getMessage("comment-not-found",null, Locale.US));
         }
         try{
             Comment comment = mapper.map(edit, Comment.class);
             comment.setId(id);
             return mapper.map(repository.save(comment), CommentResponseDto.class);
         }catch (Exception e){
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",
-                    new Object[]{id},Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-comment",
+                    null, Locale.US));
         }
     }
 
@@ -78,7 +78,7 @@ public class CommentServiceImpl implements ICommentService {
     private Comment getCommentById(Long id) {
         Optional<Comment> comment = repository.findById(id);
         if(comment.isEmpty()){
-            throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{id}, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("comment-not-found", null, Locale.US));
         }
         return comment.get();
     }
