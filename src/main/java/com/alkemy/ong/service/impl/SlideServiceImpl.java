@@ -19,11 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
 import java.util.*;
-
-
 @Service
 @RequiredArgsConstructor
 public class SlideServiceImpl implements ISlideService {
@@ -91,7 +88,9 @@ public class SlideServiceImpl implements ISlideService {
             throw new EmptyListException(messageSource.getMessage
                     ("empty-list", null, Locale.US));
         }
+
         Collections.sort(slides, Comparator.comparing(SlideResponseDto::getPosition));
+
 
         return slides;
     }

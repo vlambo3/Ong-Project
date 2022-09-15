@@ -1,8 +1,13 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.comment.CommentBodyResponseDto;
 import com.alkemy.ong.dto.comment.CommentRequestDto;
 import com.alkemy.ong.dto.comment.CommentResponseDto;
+
+import com.alkemy.ong.exception.EmptyListException;
+
 import com.alkemy.ong.exception.ForbiddenException;
+
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.GenericMapper;
@@ -11,9 +16,13 @@ import com.alkemy.ong.security.auth.UserService;
 import com.alkemy.ong.security.dto.UserResponseDto;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.ICommentService;
+
+import java.util.List;
+
 import com.alkemy.ong.repository.CommentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +34,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements ICommentService {
-
 
     private final CommentRepository repository;
     private final GenericMapper mapper;
@@ -81,6 +89,15 @@ public class CommentServiceImpl implements ICommentService {
             throw new NotFoundException(messageSource.getMessage("comment-not-found", null, Locale.US));
         }
         return comment.get();
+    }
+
+    @Override
+    public List<CommentBodyResponseDto> getAllCommentBodies() {
+        List<Comment> bodies = repository.findAllByOrderByNewsCreationDateAsc();
+        if(bodies.isEmpty()){
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        }
+        return mapper.mapAll(bodies, CommentBodyResponseDto.class);
     }
 
 }
