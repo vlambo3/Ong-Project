@@ -19,11 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDateTime;
 import java.util.*;
-
-
 @Service
 @RequiredArgsConstructor
 public class SlideServiceImpl implements ISlideService {
@@ -44,11 +41,11 @@ public class SlideServiceImpl implements ISlideService {
 
     public SlideResponseDto getById(Long id) {
         if (id < 1) {
-            throw new BadRequestException(messageSource.getMessage("invalid-id", new Object[] { id }, Locale.US));
+            throw new BadRequestException(messageSource.getMessage("error-negative-id", null, Locale.US));
         }
         Slide slide = slideRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(
-                        messageSource.getMessage("not-found", new Object[] { "Slide" }, Locale.US)));
+                        messageSource.getMessage("slide-not-found", null, Locale.US)));
 
         return mapper.map(slide, SlideResponseDto.class);
     }
@@ -89,9 +86,11 @@ public class SlideServiceImpl implements ISlideService {
 
         if (slides.isEmpty()) {
             throw new EmptyListException(messageSource.getMessage
-                    ("slide.list.empty", null, Locale.ENGLISH));
+                    ("empty-list", null, Locale.US));
         }
+
         Collections.sort(slides, Comparator.comparing(SlideResponseDto::getPosition));
+
 
         return slides;
     }
@@ -122,14 +121,14 @@ public class SlideServiceImpl implements ISlideService {
     public void delete(Long id){
         Optional<Slide> exists = slideRepository.findById(id);
         if (exists.isEmpty()){
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[]{id},Locale.US));
+            throw new NotFoundException(messageSource.getMessage("slide-not-found",null, Locale.US));
         }
         try {
             Slide slide = exists.get();
             slide.setUpdateDate(LocalDateTime.now());
             slideRepository.delete(slide);
         }catch (Exception e){
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity",new Object[]{id},Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-slide",null, Locale.US));
         }
     }
 }

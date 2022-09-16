@@ -21,8 +21,6 @@ public class GenericMapper implements Serializable {
     @Value("${alkemy.pageQueryLink}")
     private String pageQueryLink;
 
-    //private String queryParam = "?page=";
-
     public <S, D> D map(S source, Class<D> destinationClass) {
         return mapper.map(source, destinationClass);
     }

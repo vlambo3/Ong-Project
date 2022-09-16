@@ -39,7 +39,7 @@ public class NewsServiceImpl implements INewsService {
     private News getNewsById(Long id) {
         Optional<News> news = repository.findById(id);
         if(news.isEmpty()){
-            throw new NotFoundException(messageSource.getMessage("news.not-found", null, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("news-not-found", null, Locale.US));
         }
         return news.get();
     }
@@ -62,7 +62,7 @@ public class NewsServiceImpl implements INewsService {
         news.forEach(n -> {
             if(repository.findByName(n.getName()).equalsIgnoreCase(dto.getName())) {
                 throw new AlreadyExistsException(
-                        messageSource.getMessage("already-exists", new Object[] { "Category name" }, Locale.US));
+                        messageSource.getMessage("news-name-already-exists", null, Locale.US));
             }
         });
         News entity = mapper.map(dto, News.class);
@@ -87,7 +87,7 @@ public class NewsServiceImpl implements INewsService {
             updatedEntity = repository.save(updatedEntity);
             return mapper.map(updatedEntity, NewsResponseDto.class);
         }catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity",new Object[]{"News"},Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-news",null, Locale.US));
         }
     }
 

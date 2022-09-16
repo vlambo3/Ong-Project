@@ -1,6 +1,5 @@
 package com.alkemy.ong.dto.news;
 
-import com.alkemy.ong.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

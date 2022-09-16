@@ -35,7 +35,7 @@ public class ContactServiceImpl implements IContactService {
             emailService.sendEmail(savedEntity.getEmail());
             return mapper.map(savedEntity, ContactResponseDto.class);
         } catch (Exception e) {
-            throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-entity", null, Locale.US));
+            throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-contact", null, Locale.US));
         }
     }
 
