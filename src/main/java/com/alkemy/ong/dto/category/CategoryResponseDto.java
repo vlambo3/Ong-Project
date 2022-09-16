@@ -1,7 +1,6 @@
 package com.alkemy.ong.dto.category;
 
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +15,8 @@ public class CategoryResponseDto {
     private Long id;
     private String name;
     private String description;
-    private Timestamp creationTimestamp;
-    private Timestamp updateTimeStamp;
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
     private String image;
-    private Boolean deleted;
 
 }

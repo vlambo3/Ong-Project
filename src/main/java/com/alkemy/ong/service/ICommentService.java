@@ -1,21 +1,24 @@
 package com.alkemy.ong.service;
 
+
 import com.alkemy.ong.dto.comment.CommentBasicResponseDto;
+import java.util.List;
+import com.alkemy.ong.dto.comment.CommentBodyResponseDto;
 import com.alkemy.ong.dto.comment.CommentRequestDto;
 import com.alkemy.ong.dto.comment.CommentResponseDto;
+import org.springframework.security.core.Authentication;
 
-import java.util.List;
+
 
 public interface ICommentService {
 
-    //TODO to review as required
+
     CommentResponseDto save(CommentRequestDto commentRequestDto);
 
-    //TODO to review as required
-    void delete(Long id);
+    void delete(Authentication auth, Long id);
+    CommentResponseDto update(Long id, CommentRequestDto edit,String auth);
 
-    //TODO to review as required
-    CommentResponseDto put(Long id, CommentRequestDto edit);
+    List<CommentBodyResponseDto> getAllCommentBodies();
 
     List<CommentBasicResponseDto> getAllCommentsByNewsId(Long id);
 
