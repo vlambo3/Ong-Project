@@ -1,13 +1,14 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.PageDto;
+
+import com.alkemy.ong.dto.comment.CommentBasicResponseDto;
 import com.alkemy.ong.dto.news.NewsRequestDto;
 import com.alkemy.ong.dto.news.NewsResponseDto;
-import com.alkemy.ong.model.News;
+import com.alkemy.ong.service.ICommentService;
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.service.INewsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,8 @@ import java.util.List;
 public class NewsController {
 
     private final INewsService service;
+
+    private final ICommentService commentService;
 
     @GetMapping("/{id}")
     public ResponseEntity<NewsResponseDto> getById(@PathVariable Long id)  {
@@ -48,6 +51,13 @@ public class NewsController {
     public ResponseEntity<?> update(@Valid @RequestBody NewsRequestDto news, @PathVariable Long id) {
         NewsResponseDto newResponse = service.update(news, id);
         return new ResponseEntity<>(newResponse, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/{id}/comments")
+    public ResponseEntity<List<CommentBasicResponseDto>> getCommentsByNewsId(@Valid @PathVariable Long id){
+        List<CommentBasicResponseDto> comments = commentService.getAllCommentsByNewsId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(comments);
     }
 
 
