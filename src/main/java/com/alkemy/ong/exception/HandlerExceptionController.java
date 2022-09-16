@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpStatus.*;
 
-
-import com.amazonaws.services.workdocs.model.EntityNotExistsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -43,7 +43,8 @@ public class SecurityConfiguration {
                         "/swagger-resources/**",
                         "/configuration/**",
                         "/api/docs"
-                ).hasRole("DEVELOPER")
+                ).permitAll()
+                /*.hasRole("DEVELOPER")*/
                 .antMatchers(
                         "/users*",
                         "/members/**",
