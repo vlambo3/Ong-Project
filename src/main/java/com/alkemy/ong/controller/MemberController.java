@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.util.List;
 
+import com.alkemy.ong.dto.PageDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -35,19 +36,17 @@ public class MemberController {
         return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<MemberResponseDto>> findAll(){
         
         return ResponseEntity.status(OK).body(service.findAll());
     }
-   /*@GetMapping
-   public Page<MemberResponseDto> findAllMembersWhitPage(@PageableDefault (page = 0, size = 10)
-                                                          @SortDefault.SortDefaults({
-                                                                  @SortDefault(sort = "name", direction = Sort.Direction.ASC)
-                                                          })Pageable pageable){
-
-       return (Page<MemberResponseDto>) service.findAll(pageable);
-   }*/
+    @GetMapping
+    public ResponseEntity<PageDto<MemberResponseDto>> getPage(@RequestParam int page) {
+        PageDto<MemberResponseDto> pageDto = service.getPage(page);
+        return ResponseEntity.ok(pageDto);
+    }
+    
 
     @PutMapping("/{id}")
     public ResponseEntity<MemberResponseDto> updateMember(@Valid @RequestBody MemberRequestDto dto, @PathVariable Long id) {
