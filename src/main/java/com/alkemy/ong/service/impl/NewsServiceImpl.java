@@ -1,16 +1,18 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.news.NewsRequestDto;
 import com.alkemy.ong.dto.news.NewsResponseDto;
-import com.alkemy.ong.exception.AlreadyExistsException;
-import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.exception.UnableToUpdateEntityException;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.News;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.INewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,6 +42,18 @@ public class NewsServiceImpl implements INewsService {
             throw new NotFoundException(messageSource.getMessage("news-not-found", null, Locale.US));
         }
         return news.get();
+    }
+
+    public PageDto<NewsResponseDto> getPage(int pageNum) {
+        if (pageNum < 0)
+            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
+        Pageable pageable = PageRequest.of(pageNum, 10);
+        Page<News> page = repository.findAll(pageable);
+        if (pageNum == 0 && page.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        if (page.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
+        return mapper.mapPage(page, NewsResponseDto.class, "news");
     }
 
     public NewsResponseDto create(NewsRequestDto dto) {
