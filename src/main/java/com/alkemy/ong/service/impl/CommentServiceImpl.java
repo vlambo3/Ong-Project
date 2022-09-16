@@ -24,6 +24,7 @@ import com.alkemy.ong.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,27 @@ public class CommentServiceImpl implements ICommentService {
 
     //TODO to review as required
     @Override
-    public void delete(Long id) {
-    repository.deleteById(id);
+    public void delete(Authentication aut, Long id) {
+        try {
+            if (checkId(aut, id)) {
+                Comment entity = repository.getById(id);
+                entity.setDeleted(true);
+                repository.save(entity);
+            }
+        }catch (Exception e){
+            throw new NullPointerException(messageSource.getMessage("comment.not.found", null, Locale.US));
+        }
+    }
+
+    private boolean checkId(Authentication auth, Long id) {
+        String username = auth.getName();
+        var commentEntityOptional = repository.findById(id);
+        if (commentEntityOptional.isPresent()) {
+            Comment comment = commentEntityOptional.get();
+            String emailUserCreator = comment.getUser().getEmail();
+            String authorityUser = String.valueOf((long) auth.getAuthorities().size());
+            return username.equals(emailUserCreator) || authorityUser.equals("ADMIN");
+        } else return false;
     }
 
     @Override
