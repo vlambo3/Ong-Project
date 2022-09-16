@@ -42,6 +42,7 @@ public class SlideController {
         service.delete(id);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<SlideResponseDto> updateSlide(@Valid @RequestBody SlideRequestDto dto, @PathVariable Long id) {
         return ResponseEntity.status(OK).body(service.update(dto, id));
