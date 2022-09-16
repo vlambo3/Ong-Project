@@ -1,14 +1,14 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.comment.CommentBodyResponseDto;
+
+import com.alkemy.ong.dto.comment.CommentBasicResponseDto;
 import com.alkemy.ong.dto.comment.CommentRequestDto;
 import com.alkemy.ong.dto.comment.CommentResponseDto;
-
 import com.alkemy.ong.exception.EmptyListException;
-
-import com.alkemy.ong.exception.ForbiddenException;
-
+import com.alkemy.ong.exception.IdNullOrNegativeException;
 import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.dto.comment.CommentBodyResponseDto;
+import com.alkemy.ong.exception.ForbiddenException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Comment;
@@ -18,17 +18,12 @@ import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.ICommentService;
 
 import java.util.List;
-
 import com.alkemy.ong.repository.CommentRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -39,6 +34,9 @@ public class CommentServiceImpl implements ICommentService {
     private final CommentRepository repository;
     private final GenericMapper mapper;
     private final MessageSource messageSource;
+
+
+
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -53,10 +51,12 @@ public class CommentServiceImpl implements ICommentService {
 
         return mapper.map(savedComment, CommentResponseDto.class);
 
+
     }
 
-    //TODO to review as required
+
     @Override
+
     public void delete(Authentication aut, Long id) {
         try {
             if (checkId(aut, id)) {
@@ -66,8 +66,24 @@ public class CommentServiceImpl implements ICommentService {
             }
         }catch (Exception e){
             throw new NullPointerException(messageSource.getMessage("comment.not.found", null, Locale.US));
+
         }
     }
+
+
+    @Override
+    public List<CommentBasicResponseDto> getAllCommentsByNewsId(Long newsId) {
+        if(newsId == null || newsId < 0){
+            throw new IdNullOrNegativeException(messageSource.getMessage("id-null-or-negative", null, Locale.US));
+        }
+        List<Comment> comments = repository.findByNewsId(newsId);
+        if(comments.isEmpty()){
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        }
+        return mapper.mapAll(comments, CommentBasicResponseDto.class);
+    }
+
+
 
     private boolean checkId(Authentication auth, Long id) {
         String username = auth.getName();
@@ -87,6 +103,7 @@ public class CommentServiceImpl implements ICommentService {
             if (userResponseDto.getRole().getName().name() != "ADMIN"){
                 throw new ForbiddenException(messageSource.getMessage("forbidden",null,Locale.US));
             }
+
         }
         Optional<Comment> exists = repository.findById(id);
         if (exists.isEmpty()){
@@ -102,7 +119,7 @@ public class CommentServiceImpl implements ICommentService {
         }
     }
 
-    //TODO to review as required
+
     private Comment getCommentById(Long id) {
         Optional<Comment> comment = repository.findById(id);
         if(comment.isEmpty()){
@@ -119,5 +136,7 @@ public class CommentServiceImpl implements ICommentService {
         }
         return mapper.mapAll(bodies, CommentBodyResponseDto.class);
     }
+
+
 
 }
