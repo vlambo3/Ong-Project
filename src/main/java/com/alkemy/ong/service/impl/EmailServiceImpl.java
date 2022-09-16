@@ -52,7 +52,7 @@ public class EmailServiceImpl implements IEmailService {
             return response;
         } catch (Exception e) {
             throw new RuntimeException(messageSource.getMessage("error-sending-email",
-                                    new Object[] { toEmail }, Locale.US) + e.getMessage());
+                                    null, Locale.US));
         }
     }
 }

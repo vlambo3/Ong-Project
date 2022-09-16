@@ -8,9 +8,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -46,5 +49,12 @@ public class Comment {
 
     private boolean deleted = Boolean.FALSE;
 
+    @Column(name = "creation_date")
+    @CreationTimestamp
+    private LocalDateTime creationDate;
+
+    @Column(name = "update_date")
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
 
 }

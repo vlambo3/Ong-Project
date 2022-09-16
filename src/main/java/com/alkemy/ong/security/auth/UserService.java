@@ -3,18 +3,17 @@ package com.alkemy.ong.security.auth;
 import com.alkemy.ong.exception.AlreadyExistsException;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
-
+import com.alkemy.ong.exception.NotLoggedUserException;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.IEmailService;
-import com.alkemy.ong.security.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,43 +23,43 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final GenericMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticatorManager authenticatorManager;
     private final JwtUtils jwtUtils;
     private final CustomDetailsService userDetailsService;
     private final IEmailService emailService;
-
-
+    private final UserRepository repository;
     private final MessageSource messageSource;
+
     public UserResponseDto save(UserRequestDto dto) {
       
-        User userCheck = userRepository.findByEmail(dto.getEmail());
+        User userCheck = repository.findByEmail(dto.getEmail());
         if(userCheck != null)
-            throw new AlreadyExistsException(messageSource.getMessage("already-exists", new Object[]{"Email"},Locale.US));
+            throw new AlreadyExistsException(messageSource.getMessage("email-already-exists",null ,Locale.US));
 
-        User newUser = userMapper.userRequestDto2UserEntity(dto);
+        User newUser = mapper.map(dto, User.class);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser = userRepository.save(newUser);
+        newUser = repository.save(newUser);
 
-        UserResponseDto userResponseDto = userMapper.userEntity2UserResponseDto(newUser);
-        AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
+        UserResponseDto userResponseDto = mapper.map(newUser, UserResponseDto.class);
+        AuthenticationRequest authenticationRequest = mapper.map(dto, AuthenticationRequest.class);
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
-        //emailService.sendEmail(dto.getEmail());
+        emailService.sendEmail(userResponseDto.getEmail());
         return userResponseDto;
     }
 
 
 
     public UserResponseDto login (AuthenticationRequest authRequest) throws Exception {
-        User user = userRepository.findByEmail(authRequest.getEmail());
+        User user = repository.findByEmail(authRequest.getEmail());
         if(user == null)
             return null;
 
@@ -68,7 +67,7 @@ public class UserService {
         if(!decrypt.equalsIgnoreCase(user.getPassword()))
             return null;
 
-        return userMapper.userEntity2UserResponseDto(user);
+        return mapper.map(user, UserResponseDto.class);
     }
 
 
@@ -84,32 +83,49 @@ public class UserService {
 
             return new AuthenticationResponse(jwt);
         } else{
-            throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"User"},Locale.US));
+            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
         }
     }
 
 
-    public UserResponseDto update(UserRequestDto updateDto, Long id){
-        if (!userRepository.existsById(id)){
-            throw new NotFoundException(messageSource.getMessage("not-found", new Object[]{"User"},Locale.US));
+    public UserResponseDto update(UserRequestDto dto, Long id){
+        if (!repository.existsById(id)){
+            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
         }
-        User userModified = userMapper.userRequestDto2UserEntity(updateDto);
+        User userModified = mapper.map(dto, User.class);
         userModified.setId(id);
         userModified.setPassword(passwordEncoder.encode(userModified.getPassword()));
-        return userMapper.userEntity2UserResponseDto(userRepository.save(userModified));
+        userModified = repository.save(userModified);
+        return mapper.map(userModified, UserResponseDto.class);
     }
     
     public UserResponseDto getLoggerUserData(String auth){
         String jwt = auth.substring(7);
-        User user = userRepository.findByEmail(jwtUtils.extractUsername(jwt));
-        return userMapper.userEntity2UserResponseDto(user);
+        User user = repository.findByEmail(jwtUtils.extractUsername(jwt));
+        return mapper.map(user, UserResponseDto.class);
     }
 
     public List<UserDto> getAll() {
-        List<User> list = userRepository.findAll();
+        List<User> list = repository.findAll();
         if (list.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        return userMapper.userEntityList2UserDtoList(list);
+        return mapper.mapAll(list, UserDto.class);
     }
-    
+
+    public void delete(Long id) {
+        String user = getById(id).getEmail();
+        String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (user.equals(loggedUser))
+            repository.deleteById(id);
+        else
+            throw new NotLoggedUserException(messageSource.getMessage("not-logged-user", null, Locale.US));
+    }
+
+    private User getById(Long id) {
+        Optional<User> user = repository.findById(id);
+        if(user.isEmpty()){
+            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
+        }
+        return user.get();
+    }
 }

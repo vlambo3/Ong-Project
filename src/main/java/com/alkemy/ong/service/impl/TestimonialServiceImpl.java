@@ -6,7 +6,7 @@ import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.UnableToDeleteEntityException;
 import com.alkemy.ong.exception.UnableToSaveEntityException;
 import com.alkemy.ong.exception.UnableToUpdateEntityException;
-import com.alkemy.ong.mapper.TestimonialMapper;
+import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.service.ITestimonialService;
 import com.alkemy.ong.repository.TestimonialRepository;
@@ -23,38 +23,39 @@ import java.util.Optional;
 public class TestimonialServiceImpl implements ITestimonialService {
 
     private final TestimonialRepository repository;
-    private final TestimonialMapper mapper;
+    private final GenericMapper mapper;
     private final MessageSource messageSource;
 
     public TestimonialResponseDto save(TestimonialRequestDto dto) {
         try {
-            Testimonial entity = mapper.testimonialDto2TestimonialEntity(dto);
-            Testimonial savedEntity = repository.save(entity);
-            return mapper.testimonialEntity2testimonialDto(savedEntity);
+            Testimonial entity = mapper.map(dto, Testimonial.class);
+            entity.setCreationDate(LocalDateTime.now());
+            entity = repository.save(entity);
+            return mapper.map(entity, TestimonialResponseDto.class);
         } catch (Exception e){
-            throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-entity", null, Locale.US));
+            throw new UnableToSaveEntityException(messageSource.getMessage("unable-to-save-testimonial", null, Locale.US));
         }
     }
 
     public TestimonialResponseDto update(TestimonialRequestDto dto, Long id) {
         Testimonial entity = getTestimonialById(id);
         try {
-            entity.setName(dto.getName());
+            Testimonial updatedEntity = mapper.map(dto, Testimonial.class);
+            updatedEntity.setId(entity.getId());
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
             // TODO: Implement image service
-            entity.setImage(dto.getImage());
-            entity.setContent(dto.getContent());
-            entity.setUpdateDate(LocalDateTime.now());
-            repository.save(entity);
-            return mapper.testimonialEntity2testimonialDto(entity);
+            updatedEntity = repository.save(updatedEntity);
+            return mapper.map(updatedEntity, TestimonialResponseDto.class);
         } catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-entity", new Object[] { "Testimonial" }, Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-testimonial", null, Locale.US));
         }
     }
 
     private Testimonial getTestimonialById(Long id) {
         Optional<Testimonial> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Entity with Id: " + id } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("testimonial-not-found", null , Locale.US));
         return entity.get();
     }
 
@@ -65,7 +66,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
             repository.save(entity);
             repository.deleteById(id);
         }catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { id }, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-testimonial", null, Locale.US));
         }
     }
 

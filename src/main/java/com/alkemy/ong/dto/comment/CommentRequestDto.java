@@ -16,8 +16,8 @@ public class CommentRequestDto {
     @NotBlank(message = "Body can't be null or empty")
     private String body;
     @NotNull(message = "User can't be null.")
-    private Long user_id;
+    private Long userId;
     @NotNull(message = "News can't be null or empty")
-    private Long news_id;
+    private Long newsId;
 
 }

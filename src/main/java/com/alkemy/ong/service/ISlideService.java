@@ -12,4 +12,9 @@ public interface ISlideService {
     SlideResponseDto update(SlideRequestDto dto, Long id);
     List<SlideBasicResponseDto> getAll();
 
+    SlideResponseDto getById(Long id);
+
+    SlideResponseDto update(SlideRequestDto dto, Long id);
+
+    void delete(Long id);
 }

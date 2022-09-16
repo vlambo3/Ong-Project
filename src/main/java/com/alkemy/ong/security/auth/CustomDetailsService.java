@@ -1,10 +1,10 @@
 package com.alkemy.ong.security.auth;
 
-import com.alkemy.ong.enums.RoleEnum;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,26 +12,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import static java.util.Collections.singletonList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Locale;
 
-@AllArgsConstructor
+import static java.util.Collections.singletonList;
+
 @Service
+@RequiredArgsConstructor
 public class CustomDetailsService implements UserDetailsService {
 
-    @Autowired
-    private final UserRepository userRepository;
+    private final UserRepository repository;
+    private final MessageSource messageSource;
+
     @Override
     public UserDetails loadUserByUsername (String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        User user = repository.findByEmail(email);
         if(user == null) {
-            throw new UsernameNotFoundException("Username not found");
+            throw new UsernameNotFoundException(messageSource.getMessage("username-not-found", null, Locale.US));
         }
-
         GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().getName());
-
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), singletonList(authority));
     }
