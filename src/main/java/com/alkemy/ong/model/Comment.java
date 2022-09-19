@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE comments SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Comment {
 
     @Id
@@ -51,4 +55,5 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime updateDate;
 
+    private boolean deleted = Boolean.FALSE;
 }

@@ -32,7 +32,7 @@ public class ActivityServiceImpl implements IActivityService {
         activities.forEach (a -> {
             if (repository.findByName(a.getName()).equalsIgnoreCase(dto.getName())) {
                 throw new AlreadyExistsException(
-                        messageSource.getMessage("already-exists", new Object[] { "Category name" }, Locale.US));
+                        messageSource.getMessage("activity-name-already-exists", null, Locale.US));
             }
         });
 
@@ -55,14 +55,14 @@ public class ActivityServiceImpl implements IActivityService {
             return mapper.map(updatedActivity, ActivityResponseDTO.class);
         } catch (Exception e) {
             throw new UnableToUpdateEntityException(
-                    messageSource.getMessage("unable-to-update-entity", new Object[]{id}, Locale.US));
+                    messageSource.getMessage("unable-to-update-activity", null, Locale.US));
         }
     }
 
     private Activity getActivityById(Long id) {
         return repository.findById(id).orElseThrow(
                 ()-> new NotFoundException(
-                messageSource.getMessage("not-found", new Object[] { "Activity" }, Locale.US))
+                messageSource.getMessage("activity-not-found", null, Locale.US))
                 );
     }
 

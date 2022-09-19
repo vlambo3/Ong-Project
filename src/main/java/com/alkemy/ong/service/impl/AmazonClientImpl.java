@@ -13,9 +13,11 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.Base64;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
@@ -23,11 +25,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 
 @Service
+@RequiredArgsConstructor
 public class AmazonClientImpl implements IAmazonClient {
 
     private static final Logger logger = LoggerFactory.getLogger(AmazonClientImpl.class);
+    private final MessageSource messageSource;
 
     private AmazonS3 s3;
 
@@ -60,7 +65,7 @@ public class AmazonClientImpl implements IAmazonClient {
             file.delete();
             return new Image(fileName, fileUrl);
         } catch (AmazonServiceException | IOException e) {
-            throw new UnableToSaveEntityException("s3 amazon not available for save File");
+            throw new UnableToSaveEntityException(messageSource.getMessage("amazon-unable-to-save-file", null, Locale.US));
         }
     }
 

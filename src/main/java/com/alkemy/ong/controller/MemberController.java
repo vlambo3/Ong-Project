@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import com.alkemy.ong.dto.PageDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,11 +51,17 @@ public class MemberController {
                     content = @Content(schema = @Schema(implementation = MemberResponseDto.class),mediaType = "application/json")),
             @ApiResponse(responseCode = "500",description = "Internal Server Error")
     })
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<MemberResponseDto>> findAll(){
         
         return ResponseEntity.status(OK).body(service.findAll());
     }
+    @GetMapping
+    public ResponseEntity<PageDto<MemberResponseDto>> getPage(@RequestParam int page) {
+        PageDto<MemberResponseDto> pageDto = service.getPage(page);
+        return ResponseEntity.ok(pageDto);
+    }
+    
 
     @ApiOperation(value = "Update a member",notes = "update a member's details")
     @ApiResponses(value = {

@@ -1,10 +1,17 @@
 package com.alkemy.ong.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.alkemy.ong.exception.CustomExceptionDetails;
+import com.fasterxml.classmate.TypeResolver;
+
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.AlternateTypeRule;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -21,6 +28,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
+                .alternateTypeRules(getAllAlternateTypeForResponseEntity())
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
@@ -57,6 +65,14 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 "www.license.com",
                 Collections.emptyList()
         );
+    }
+
+    //TODO: intento de que swagger detecte el modelo, pero no funciona.
+    private AlternateTypeRule getAllAlternateTypeForResponseEntity(){
+        TypeResolver typeResolver = new TypeResolver();
+        return AlternateTypeRules.newRule(
+            typeResolver.resolve(CustomExceptionDetails.class),
+            typeResolver.resolve(Void.class));
     }
 
 }
