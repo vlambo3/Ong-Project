@@ -31,7 +31,7 @@ public class CategoryController {
         return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryNameDto>> getAll() {
         List<CategoryNameDto> list = service.getAll();
         return ResponseEntity.ok(list);
