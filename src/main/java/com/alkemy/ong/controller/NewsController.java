@@ -1,14 +1,19 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.news.NewsRequestDto;
 import com.alkemy.ong.dto.news.NewsResponseDto;
+import com.alkemy.ong.model.News;
 import com.alkemy.ong.service.INewsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/news")
@@ -20,6 +25,12 @@ public class NewsController {
     @GetMapping("/{id}")
     public ResponseEntity<NewsResponseDto> getById(@PathVariable Long id)  {
         return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<PageDto<NewsResponseDto>> getPage(@RequestParam int page) {
+        PageDto<NewsResponseDto> pageDto = service.getPage(page);
+        return ResponseEntity.ok(pageDto);
     }
 
     @PostMapping

@@ -22,6 +22,14 @@ public class SecurityConfiguration {
 
     private final JwtRequestFilter jwtFilter;
 
+    private final String[] developerRole = {"/v2/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
+            "/configuration/**", "/api/docs"};
+    private final String[] userRolePost = {"/comments", "/contacts", "/members"};
+    private final String[] userRoleGet = {"/auth/me", "/categories", "/members", "/news", "/organization/public",
+            "/posts/*/comments", "/testimonials", "/users/me"};
+    private final String[] userRolePut = {"/comments/*", "/members/*"};
+    private final String[] userRoleDelete = {"/comments/*", "/users/*"};
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -30,6 +38,19 @@ public class SecurityConfiguration {
 
                 .antMatchers("/auth/*").permitAll()
 
+                .antMatchers(developerRole).permitAll()
+
+                .antMatchers(POST, userRolePost).hasAnyRole("ADMIN", "USER")
+                .antMatchers(GET, userRoleGet).hasAnyRole("ADMIN", "USER")
+                .antMatchers(PUT, userRolePut).hasAnyRole("ADMIN", "USER")
+                .antMatchers(DELETE, userRoleDelete).hasAnyRole("ADMIN", "USER")
+
+                .antMatchers(POST, "/**").hasRole("ADMIN")
+                .antMatchers(GET, "/**").hasRole("ADMIN")
+                .antMatchers(PUT, "/**").hasRole("ADMIN")
+                .antMatchers(DELETE, "/**").hasRole("ADMIN")
+
+                /*
                 .antMatchers("/users",
                         "/slides",
                         "/activities",
@@ -43,7 +64,8 @@ public class SecurityConfiguration {
                         "/swagger-resources/**",
                         "/configuration/**",
                         "/api/docs"
-                ).hasRole("DEVELOPER")
+                ).permitAll()
+                .hasRole("DEVELOPER")
                 .antMatchers(
                         "/users*",
                         "/members/**",
@@ -62,6 +84,7 @@ public class SecurityConfiguration {
                 .antMatchers(PUT,"/slides/{id}").hasRole("ADMIN")
                 .antMatchers(DELETE,"/slides/{id}").hasRole("ADMIN")
                 .antMatchers(GET,"/users/me").hasAnyRole("ADMIN","USER")
+                 */
 
                 .anyRequest().authenticated()
                 .and()

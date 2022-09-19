@@ -18,10 +18,8 @@ public class GenericMapper implements Serializable {
 
     private final ModelMapper mapper;
 
-    @Value("${alkemy.pageLink}")
-    private String pageLink;
-
-    private String queryParam = "?page=";
+    @Value("${alkemy.pageQueryLink}")
+    private String pageQueryLink;
 
     public <S, D> D map(S source, Class<D> destinationClass) {
         return mapper.map(source, destinationClass);
@@ -36,9 +34,9 @@ public class GenericMapper implements Serializable {
     public <P, D> PageDto<D> mapPage(Page<P> page, Class<D> destinationClass, String classPath) {
         PageDto<D> dto = new PageDto<>();
         if (!page.isFirst())
-            dto.setPreviousPage(pageLink + classPath + queryParam + (page.getNumber() - 1));
+            dto.setPreviousPage(String.format(pageQueryLink, classPath) + (page.getNumber() - 1));
         if (!page.isLast())
-            dto.setNextPage(pageLink + classPath + queryParam + (page.getNumber() + 1));
+            dto.setNextPage(String.format(pageQueryLink, classPath) + (page.getNumber() + 1));
         dto.setContent(mapAll(page.getContent(), destinationClass));
         return dto;
     }

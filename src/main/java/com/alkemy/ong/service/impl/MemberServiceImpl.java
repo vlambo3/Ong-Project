@@ -44,8 +44,7 @@ public class MemberServiceImpl implements IMemberService {
             memberSaved = repository.save(member);
         } catch (Exception e) {
             throw new UnableToSaveEntityException(
-                    messageSource.getMessage("error-saving", new Object[]{"the new Member: "}, Locale.US)
-                            + e.getMessage());
+                    messageSource.getMessage("unable-to-save-member", null, Locale.US));
         }
 
         return mapper.map(memberSaved, MemberResponseDto.class);
@@ -80,14 +79,14 @@ public class MemberServiceImpl implements IMemberService {
             entity.setUpdateDate(LocalDateTime.now());
             repository.deleteById(id);
         } catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-entity", new Object[] { "Member", id }, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-member", null, Locale.US));
         }
     }
 
     private Member getMemberById(Long id) {
         Optional<Member> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("not-found",new Object[] { "Member with id " + id } ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("member-not-found", null ,Locale.US));
         return entity.get();
     }
 
