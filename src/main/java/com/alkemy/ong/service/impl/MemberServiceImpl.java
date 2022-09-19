@@ -65,9 +65,10 @@ public class MemberServiceImpl implements IMemberService {
 
     @Override
     public PageDto<MemberResponseDto> getPage(int pageNum) {
+        int size = 10;
         if (pageNum < 0)
             throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
-        Pageable pageable = PageRequest.of(pageNum, 10);
+        Pageable pageable = PageRequest.of(pageNum, size);
         Page<Member> page = repository.findAll(pageable);
         if (pageNum == 0 && page.isEmpty())
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
