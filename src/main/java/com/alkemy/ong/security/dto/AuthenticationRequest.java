@@ -1,5 +1,6 @@
 package com.alkemy.ong.security.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@Builder
 public class AuthenticationRequest {
     @NotNull(message = "Username cannot be null")
     @Email(message = "Username must be an email")
