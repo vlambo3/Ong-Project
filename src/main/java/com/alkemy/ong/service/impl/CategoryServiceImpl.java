@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.category.CategoryNameDto;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
@@ -13,6 +14,9 @@ import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.service.ICategoryService;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.alkemy.ong.dto.category.CategoryRequestDto;
@@ -111,5 +115,18 @@ public class CategoryServiceImpl implements ICategoryService {
             throw new NotFoundException(messageSource.getMessage("category-not-found", null, Locale.US));
         return entity.get();
     }
+
+    public PageDto<CategoryResponseDto> getPage(int pageNum) {
+        if (pageNum < 0)
+            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
+        Pageable pageable = PageRequest.of(pageNum, 10);
+        Page<Category> page = repository.findAll(pageable);
+        if (pageNum == 0 && page.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        if (page.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
+        return mapper.mapPage(page, CategoryResponseDto.class, "news");
+    }
+
 
 }

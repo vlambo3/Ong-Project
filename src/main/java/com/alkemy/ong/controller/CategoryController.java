@@ -5,25 +5,15 @@ import javax.validation.Valid;
 import static org.springframework.http.HttpStatus.CREATED;
 
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.category.CategoryNameDto;
-import com.alkemy.ong.dto.news.NewsResponseDto;
-import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
-import com.alkemy.ong.exception.CustomExceptionDetails;
-import com.alkemy.ong.model.Category;
-import com.alkemy.ong.repository.CategoryRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +25,6 @@ import com.alkemy.ong.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
@@ -44,6 +32,7 @@ import java.util.List;
 public class CategoryController {
 
     private final ICategoryService service;
+
 
     @ApiOperation(value = "Save a new Category", notes = "As an admin user, you can save a new category")
     @ApiResponses(value = {
@@ -67,7 +56,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN"),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to save entity in the database.")
     })
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryNameDto>> getAll() {
         List<CategoryNameDto> list = service.getAll();
         return ResponseEntity.ok(list);
@@ -121,5 +110,10 @@ public class CategoryController {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
+    @GetMapping
+    public ResponseEntity<PageDto<CategoryResponseDto>> getPage(@RequestParam int page) {
+        PageDto<CategoryResponseDto> pageDto = service.getPage(page);
+        return ResponseEntity.ok(pageDto);
+    }
 
 }
