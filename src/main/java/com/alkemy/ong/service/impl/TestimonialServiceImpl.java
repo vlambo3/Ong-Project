@@ -1,17 +1,18 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.testimonial.TestimonialRequestDto;
 import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
-import com.alkemy.ong.exception.NotFoundException;
-import com.alkemy.ong.exception.UnableToDeleteEntityException;
-import com.alkemy.ong.exception.UnableToSaveEntityException;
-import com.alkemy.ong.exception.UnableToUpdateEntityException;
+import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Testimonial;
 import com.alkemy.ong.service.ITestimonialService;
 import com.alkemy.ong.repository.TestimonialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,6 +69,18 @@ public class TestimonialServiceImpl implements ITestimonialService {
         }catch (Exception e) {
             throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-testimonial", null, Locale.US));
         }
+    }
+
+    public PageDto<TestimonialResponseDto> getPage(int pageNum) {
+        if (pageNum < 0)
+            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
+        Pageable pageable = PageRequest.of(pageNum, 10);
+        Page<Testimonial> page = repository.findAll(pageable);
+        if (pageNum == 0 && page.isEmpty())
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        if (page.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
+        return mapper.mapPage(page, TestimonialResponseDto.class, "testimonials");
     }
 
 }

@@ -1,6 +1,8 @@
 package com.alkemy.ong.exception;
 
-public class BadRequestException extends RuntimeException{
+import org.springframework.security.web.firewall.RequestRejectedException;
+
+public class BadRequestException extends RequestRejectedException{
 
     public BadRequestException(String message){
         super(message);

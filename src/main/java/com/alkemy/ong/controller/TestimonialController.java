@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.testimonial.TestimonialRequestDto;
 import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
 import com.alkemy.ong.exception.CustomExceptionDetails;
@@ -78,4 +79,9 @@ public class TestimonialController {
         return new ResponseEntity<>(OK);
     }
 
+    @GetMapping
+    public ResponseEntity<PageDto<TestimonialResponseDto>> getPage(@RequestParam int page) {
+        PageDto<TestimonialResponseDto> testimonialDto = service.getPage(page);
+        return ResponseEntity.ok(testimonialDto);
+    }
 }

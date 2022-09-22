@@ -1,6 +1,7 @@
 package com.alkemy.ong.security.auth;
 
 import com.alkemy.ong.exception.AlreadyExistsException;
+import com.alkemy.ong.exception.BadRequestException;
 import com.alkemy.ong.exception.EmptyListException;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.exception.NotLoggedUserException;
@@ -39,10 +40,10 @@ public class UserService {
     private final MessageSource messageSource;
 
     public UserResponseDto save(UserRequestDto dto) {
-      
+
         User userCheck = repository.findByEmail(dto.getEmail());
-        if(userCheck != null)
-            throw new AlreadyExistsException(messageSource.getMessage("email-already-exists",null ,Locale.US));
+        if (userCheck != null)
+            throw new AlreadyExistsException(messageSource.getMessage("email-already-exists", null, Locale.US));
 
         User newUser = mapper.map(dto, User.class);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -56,25 +57,24 @@ public class UserService {
         return userResponseDto;
     }
 
-
-
-    public UserResponseDto login (AuthenticationRequest authRequest) throws Exception {
+    public UserResponseDto login(AuthenticationRequest authRequest) throws Exception {
         User user = repository.findByEmail(authRequest.getEmail());
-        if(user == null)
+        if (user == null)
             return null;
 
         String decrypt = passwordEncoder.encode(authRequest.getPassword());
-        if(!decrypt.equalsIgnoreCase(user.getPassword()))
+        if (!decrypt.equalsIgnoreCase(user.getPassword()))
             return null;
 
         return mapper.map(user, UserResponseDto.class);
     }
 
+    public AuthenticationResponse authenticate(AuthenticationRequest dto) {
+        final Authentication authentication = authenticatorManager
+                .authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
 
-    public AuthenticationResponse authenticate(AuthenticationRequest dto){
-        final Authentication authentication = authenticatorManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
-
-        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)
+                && authentication.isAuthenticated()) {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -82,14 +82,13 @@ public class UserService {
             final String jwt = jwtUtils.generateToken(userDetails);
 
             return new AuthenticationResponse(jwt);
-        } else{
+        } else {
             throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
         }
     }
 
-
-    public UserResponseDto update(UserRequestDto dto, Long id){
-        if (!repository.existsById(id)){
+    public UserResponseDto update(UserRequestDto dto, Long id) {
+        if (!repository.existsById(id)) {
             throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
         }
         User userModified = mapper.map(dto, User.class);
@@ -98,8 +97,11 @@ public class UserService {
         userModified = repository.save(userModified);
         return mapper.map(userModified, UserResponseDto.class);
     }
-    
-    public UserResponseDto getLoggerUserData(String auth){
+
+    public UserResponseDto getLoggerUserData(String auth) {
+        if(auth.trim().isEmpty()){
+            throw new BadRequestException(messageSource.getMessage("invalid-token", null, Locale.US));
+        }
         String jwt = auth.substring(7);
         User user = repository.findByEmail(jwtUtils.extractUsername(jwt));
         return mapper.map(user, UserResponseDto.class);
@@ -112,18 +114,19 @@ public class UserService {
         return mapper.mapAll(list, UserDto.class);
     }
 
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         String user = getById(id).getEmail();
         String loggedUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (user.equals(loggedUser))
+        if (user.equals(loggedUser)) {
             repository.deleteById(id);
-        else
+            return true;
+        } else
             throw new NotLoggedUserException(messageSource.getMessage("not-logged-user", null, Locale.US));
     }
 
     private User getById(Long id) {
         Optional<User> user = repository.findById(id);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
         }
         return user.get();
