@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TestimonialRepository extends JpaRepository<Testimonial, Long> {
 
-    Page<Testimonial> findAllPage(Pageable pageable);
+    Page<Testimonial> findAll(Pageable pageable);
 
 }
