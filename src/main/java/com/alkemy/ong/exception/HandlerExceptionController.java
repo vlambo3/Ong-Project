@@ -4,10 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpStatus.*;
 
+import org.springframework.security.web.firewall.RequestRejectedException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException.Forbidden;
 
 @RestControllerAdvice
 public class HandlerExceptionController {
@@ -20,7 +23,9 @@ public class HandlerExceptionController {
     }
 
     @ResponseStatus(FORBIDDEN)
-    @ExceptionHandler({NotLoggedUserException.class})
+    @ExceptionHandler({ NotLoggedUserException.class,
+            Forbidden.class,
+            ForbiddenException.class })
     @ResponseBody
     public CustomExceptionDetails forbidden(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
@@ -44,7 +49,9 @@ public class HandlerExceptionController {
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler({ BadRequestException.class,
-            ArithmeticException.class
+            ArithmeticException.class,
+            MissingRequestHeaderException.class,
+            RequestRejectedException.class
     })
     @ResponseBody
     public CustomExceptionDetails badRequest(HttpServletRequest request, Exception exception) {
