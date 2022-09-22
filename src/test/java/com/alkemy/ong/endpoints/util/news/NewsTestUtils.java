@@ -94,8 +94,6 @@ public class NewsTestUtils {
 
     public List<CommentBasicResponseDto> generateCommentList() {
         return new ArrayList<>();
-        //List<CommentBasicResponseDto> list = new ArrayList<>();
-        //return list;
     }
 
 }
