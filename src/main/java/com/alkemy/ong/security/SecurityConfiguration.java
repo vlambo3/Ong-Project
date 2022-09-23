@@ -50,42 +50,6 @@ public class SecurityConfiguration {
                 .antMatchers(PUT, "/**").hasRole("ADMIN")
                 .antMatchers(DELETE, "/**").hasRole("ADMIN")
 
-                /*
-                .antMatchers("/users",
-                        "/slides",
-                        "/activities",
-                        "/categories",
-                        "/news",
-                        "/categories/{id}",
-                        "/testimonials/{id}").hasRole("ADMIN")
-                .antMatchers(
-                        "/v2/api-docs/**",
-                        "/swagger-ui/**",
-                        "/swagger-resources/**",
-                        "/configuration/**",
-                        "/api/docs"
-                ).permitAll()
-                .hasRole("DEVELOPER")
-                .antMatchers(
-                        "/users*",
-                        "/members/**",
-                        "/slides",
-                        "/activities",
-                        "/categories/**",
-                        "/news",
-                        "/testimonials/{id}"
-                ).hasRole("ADMIN")
-                .antMatchers(POST, "/testimonials").hasRole("ADMIN")
-                .antMatchers(PUT, "/testimonials/*").hasRole("ADMIN")
-                .antMatchers(POST, "/organization/public").hasRole("ADMIN")
-                .antMatchers(POST, "/contacts").permitAll()
-                .antMatchers(GET, "/contacts").hasRole("ADMIN")
-                .antMatchers(GET, "/news").hasRole("ADMIN")
-                .antMatchers(PUT,"/slides/{id}").hasRole("ADMIN")
-                .antMatchers(DELETE,"/slides/{id}").hasRole("ADMIN")
-                .antMatchers(GET,"/users/me").hasAnyRole("ADMIN","USER")
-                 */
-
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(STATELESS)

@@ -1,6 +1,8 @@
 package com.alkemy.ong.security.dto;
 
 import com.alkemy.ong.security.model.Role;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder
 public class UserRequestDto {
 
     @NotNull(message = "first name cannot be null")
