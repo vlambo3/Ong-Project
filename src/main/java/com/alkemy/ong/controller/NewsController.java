@@ -27,12 +27,12 @@ public class NewsController implements INewsController {
     private final ICommentService commentService;
 
     @PostMapping
-    public ResponseEntity<NewsResponseDto> create(@Valid @RequestBody NewsRequestDto dto) {
+    public ResponseEntity<NewsResponseDto> createNews(@Valid @RequestBody NewsRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<NewsResponseDto> getById(@PathVariable Long id)  {
+    public ResponseEntity<NewsResponseDto> getNewsById(@PathVariable Long id)  {
         return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
     }
 
@@ -49,12 +49,12 @@ public class NewsController implements INewsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<NewsResponseDto> update(@Valid @PathVariable Long id, @RequestBody NewsRequestDto news) {
+    public ResponseEntity<NewsResponseDto> updateNews(@Valid @PathVariable Long id, @RequestBody NewsRequestDto news) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(news, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteNews(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

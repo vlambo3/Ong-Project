@@ -29,7 +29,7 @@ public interface INewsController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN."),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to save entity in the database.")
     })
-    ResponseEntity<NewsResponseDto> create(@Valid @RequestBody @Parameter(description = "Request DTO for add a new News.") NewsRequestDto dto);
+    ResponseEntity<NewsResponseDto> createNews(@Valid @RequestBody @Parameter(description = "Request DTO for add a new News.") NewsRequestDto dto);
 
 
     @ApiOperation(value = "Get news by ID.", notes = "As an admin user, you can get a news by his ID.")
@@ -41,7 +41,7 @@ public interface INewsController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND - Resource not found with the ID entered."),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system.")
     })
-    ResponseEntity<NewsResponseDto> getById(@Parameter(description = "ID to find news.") @PathVariable Long id);
+    ResponseEntity<NewsResponseDto> getNewsById(@Parameter(description = "ID to find news.") @PathVariable Long id);
 
 
     @ApiOperation(value = "Get news info grouped by a maximum of ten pages.", notes = "As an user, you can get a list of all news by page, grouped by a maximum of ten pages.")
@@ -76,7 +76,7 @@ public interface INewsController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND - Resource not found with the ID entered."),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to update news.")
     })
-    ResponseEntity<NewsResponseDto> update(@Parameter(description = "ID to find news.") @PathVariable Long id,
+    ResponseEntity<NewsResponseDto> updateNews(@Parameter(description = "ID to find news.") @PathVariable Long id,
                                            @Parameter(description = "Request DTO to update news data.") @Valid @RequestBody NewsRequestDto news);
 
 
@@ -90,7 +90,7 @@ public interface INewsController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND - Resource not found with the ID entered."),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to delete news.")
     })
-    ResponseEntity<Void> delete(
+    ResponseEntity<Void> deleteNews(
             @Parameter(description = "ID to find news") @PathVariable Long id);
 
 }
