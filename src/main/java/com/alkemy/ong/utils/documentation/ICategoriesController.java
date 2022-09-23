@@ -1,6 +1,5 @@
 package com.alkemy.ong.utils.documentation;
 
-import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.category.CategoryNameDto;
 import com.alkemy.ong.dto.category.CategoryRequestDto;
 import com.alkemy.ong.dto.category.CategoryResponseDto;
@@ -31,6 +30,38 @@ public interface ICategoriesController {
     ResponseEntity<CategoryResponseDto> addNewCategory(@RequestBody @Valid @Parameter(description = "Request DTO for add a new Category") CategoryRequestDto dto);
 
 
+    @ApiOperation(value = "Get Category by ID", notes = "As an admin user, you can get a category by his ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "CREATED - Resource is fetched successfully", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryResponseDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system..")
+    })
+    ResponseEntity<CategoryResponseDto> getById(@Parameter(description = "ID to find category") @PathVariable Long id);
+
+
+    @ApiOperation(value = "Get all Categories", notes = "As an admin user, you can get a list of all categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "CREATED - Resource is fetched successfully", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryNameDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system..")
+    })
+    ResponseEntity<List<CategoryNameDto>> getAll();
+
+
+    @ApiOperation(value = "Get Categories info grouped by a maximum of ten pages", notes = "As an user, you can get a list of all categories by page, grouped by a maximum of ten pages")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK - Resource is fetched successfully", content = @Content),
+            //TODO change categoryResponseDto ---> PageDto
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system.")
+    })
+    ResponseEntity<?> getPage(@RequestParam int page);
+
+
     @ApiOperation(value = "Update categories by ID", notes = "As an admin user, you can update a category entering the ID and modifying the fields of the DTO")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK - The resource was found successfully", content = {
@@ -55,41 +86,8 @@ public interface ICategoriesController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND - Resource not found with the ID entered"),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to delete categories")
     })
-    ResponseEntity deleteCategory(
+    ResponseEntity<Void> deleteCategory(
             @Parameter(description = "ID to find category") @PathVariable Long id);
 
 
-    @ApiOperation(value = "Get Category by ID", notes = "As an admin user, you can get a category by his ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "CREATED - Resource is fetched successfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryResponseDto.class))
-            }),
-            @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system..")
-    })
-    ResponseEntity<CategoryResponseDto> getById(@Parameter(description = "ID to find category") @PathVariable Long id);
-
-
-    @ApiOperation(value = "Get all Categories", notes = "As an admin user, you can get a list of all categories")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "CREATED - Resource is fetched successfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryNameDto.class))
-            }),
-            @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system..")
-    })
-    ResponseEntity<List<CategoryNameDto>> getAll();
-
-    @ApiOperation(value = "Get Categories info grouped by a maximum of ten pages", notes = "As an user, you can get a list of all categories by page, grouped by a maximum of ten pages")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK - Resource is fetched successfully", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryResponseDto.class))
-            }),
-            //TODO change categoryResponseDto ---> PageDto
-            @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged"),
-            @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system.")
-    })
-    ResponseEntity<PageDto<CategoryResponseDto>> getPage(@RequestParam int page);
-
-    
 }

@@ -30,17 +30,6 @@ public class CategoryController implements ICategoriesController {
         return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> updateCategory(Long id, CategoryRequestDto dto) {
-        return ResponseEntity.ok(service.update(id, dto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(Long id) {
-        service.delete(id);
-        return ResponseEntity.status(NO_CONTENT).build();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDto> getById(Long id) {
         return ResponseEntity.status(OK).body(service.getById(id));
@@ -52,7 +41,20 @@ public class CategoryController implements ICategoriesController {
     }
 
     @GetMapping
-    public ResponseEntity<PageDto<CategoryResponseDto>> getPage(int page) {
+    public ResponseEntity<?> getPage(int page) {
         return ResponseEntity.ok(service.getPage(page));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryResponseDto> updateCategory(Long id, CategoryRequestDto dto) {
+        return ResponseEntity.ok(service.update(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(Long id) {
+        service.delete(id);
+        return ResponseEntity.status(NO_CONTENT).build();
+    }
+
+
 }
