@@ -27,7 +27,7 @@ public class NewsController implements INewsController {
     private final ICommentService commentService;
 
     @PostMapping
-    public ResponseEntity<NewsResponseDto> createNews(@Valid @RequestBody NewsRequestDto dto) {
+    public ResponseEntity<NewsResponseDto> addNewNews(@Valid @RequestBody NewsRequestDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
     }
 

@@ -29,7 +29,7 @@ public interface INewsController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN."),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to save entity in the database.")
     })
-    ResponseEntity<NewsResponseDto> createNews(@Valid @RequestBody @Parameter(description = "Request DTO for add a new News.") NewsRequestDto dto);
+    ResponseEntity<NewsResponseDto> addNewNews(@Valid @RequestBody @Parameter(description = "Request DTO for add a new News.") NewsRequestDto dto);
 
 
     @ApiOperation(value = "Get news by ID.", notes = "As an admin user, you can get a news by his ID.")
