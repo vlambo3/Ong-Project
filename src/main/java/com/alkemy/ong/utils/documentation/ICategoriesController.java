@@ -90,4 +90,6 @@ public interface ICategoriesController {
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system.")
     })
     ResponseEntity<PageDto<CategoryResponseDto>> getPage(@RequestParam int page);
+
+    
 }
