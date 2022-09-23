@@ -101,6 +101,18 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+
+		<dependency>
+			<artifactId>junit-vintage-engine</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>hamcrest-core</artifactId>
+					<groupId>org.hamcrest</groupId>
+				</exclusion>
+			</exclusions>
+			<groupId>org.junit.vintage</groupId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
