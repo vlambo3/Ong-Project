@@ -44,7 +44,7 @@ public class NewsController {
                             schema = @Schema(implementation = CustomExceptionDetails.class))})
     })
     @GetMapping("/{id}")
-    public ResponseEntity<NewsResponseDto> getById(@PathVariable Long id)  {
+    public ResponseEntity<NewsResponseDto> getById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
     }
 
@@ -56,6 +56,7 @@ public class NewsController {
 
     @Operation(summary = "Create New.")
     @ApiResponses(value = {
+
             @ApiResponse(responseCode = "201", description = "Created New.",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = NewsResponseDto.class))}),
@@ -111,7 +112,7 @@ public class NewsController {
     }
 
     @GetMapping("/{id}/comments")
-    public ResponseEntity<List<CommentBasicResponseDto>> getCommentsByNewsId(@Valid @PathVariable Long id){
+    public ResponseEntity<List<CommentBasicResponseDto>> getCommentsByNewsId(@Valid @PathVariable Long id) {
         List<CommentBasicResponseDto> comments = commentService.getAllCommentsByNewsId(id);
         return ResponseEntity.status(HttpStatus.OK).body(comments);
     }

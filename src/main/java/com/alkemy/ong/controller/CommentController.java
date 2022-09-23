@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-
-
 import static org.springframework.http.HttpStatus.CREATED;
 
 import java.util.List;
@@ -42,24 +40,24 @@ public class CommentController {
     private final ICommentService service;
 
     @PostMapping
-    public ResponseEntity<CommentResponseDto> addNewComment(@RequestBody @Valid CommentRequestDto dto){
+    public ResponseEntity<CommentResponseDto> addNewComment(@RequestBody @Valid CommentRequestDto dto) {
         return ResponseEntity.status(CREATED).body(service.save(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentBodyResponseDto>> getAllCommentBodies(){
+    public ResponseEntity<List<CommentBodyResponseDto>> getAllCommentBodies() {
         return ResponseEntity.status(OK).body(service.getAllCommentBodies());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponseDto> update(@RequestBody @Valid CommentRequestDto dto,
                                                      @PathVariable Long id,
-                                                     @RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization){
-        return ResponseEntity.ok(service.update(id,dto,authorization));
+                                                     @RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization) {
+        return ResponseEntity.ok(service.update(id, dto, authorization));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?>  delete(Authentication auth, @PathVariable Long id) {
+    public ResponseEntity<?> delete(Authentication auth, @PathVariable Long id) {
         service.delete(auth, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
