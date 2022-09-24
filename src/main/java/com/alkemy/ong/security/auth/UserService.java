@@ -41,7 +41,7 @@ public class UserService {
     private final MessageSource messageSource;
 
     private final RolesRepository rolesRepository;
-    public UserResponseDto save(UserRequestDto dto) {
+    public RegisterResponseDto save(UserRequestDto dto) {
 
         User userCheck = repository.findByEmail(dto.getEmail());
         if (userCheck != null)
@@ -52,25 +52,13 @@ public class UserService {
         newUser.setRole(rolesRepository.getById(2L));
         newUser = repository.save(newUser);
 
-        //UserResponseDto userResponseDto = mapper.map(newUser, UserResponseDto.class);
-
-        /*AuthenticationRequest authenticationRequest = mapper.map(dto, AuthenticationRequest.class);
-        AuthenticationResponse token = authenticate(authenticationRequest);
-        userResponseDto.setToken(token.getJwt());*/
-
-        /*UserResponseDto userResponseDto = userMapper.userEntity2UserResponseDto(newUser);
-        AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
-        AuthenticationResponse token = authenticate(authenticationRequest);
-        userResponseDto.setToken(token.getJwt());*/
-
-        UserResponseDto userResponseDto = mapper.map(newUser, UserResponseDto.class);
+        RegisterResponseDto registerResponseDto = mapper.map(newUser, RegisterResponseDto.class);
         AuthenticationRequest authenticationRequest = new AuthenticationRequest(dto.getEmail(), dto.getPassword());
         AuthenticationResponse token = authenticate(authenticationRequest);
-        userResponseDto.setToken(token.getJwt());
+        registerResponseDto.setToken(token.getJwt());
+        emailService.sendEmail(registerResponseDto.getEmail());
 
-        //userResponseDto.setToken(tokenRegister(userResponseDto.getEmail(), dto.getPassword()));
-        emailService.sendEmail(userResponseDto.getEmail());
-        return userResponseDto;
+        return registerResponseDto;
     }
 
     public String tokenRegister(String email, String password) {

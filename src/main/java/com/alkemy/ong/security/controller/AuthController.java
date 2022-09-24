@@ -18,7 +18,7 @@ public class AuthController {
 
 
    @PostMapping("/register")
-   public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
+   public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
        return ResponseEntity.ok(service.save(user));
    }
 
