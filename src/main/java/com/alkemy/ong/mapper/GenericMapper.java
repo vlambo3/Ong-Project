@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class GenericMapper implements Serializable {
+public class GenericMapper {
 
     private final ModelMapper mapper;
 

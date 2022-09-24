@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -27,12 +28,12 @@ public class Testimonial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name cannot be null")
     private String name;
 
     private String image;
 
-    @NotNull(message = "Content cannot be empty")
+    @NotBlank(message = "Content cannot be empty")
     private String content;
 
     @CreationTimestamp
