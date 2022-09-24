@@ -84,38 +84,6 @@ public class CategoryServiceImpl implements ICategoryService {
         return mapper.map(entity, CategoryResponseDto.class);
     }
 
-    @Override
-    public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
-        Category entity = getCategoryById(id);
-        try{
-            Category updatedEntity = mapper.map(dto, Category.class);
-            updatedEntity.setId(entity.getId());
-            updatedEntity.setCreationDate(entity.getCreationDate());
-            updatedEntity.setUpdateDate(LocalDateTime.now());
-            repository.save(updatedEntity);
-            return mapper.map(updatedEntity, CategoryResponseDto.class);
-        }catch (Exception e){
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-category", null,Locale.US));
-        }
-    }
-
-    public void delete(Long id) {
-        Category entity = getCategoryById(id);
-        try {
-            entity.setUpdateDate(LocalDateTime.now());
-            repository.deleteById(id);
-        } catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-category", null, Locale.US));
-        }
-    }
-
-    private Category getCategoryById(Long id) {
-        Optional<Category> entity = repository.findById(id);
-        if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("category-not-found", null, Locale.US));
-        return entity.get();
-    }
-
     public PageDto<CategoryResponseDto> getPage(int pageNum) {
         if (pageNum < 0)
             throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
@@ -128,5 +96,36 @@ public class CategoryServiceImpl implements ICategoryService {
         return mapper.mapPage(page, CategoryResponseDto.class, "news");
     }
 
+    @Override
+    public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
+        Category entity = getCategoryById(id);
+        try{
+            Category updatedEntity = mapper.map(dto, Category.class);
+            updatedEntity.setId(entity.getId());
+            updatedEntity.setCreationDate(entity.getCreationDate());
+            updatedEntity.setUpdateDate(LocalDateTime.now());
+            repository.save(updatedEntity);
+            return mapper.map(updatedEntity, CategoryResponseDto.class);
+        }catch (Exception e){
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-category", new Object[] {id},Locale.US));
+        }
+    }
+
+    public void delete(Long id) {
+        Category entity = getCategoryById(id);
+        try {
+            entity.setUpdateDate(LocalDateTime.now());
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-category", new Object[] {id}, Locale.US));
+        }
+    }
+
+    private Category getCategoryById(Long id) {
+        Optional<Category> entity = repository.findById(id);
+        if (entity.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("category-not-found", new Object[] {id}, Locale.US));
+        return entity.get();
+    }
 
 }

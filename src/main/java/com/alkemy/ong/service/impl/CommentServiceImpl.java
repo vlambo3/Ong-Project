@@ -80,7 +80,7 @@ public class CommentServiceImpl implements ICommentService {
             return mapper.map(comment, CommentResponseDto.class);
         }catch (Exception e){
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-comment",
-                    null, Locale.US));
+                    new Object[] {id}, Locale.US));
         }
     }
 
@@ -98,7 +98,7 @@ public class CommentServiceImpl implements ICommentService {
     private Comment getCommentById(Long id) {
         Optional<Comment> comment = repository.findById(id);
         if(comment.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("comment-not-found", null, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("comment-not-found", new Object[] {id}, Locale.US));
         return comment.get();
     }
 
