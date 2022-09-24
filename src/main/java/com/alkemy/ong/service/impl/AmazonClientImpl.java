@@ -55,7 +55,12 @@ public class AmazonClientImpl implements IAmazonClient {
                 .build();
     }
 
-    public Image uploadFile(MultipartFile multipartFile) {
+    public Image uploadFile(String base64, String fileName) {
+        MultipartFile image = this.base64ToImage(base64, fileName);
+        return this.uploadFile(image);
+    }
+
+    private Image uploadFile(MultipartFile multipartFile) {
 
         try {
             File file = convertMultiPartToFile(multipartFile);
@@ -84,13 +89,6 @@ public class AmazonClientImpl implements IAmazonClient {
     private void uploadFileTos3bucket(String fileName, File file) {
         s3.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-    }
-
-
-    @Override
-    public Image uploadFile(String base64, String fileName) {
-        MultipartFile image = this.base64ToImage(base64, fileName);
-        return this.uploadFile(image);
     }
 
     private MultipartFile base64ToImage(String encoded, String fileName) {
