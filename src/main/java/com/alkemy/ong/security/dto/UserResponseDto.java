@@ -23,6 +23,8 @@ public class UserResponseDto {
 
     private String photo;
 
+    private Role role;
+
     private String token;
 
 }
