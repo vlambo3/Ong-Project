@@ -99,12 +99,12 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public CommentResponseDto update(Long id, CommentRequestDto edit,String auth) {
         UserResponseDto userResponseDto = userService.getLoggerUserData(auth);
-        if (userResponseDto.getId() != repository.getById(id).getUserId()){
+        /*if (userResponseDto.getId() != repository.getById(id).getUserId()){
             if (userResponseDto.getRole().getName().name() != "ADMIN"){
                 throw new ForbiddenException(messageSource.getMessage("forbidden",null,Locale.US));
             }
 
-        }
+        }*/
         Optional<Comment> exists = repository.findById(id);
         if (exists.isEmpty()){
             throw new NotFoundException(messageSource.getMessage("comment-not-found",null, Locale.US));

@@ -8,6 +8,7 @@ import com.alkemy.ong.exception.NotLoggedUserException;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.model.User;
+import com.alkemy.ong.security.repository.RolesRepository;
 import com.alkemy.ong.security.repository.UserRepository;
 import com.alkemy.ong.security.jwt.JwtUtils;
 import com.alkemy.ong.service.IEmailService;
@@ -39,6 +40,7 @@ public class UserService {
     private final UserRepository repository;
     private final MessageSource messageSource;
 
+    private final RolesRepository rolesRepository;
     public UserResponseDto save(UserRequestDto dto) {
 
         User userCheck = repository.findByEmail(dto.getEmail());
@@ -47,14 +49,39 @@ public class UserService {
 
         User newUser = mapper.map(dto, User.class);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setRole(rolesRepository.getById(2L));
         newUser = repository.save(newUser);
 
+        //UserResponseDto userResponseDto = mapper.map(newUser, UserResponseDto.class);
+
+        /*AuthenticationRequest authenticationRequest = mapper.map(dto, AuthenticationRequest.class);
+        AuthenticationResponse token = authenticate(authenticationRequest);
+        userResponseDto.setToken(token.getJwt());*/
+
+        /*UserResponseDto userResponseDto = userMapper.userEntity2UserResponseDto(newUser);
+        AuthenticationRequest authenticationRequest = userMapper.userRequestDto2AuthenticationRequest(dto);
+        AuthenticationResponse token = authenticate(authenticationRequest);
+        userResponseDto.setToken(token.getJwt());*/
+
         UserResponseDto userResponseDto = mapper.map(newUser, UserResponseDto.class);
-        AuthenticationRequest authenticationRequest = mapper.map(dto, AuthenticationRequest.class);
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(dto.getEmail(), dto.getPassword());
         AuthenticationResponse token = authenticate(authenticationRequest);
         userResponseDto.setToken(token.getJwt());
+
+        //userResponseDto.setToken(tokenRegister(userResponseDto.getEmail(), dto.getPassword()));
         emailService.sendEmail(userResponseDto.getEmail());
         return userResponseDto;
+    }
+
+    public String tokenRegister(String email, String password) {
+        final Authentication authentication = authenticatorManager
+                .authenticate(new UsernamePasswordAuthenticationToken(email, password));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        final String jwt = jwtUtils.generateToken(userDetails);
+        return jwt;
     }
 
     public UserResponseDto login(AuthenticationRequest authRequest) throws Exception {
