@@ -88,7 +88,7 @@ public class MemberServiceImpl implements IMemberService {
             repository.save(updatedEntity);
             return mapper.map(updatedEntity, MemberResponseDto.class);
         } catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", null, Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", new Object[] {id}, Locale.US));
         }
     }
 
@@ -99,7 +99,7 @@ public class MemberServiceImpl implements IMemberService {
             repository.deleteById(id);
         } catch (Exception e) {
 
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-member", null, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-member", new Object[] {id}, Locale.US));
 
         }
     }
@@ -108,7 +108,7 @@ public class MemberServiceImpl implements IMemberService {
         Optional<Member> entity = repository.findById(id);
         if (entity.isEmpty())
 
-            throw new NotFoundException(messageSource.getMessage("member-not-found", null ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("member-not-found", new Object[] {id} ,Locale.US));
 
         return entity.get();
     }

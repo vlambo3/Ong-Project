@@ -55,14 +55,14 @@ public class ActivityServiceImpl implements IActivityService {
             return mapper.map(updatedActivity, ActivityResponseDTO.class);
         } catch (Exception e) {
             throw new UnableToUpdateEntityException(
-                    messageSource.getMessage("unable-to-update-activity", null, Locale.US));
+                    messageSource.getMessage("unable-to-update-activity", new Object[] {id}, Locale.US));
         }
     }
 
     private Activity getActivityById(Long id) {
         return repository.findById(id).orElseThrow(
                 ()-> new NotFoundException(
-                messageSource.getMessage("activity-not-found", null, Locale.US))
+                messageSource.getMessage("activity-not-found", new Object[] {id}, Locale.US))
                 );
     }
 
