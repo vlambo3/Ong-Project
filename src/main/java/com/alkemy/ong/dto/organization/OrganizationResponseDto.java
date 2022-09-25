@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizationResponseDTO implements Serializable {
+public class OrganizationResponseDto implements Serializable {
 
     private Long id;
     private String name;
