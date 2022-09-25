@@ -36,15 +36,18 @@ public class OrganizationServiceImpl implements IOrganizationService {
             return mapper.map(organization, OrganizationResponseDto.class);
         } else {
             Organization organization = repository.findAll().get(0);
-            Organization updatedOrganization = mapper.map(dto, Organization.class);
-            updatedOrganization.setId(organization.getId());
-            updatedOrganization.setCreationDate(organization.getCreationDate());
-            updatedOrganization.setUpdateDate(LocalDateTime.now());
-            updatedOrganization = repository.save(organization);
-            return mapper.map(updatedOrganization, OrganizationResponseDto.class);
+            organization.setName(dto.getName());
+            organization.setImage(dto.getImage());
+            organization.setAddress(dto.getAddress());
+            organization.setPhone(dto.getPhone());
+            organization.setEmail(dto.getEmail());
+            organization.setWelcomeText(dto.getWelcomeText());
+            organization.setAboutUs(dto.getAboutUs());
+            organization.setUpdateDate(LocalDateTime.now());
+            repository.save(organization);
+            return mapper.map(organization, OrganizationResponseDto.class);
         }
     }
-
 
     @Override
     public OrganizationResponseDto getPublicInfo() {
