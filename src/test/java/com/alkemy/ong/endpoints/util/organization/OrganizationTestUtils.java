@@ -1,5 +1,6 @@
 package com.alkemy.ong.endpoints.util.organization;
 
+import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.dto.organization.OrganizationRequestDto;
 import com.alkemy.ong.dto.organization.OrganizationResponseDto;
 import org.springframework.stereotype.Component;
@@ -29,12 +30,15 @@ public class OrganizationTestUtils {
         dto.setEmail("Organization email");
         dto.setWelcomeText("Organization welcomeText");
         dto.setAboutUs("Organization aboutUs");
-        //dto.setUpdateDate();
-        //dto.setUpdateDate();
-        //dto.setSlides();
-        dto.setFacebookUrl("Organization facebookUrl");
-        dto.setInstagramUrl("Organization instagramUrl");
-        dto.setLinkedinUrl("Organization linkedinUrl");
+        return dto;
+    }
+
+    public OrganizationBasicResponseDto generateBasicResponseDTO() {
+        OrganizationBasicResponseDto dto = new OrganizationBasicResponseDto();
+        dto.setName("Organization name");
+        dto.setImage("OrganizationImage.jpeg");
+        dto.setAddress("Organization address");
+        dto.setPhone("Organization phone");
         return dto;
     }
 
@@ -64,8 +68,8 @@ public class OrganizationTestUtils {
 
     public OrganizationRequestDto generateRequestDtoWithNullImage() {
         OrganizationRequestDto dto = new OrganizationRequestDto();
-        dto.setName(null);
-        dto.setImage("OrganizationImage.jpeg");
+        dto.setName("Organization name");
+        dto.setImage(null);
         dto.setAddress("Organization address");
         dto.setPhone("Organization phone");
         dto.setEmail("Organization email");
@@ -76,8 +80,8 @@ public class OrganizationTestUtils {
 
     public OrganizationRequestDto generateRequestDtoWithBlankImage() {
         OrganizationRequestDto dto = new OrganizationRequestDto();
-        dto.setName("");
-        dto.setImage("OrganizationImage.jpeg");
+        dto.setName("Organization name");
+        dto.setImage("");
         dto.setAddress("Organization address");
         dto.setPhone("Organization phone");
         dto.setEmail("Organization email");
@@ -88,12 +92,12 @@ public class OrganizationTestUtils {
 
     public OrganizationRequestDto generateRequestDtoWithNullWelcomeText() {
         OrganizationRequestDto dto = new OrganizationRequestDto();
-        dto.setName(null);
+        dto.setName("Organization name");
         dto.setImage("OrganizationImage.jpeg");
         dto.setAddress("Organization address");
         dto.setPhone("Organization phone");
         dto.setEmail("Organization email");
-        dto.setWelcomeText("Organization welcomeText");
+        dto.setWelcomeText(null);
         dto.setAboutUs("Organization aboutUs");
         return dto;
     }
@@ -105,7 +109,7 @@ public class OrganizationTestUtils {
         dto.setAddress("Organization address");
         dto.setPhone("Organization phone");
         dto.setEmail("Organization email");
-        dto.setWelcomeText("Organization welcomeText");
+        dto.setWelcomeText("");
         dto.setAboutUs("Organization aboutUs");
         return dto;
     }

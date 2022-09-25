@@ -1,5 +1,6 @@
 package com.alkemy.ong.endpoints.unit.controller;
 
+import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.dto.organization.OrganizationRequestDto;
 import com.alkemy.ong.dto.organization.OrganizationResponseDto;
 import com.alkemy.ong.endpoints.util.organization.OrganizationTestUtils;
@@ -22,6 +23,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,12 +43,13 @@ public class OrganizationControllerUnitTest {
     private ObjectMapper objectMapper;
     private OrganizationRequestDto requestDto;
     private OrganizationResponseDto responseDto;
+    private OrganizationBasicResponseDto basicResponseDto;
     private OrganizationRequestDto requestDtoWithNullName;
     private OrganizationRequestDto requestDtoWithBlankName;
-    private OrganizationRequestDto generateRequestDtoWithNullImage;
-    private OrganizationRequestDto generateRequestDtoWithBlankImage;
-    private OrganizationRequestDto generateRequestDtoWithNullWelcomeText;
-    private OrganizationRequestDto generateRequestDtoWithBlankWelcomeText;
+    private OrganizationRequestDto requestDtoWithNullImage;
+    private OrganizationRequestDto requestDtoWithBlankImage;
+    private OrganizationRequestDto requestDtoWithNullWelcomeText;
+    private OrganizationRequestDto requestDtoWithBlankWelcomeText;
 
 
     @BeforeEach
@@ -56,8 +59,7 @@ public class OrganizationControllerUnitTest {
                 .build();
         requestDto = utils.generateRequestDto();
         responseDto = utils.generateResponseDTO();
-        requestDtoWithNullName = utils.generateRequestDtoWithNullName();
-        requestDtoWithBlankName = utils.generateRequestDtoWithBlankName();
+        basicResponseDto = utils.generateBasicResponseDTO();
     }
 
     @Test
@@ -75,6 +77,7 @@ public class OrganizationControllerUnitTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void createOrganizationWithNullName() throws Exception {
+        requestDtoWithNullName = utils.generateRequestDtoWithNullName();
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDtoWithNullName))
@@ -86,6 +89,7 @@ public class OrganizationControllerUnitTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void createOrganizationWithBlankName() throws Exception {
+        requestDtoWithBlankName = utils.generateRequestDtoWithBlankName();
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDtoWithBlankName))
@@ -97,9 +101,10 @@ public class OrganizationControllerUnitTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void createOrganizationWithNullImage() throws Exception {
+        requestDtoWithNullImage = utils.generateRequestDtoWithNullImage();
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(generateRequestDtoWithNullImage))
+                        .content(objectMapper.writeValueAsString(requestDtoWithNullImage))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
@@ -108,9 +113,10 @@ public class OrganizationControllerUnitTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void createOrganizationWithBlankImage() throws Exception {
+        requestDtoWithBlankImage = utils.generateRequestDtoWithBlankImage();
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(generateRequestDtoWithBlankImage))
+                        .content(objectMapper.writeValueAsString(requestDtoWithBlankImage))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
@@ -119,9 +125,10 @@ public class OrganizationControllerUnitTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void createOrganizationWithNullWelcomeText() throws Exception {
+        requestDtoWithNullWelcomeText = utils.generateRequestDtoWithNullWelcomeText();
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(generateRequestDtoWithNullWelcomeText))
+                        .content(objectMapper.writeValueAsString(requestDtoWithNullWelcomeText))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
@@ -130,13 +137,23 @@ public class OrganizationControllerUnitTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     void createOrganizationWithBlankWelcomeText() throws Exception {
+        requestDtoWithBlankWelcomeText = utils.generateRequestDtoWithBlankWelcomeText();
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(generateRequestDtoWithBlankWelcomeText))
+                        .content(objectMapper.writeValueAsString(requestDtoWithBlankWelcomeText))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void getOrganizationUserNotAuthenticated() throws Exception {
+        mockMvc.perform(get("/organization/public")
+                        .contentType(APPLICATION_JSON)
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
 
 
 }
