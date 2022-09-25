@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
 import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
 import com.alkemy.ong.service.IOrganizationService;
@@ -21,9 +22,9 @@ public class OrganizationController {
     }
 
     @GetMapping("/public")
-    public ResponseEntity<OrganizationResponseDTO> getPublicInfo() {
-        OrganizationResponseDTO dtos = service.getPublicInfo();
-        return ResponseEntity.ok().body(dtos);
+    public ResponseEntity<OrganizationBasicResponseDto> getPublicInfo() {
+        OrganizationBasicResponseDto dto = service.getPublicInfo();
+        return ResponseEntity.ok().body(dto);
     }
     
 }
