@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -37,7 +38,7 @@ public class Comment {
     @Column(name = "user_id")
     private Long userId;
 
-    @NotNull(message = "Body can't be null.")
+    @NotBlank(message = "Body can't be null.")
     private String body;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

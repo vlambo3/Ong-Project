@@ -32,7 +32,7 @@ public interface ICategoriesController {
 
     @ApiOperation(value = "Get Category by ID", notes = "As an admin user, you can get a category by his ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "CREATED - Resource is fetched successfully", content = {
+            @ApiResponse(responseCode = "200", description = "OK - Get all categories", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = CategoryResponseDto.class))
             }),
             @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged / User logged whitout ROLE_ADMIN"),
@@ -55,11 +55,10 @@ public interface ICategoriesController {
     @ApiOperation(value = "Get Categories info grouped by a maximum of ten pages", notes = "As an user, you can get a list of all categories by page, grouped by a maximum of ten pages")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK - Resource is fetched successfully", content = @Content),
-            //TODO change categoryResponseDto ---> PageDto
             @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged"),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system.")
     })
-    ResponseEntity<?> getPage(@RequestParam int page);
+    ResponseEntity<?> getPage(@Parameter(description = "Number of page") @RequestParam int page);
 
 
     @ApiOperation(value = "Update categories by ID", notes = "As an admin user, you can update a category entering the ID and modifying the fields of the DTO")

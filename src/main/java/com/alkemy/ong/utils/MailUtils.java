@@ -299,10 +299,10 @@ public class MailUtils {
             "                                    <div\n" +
             "                                            style=\"font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1.5;text-align:left;color:#000000;\">\n" +
             "                                        <p style=\"text-align: center;\"><span\n" +
-            "                                                style=\"font-size: 24px;\"><strong>T&iacute;tulo</strong></span></p>\n" +
+            "                                                style=\"font-size: 24px;\"><strong>OT-278 TURKISH TEAM</strong></span></p>\n" +
             "                                        <p style=\"text-align: center;\">&nbsp;</p>\n" +
             "                                        <p style=\"text-align: center;\"><span\n" +
-            "                                                style=\"font-size: 16px;\">Texto del email</span></p>\n" +
+            "                                                style=\"font-size: 16px;\">WELCOME TO THE ONG SOMOS MAS</span></p>\n" +
             "                                    </div>\n" +
             "\n" +
             "                                </td>\n" +

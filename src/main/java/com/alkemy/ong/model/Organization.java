@@ -28,7 +28,7 @@ public class Organization {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @NotNull(message = "Field img cannot be null")
+    @NotBlank(message = "Field img cannot be null")
     @Column(nullable = false, length = 100)
     private String image;
 
