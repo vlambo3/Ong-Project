@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;

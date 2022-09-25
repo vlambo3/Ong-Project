@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 @Configuration
-public class ExceptionHandlerConfig {
+public class MessageSourceConfig {
 
     @Bean
     public ResourceBundleMessageSource messageSource(){

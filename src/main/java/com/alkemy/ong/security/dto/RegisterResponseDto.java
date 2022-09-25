@@ -1,6 +1,5 @@
 package com.alkemy.ong.security.dto;
 
-import com.alkemy.ong.security.model.Role;
 import lombok.*;
 
 @Getter

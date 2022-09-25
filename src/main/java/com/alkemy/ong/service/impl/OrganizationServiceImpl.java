@@ -3,8 +3,6 @@ package com.alkemy.ong.service.impl;
 import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
 import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
-import com.alkemy.ong.dto.slide.SlideResponseDto;
-import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;
@@ -15,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

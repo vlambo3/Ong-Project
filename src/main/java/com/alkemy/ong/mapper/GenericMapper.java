@@ -1,6 +1,5 @@
 package com.alkemy.ong.mapper;
 
-import java.io.Serializable;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
@@ -40,22 +39,4 @@ public class GenericMapper {
         dto.setContent(mapAll(page.getContent(), destinationClass));
         return dto;
     }
-
-    /*
-    -> Explicit mapping example:
-
-    public SlideResponseDto mapSlideToResponseDto(Slide slide){
-        return mapper.typeMap(Slide.class, SlideResponseDto.class)
-                     .addMapping(s -> s.getOrganizationId(), SlideResponseDto::setOrganizationId)
-                     .map(slide);
-    }
-
-    -> Skipping ID atribute example:
-
-    public SlideResponseDto mapSkippingId(Slide slide){
-        return mapper.typeMap(Slide.class, SlideResponseDto.class)
-                     .addMappings(m -> m.skip(SlideResponseDto::setId))
-                     .map(slide);
-    } 
-    */
 }
