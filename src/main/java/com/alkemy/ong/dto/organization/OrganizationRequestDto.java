@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizationRequestDTO {
+public class OrganizationRequestDto {
     @NotBlank(message = "The name cannot be empty or null")
     private String name;
     @NotBlank(message = "The image cannot be empty or null")

@@ -64,7 +64,6 @@ public class HandlerExceptionController {
             ArithmeticException.class,
             MissingRequestHeaderException.class,
             RequestRejectedException.class,
-            MethodArgumentNotValidException.class,
             NullPointerException.class
     })
     @ResponseBody

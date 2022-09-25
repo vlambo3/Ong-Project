@@ -1,6 +1,5 @@
 package com.alkemy.ong.mapper;
 
-import java.io.Serializable;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 

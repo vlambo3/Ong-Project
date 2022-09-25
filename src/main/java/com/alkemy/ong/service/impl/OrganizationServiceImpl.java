@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
-import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
+import com.alkemy.ong.dto.organization.OrganizationRequestDto;
+import com.alkemy.ong.dto.organization.OrganizationResponseDto;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
 import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.mapper.GenericMapper;
@@ -28,12 +28,12 @@ public class OrganizationServiceImpl implements IOrganizationService {
     private final SlideServiceImpl slideService;
 
     @Transactional
-    public OrganizationResponseDTO update(OrganizationRequestDTO dto) {
+    public OrganizationResponseDto update(OrganizationRequestDto dto) {
         if (repository.count() == 0) {
             Organization organization = mapper.map(dto, Organization.class);
             organization.setCreationDate(LocalDateTime.now());
             organization = repository.save(organization);
-            return mapper.map(organization, OrganizationResponseDTO.class);
+            return mapper.map(organization, OrganizationResponseDto.class);
         } else {
             Organization organization = repository.findAll().get(0);
             Organization updatedOrganization = mapper.map(dto, Organization.class);
@@ -41,18 +41,18 @@ public class OrganizationServiceImpl implements IOrganizationService {
             updatedOrganization.setCreationDate(organization.getCreationDate());
             updatedOrganization.setUpdateDate(LocalDateTime.now());
             updatedOrganization = repository.save(organization);
-            return mapper.map(updatedOrganization, OrganizationResponseDTO.class);
+            return mapper.map(updatedOrganization, OrganizationResponseDto.class);
         }
     }
 
 
     @Override
-    public OrganizationResponseDTO getPublicInfo() {
+    public OrganizationResponseDto getPublicInfo() {
         Optional<Organization> orgPublicInfo = repository.findAll().stream().findFirst();
         if (orgPublicInfo.isEmpty()) {
             throw new NotFoundException(messageSource.getMessage("not-found", null, Locale.US));
         }
-        OrganizationResponseDTO organization = mapper.map(orgPublicInfo.get(), OrganizationResponseDTO.class);
+        OrganizationResponseDto organization = mapper.map(orgPublicInfo.get(), OrganizationResponseDto.class);
         List<SlideResponseDto> slides = slideService.findByOrganizationId(organization.getId());
         organization.setSlides(slides);
         return organization;

@@ -2,7 +2,6 @@ package com.alkemy.ong.controller;
 
 import static org.springframework.http.HttpStatus.*;
 
-import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.category.CategoryNameDto;
 import com.alkemy.ong.utils.documentation.ICategoriesController;
 import io.swagger.annotations.Api;
