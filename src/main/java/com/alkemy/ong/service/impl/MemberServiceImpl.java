@@ -81,12 +81,15 @@ public class MemberServiceImpl implements IMemberService {
     public MemberResponseDto update(MemberRequestDto dto, Long id) {
         Member entity = getMemberById(id);
         try {
-            Member updatedEntity = mapper.map(dto, Member.class);
-            updatedEntity.setId(entity.getId());
-            updatedEntity.setCreationDate(entity.getCreationDate());
-            updatedEntity.setUpdateDate(LocalDateTime.now());
-            repository.save(updatedEntity);
-            return mapper.map(updatedEntity, MemberResponseDto.class);
+            entity.setName(dto.getName());
+            entity.setFacebookUrl(dto.getFacebookUrl());
+            entity.setInstagramUrl(dto.getInstagramUrl());
+            entity.setLinkedinUrl(dto.getLinkedinUrl());
+            entity.setImage(dto.getImage());
+            entity.setDescription(dto.getDescription());
+            entity.setUpdateDate(LocalDateTime.now());
+            repository.save(entity);
+            return mapper.map(entity, MemberResponseDto.class);
         } catch (Exception e) {
             throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", new Object[] {id}, Locale.US));
         }
