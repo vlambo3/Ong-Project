@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.dto.organization.OrganizationRequestDTO;
 import com.alkemy.ong.dto.organization.OrganizationResponseDTO;
 import com.alkemy.ong.dto.slide.SlideResponseDto;
@@ -45,17 +46,10 @@ public class OrganizationServiceImpl implements IOrganizationService {
         }
     }
 
-
     @Override
-    public OrganizationResponseDTO getPublicInfo() {
-        Optional<Organization> orgPublicInfo = repository.findAll().stream().findFirst();
-        if (orgPublicInfo.isEmpty()) {
-            throw new NotFoundException(messageSource.getMessage("not-found", null, Locale.US));
-        }
-        OrganizationResponseDTO organization = mapper.map(orgPublicInfo.get(), OrganizationResponseDTO.class);
-        List<SlideResponseDto> slides = slideService.findByOrganizationId(organization.getId());
-        organization.setSlides(slides);
-        return organization;
+    public OrganizationBasicResponseDto getPublicInfo() {
+        Organization organization = repository.findAll().get(0);
+        return mapper.map(organization, OrganizationBasicResponseDto.class);
     }
 
 }
