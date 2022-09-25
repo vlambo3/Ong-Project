@@ -80,7 +80,7 @@ public class OrganizationControllerUnitTest {
                         .content(objectMapper.writeValueAsString(requestDtoWithNullName))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class OrganizationControllerUnitTest {
                         .content(objectMapper.writeValueAsString(requestDtoWithBlankName))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -99,10 +99,10 @@ public class OrganizationControllerUnitTest {
     void createOrganizationWithNullImage() throws Exception {
         mockMvc.perform(post("/organization/public")
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDtoWithNullName))
+                        .content(objectMapper.writeValueAsString(generateRequestDtoWithNullImage))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class OrganizationControllerUnitTest {
                         .content(objectMapper.writeValueAsString(generateRequestDtoWithBlankImage))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class OrganizationControllerUnitTest {
                         .content(objectMapper.writeValueAsString(generateRequestDtoWithNullWelcomeText))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class OrganizationControllerUnitTest {
                         .content(objectMapper.writeValueAsString(generateRequestDtoWithBlankWelcomeText))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
 
