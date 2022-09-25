@@ -84,7 +84,7 @@ public class MemberController {
             @ApiResponse(responseCode = "500",description = "Internal Server Error")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@Parameter(description = "Id of member to delete",required = true)@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@Parameter(description = "Id of member to delete",required = true)@PathVariable Long id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

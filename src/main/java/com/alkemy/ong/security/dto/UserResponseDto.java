@@ -4,8 +4,6 @@ import com.alkemy.ong.security.model.Role;
 
 import lombok.*;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @Builder

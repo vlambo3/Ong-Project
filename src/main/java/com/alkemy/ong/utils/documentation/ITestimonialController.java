@@ -1,10 +1,6 @@
 package com.alkemy.ong.utils.documentation;
 
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.*;
 
@@ -16,7 +12,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -32,7 +27,7 @@ public interface ITestimonialController {
     })
     @ResponseStatus(CREATED)
     ResponseEntity<TestimonialResponseDto> addNewTestimonial(
-            @Valid @RequestBody @Parameter(description = "Request DTO for create a new Testimonial") TestimonialRequestDto testimonial);
+             @Parameter(description = "Request DTO for create a new Testimonial") TestimonialRequestDto testimonial);
 
     @ApiOperation(value = "Update testimonial by ID", notes = "As an admin user, you can update an testimonial entering the ID and modifying the fields of the DTO")
     @ApiResponses(value = {
@@ -45,8 +40,8 @@ public interface ITestimonialController {
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to update testimonial.")
     })
     ResponseEntity<TestimonialResponseDto> updateTestimonial(
-            @Parameter(description = "Request DTO to update testimonial data") @Valid @RequestBody TestimonialRequestDto newTestimonial,
-            @Parameter(description = "ID to find testimonial") @PathVariable Long id);
+            @Parameter(description = "Request DTO to update testimonial data")  TestimonialRequestDto newTestimonial,
+            @Parameter(description = "ID to find testimonial") Long id);
 
     @ApiOperation(value = "Delete(soft) testimonial by ID", notes = "As an admin user, you can delete(soft) an testimonial by his ID")
     @ApiResponses(value = {
@@ -58,7 +53,7 @@ public interface ITestimonialController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND - Resource not found with the ID entered"),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to delete testimonial")
     })
-    ResponseEntity<Void> deleteTestimonial(@Parameter(description = "ID to find testimonial") @PathVariable Long id);
+    ResponseEntity<Void> deleteTestimonial(@Parameter(description = "ID to find testimonial")  Long id);
 
     @ApiOperation(value = "Get Testimonials info grouped by a maximum of ten pages", notes = "As an user, you can get a list of all testimonials by page, grouped by a maximum of ten pages")
     @ApiResponses(value = {
@@ -68,5 +63,5 @@ public interface ITestimonialController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN - User not logged"),
             @ApiResponse(responseCode = "500", description = "INTERNAL ERROR - Unable to show, an error has occurred in the system.")
     })
-    ResponseEntity<PageDto<TestimonialResponseDto>> getPage(@RequestParam @Parameter(description = "Number of page") int page);
+    ResponseEntity<PageDto<TestimonialResponseDto>> getPage(@Parameter(description = "Number of page") int page);
 }
