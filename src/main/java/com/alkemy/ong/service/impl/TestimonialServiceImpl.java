@@ -43,7 +43,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
             throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
         Pageable pageable = PageRequest.of(pageNum, 10);
         Page<Testimonial> page = repository.findAll(pageable);
-        if (pageNum == 0 && page.isEmpty())
+        if (page.getTotalPages() == 0)
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         if (page.isEmpty())
             throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
