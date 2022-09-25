@@ -110,7 +110,7 @@ public class CommentServiceImpl implements ICommentService {
     private Comment getCommentById(Long id) {
         Optional<Comment> comment = repository.findById(id);
         if(comment.isEmpty()){
-            throw new NotFoundException(messageSource.getMessage("comment-not-found", null, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("comment-not-found", new Object[]{id}, Locale.US));
         }
         return comment.get();
     }

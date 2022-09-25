@@ -10,6 +10,9 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 
 import static org.springframework.http.HttpStatus.*;
+
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,24 +26,24 @@ public class TestimonialController implements ITestimonialController {
 
         @PostMapping
         @ResponseStatus(CREATED)
-        public ResponseEntity<TestimonialResponseDto> addNewTestimonial(TestimonialRequestDto testimonial) {
+        public ResponseEntity<TestimonialResponseDto> addNewTestimonial(@Valid @RequestBody TestimonialRequestDto testimonial) {
                 return ResponseEntity.status(CREATED).body(service.save(testimonial));
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<TestimonialResponseDto> updateTestimonial(TestimonialRequestDto newTestimonial,
-                        Long id) {
+        public ResponseEntity<TestimonialResponseDto> updateTestimonial(@Valid @RequestBody TestimonialRequestDto newTestimonial,
+                                                                        @PathVariable Long id) {
                 return ResponseEntity.ok(service.update(newTestimonial, id));
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteTestimonial(Long id) {
+        public ResponseEntity<Void> deleteTestimonial(@PathVariable Long id) {
                 service.delete(id);
                 return ResponseEntity.status(OK).build();
         }
 
         @GetMapping
-        public ResponseEntity<PageDto<TestimonialResponseDto>> getPage(int page) {
+        public ResponseEntity<PageDto<TestimonialResponseDto>> getPage(@RequestParam int page) {
                 return ResponseEntity.status(OK).body(service.getPage(page));
         }
 }
