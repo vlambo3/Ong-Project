@@ -2,8 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.organization.OrganizationRequestDto;
 import com.alkemy.ong.dto.organization.OrganizationResponseDto;
-import com.alkemy.ong.dto.slide.SlideResponseDto;
-import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Organization;
 import com.alkemy.ong.repository.OrganizationRepository;
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +20,6 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     private final OrganizationRepository repository;
     private final GenericMapper mapper;
-    private final MessageSource messageSource;
-    private final SlideServiceImpl slideService;
 
     @Transactional
     public OrganizationResponseDto update(OrganizationRequestDto dto) {
@@ -50,15 +44,9 @@ public class OrganizationServiceImpl implements IOrganizationService {
     }
 
     @Override
-    public OrganizationResponseDto getPublicInfo() {
-        Optional<Organization> orgPublicInfo = repository.findAll().stream().findFirst();
-        if (orgPublicInfo.isEmpty()) {
-            throw new NotFoundException(messageSource.getMessage("not-found", null, Locale.US));
-        }
-        OrganizationResponseDto organization = mapper.map(orgPublicInfo.get(), OrganizationResponseDto.class);
-        List<SlideResponseDto> slides = slideService.findByOrganizationId(organization.getId());
-        organization.setSlides(slides);
-        return organization;
+    public OrganizationBasicResponseDto getPublicInfo() {
+        Organization organization = repository.findAll().get(0);
+        return mapper.map(organization, OrganizationBasicResponseDto.class);
     }
 
 }

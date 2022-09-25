@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.organization.OrganizationRequestDto;
 import com.alkemy.ong.dto.organization.OrganizationResponseDto;
+import com.alkemy.ong.dto.organization.OrganizationBasicResponseDto;
 import com.alkemy.ong.service.IOrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,9 @@ public class OrganizationController {
     }
 
     @GetMapping("/public")
-    public ResponseEntity<OrganizationResponseDto> getPublicInfo() {
-        OrganizationResponseDto dtos = service.getPublicInfo();
-        return ResponseEntity.ok().body(dtos);
+    public ResponseEntity<OrganizationBasicResponseDto> getPublicInfo() {
+        OrganizationBasicResponseDto dto = service.getPublicInfo();
+        return ResponseEntity.ok().body(dto);
     }
     
 }
