@@ -68,6 +68,8 @@ public class HandlerExceptionController {
             RequestRejectedException.class,
             MethodArgumentNotValidException.class,
             NullPointerException.class,
+            IllegalArgumentException.class,
+            IndexOutOfBoundsException.class,
             UsernameNotFoundException.class,
             BadCredentialsException.class
     })
