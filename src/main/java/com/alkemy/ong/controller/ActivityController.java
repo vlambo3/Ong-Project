@@ -1,7 +1,9 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.PageDto;
 import com.alkemy.ong.dto.activity.ActivityRequestDTO;
 import com.alkemy.ong.dto.activity.ActivityResponseDTO;
+import com.alkemy.ong.dto.news.NewsResponseDto;
 import com.alkemy.ong.service.IActivityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,12 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<ActivityResponseDTO> createNewActivity(@Valid @RequestBody ActivityRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<PageDto<ActivityResponseDTO>> getPage(@RequestParam int page) {
+        PageDto<ActivityResponseDTO> pageDto = service.getPage(page);
+        return ResponseEntity.ok(pageDto);
     }
 
     @PutMapping("/{id}")

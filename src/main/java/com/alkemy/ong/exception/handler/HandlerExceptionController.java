@@ -1,16 +1,30 @@
-package com.alkemy.ong.exception;
+package com.alkemy.ong.exception.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.HttpStatus.*;
 
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.firewall.RequestRejectedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException.Forbidden;
+
+import com.alkemy.ong.exception.AlreadyExistsException;
+import com.alkemy.ong.exception.BadRequestException;
+import com.alkemy.ong.exception.CustomExceptionDetails;
+import com.alkemy.ong.exception.EmptyListException;
+import com.alkemy.ong.exception.ForbiddenException;
+import com.alkemy.ong.exception.NotFoundException;
+import com.alkemy.ong.exception.NotLoggedUserException;
+import com.alkemy.ong.exception.UnableToDeleteEntityException;
+import com.alkemy.ong.exception.UnableToSaveEntityException;
+import com.alkemy.ong.exception.UnableToUpdateEntityException;
 
 @RestControllerAdvice
 public class HandlerExceptionController {
@@ -51,7 +65,11 @@ public class HandlerExceptionController {
     @ExceptionHandler({ BadRequestException.class,
             ArithmeticException.class,
             MissingRequestHeaderException.class,
-            RequestRejectedException.class
+            RequestRejectedException.class,
+            MethodArgumentNotValidException.class,
+            NullPointerException.class,
+            UsernameNotFoundException.class,
+            BadCredentialsException.class
     })
     @ResponseBody
     public CustomExceptionDetails badRequest(HttpServletRequest request, Exception exception) {

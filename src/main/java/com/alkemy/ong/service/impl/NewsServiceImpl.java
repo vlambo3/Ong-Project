@@ -28,34 +28,6 @@ public class NewsServiceImpl implements INewsService {
     private final GenericMapper mapper;
     private final MessageSource messageSource;
 
-    public NewsResponseDto getById(Long id) {
-        if (id <= 0) {
-            throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
-        }
-        News entity = getNewsById(id);
-        return mapper.map(entity, NewsResponseDto.class);
-    }
-
-    private News getNewsById(Long id) {
-        Optional<News> news = repository.findById(id);
-        if(news.isEmpty()){
-            throw new NotFoundException(messageSource.getMessage("news-not-found", null, Locale.US));
-        }
-        return news.get();
-    }
-
-    public PageDto<NewsResponseDto> getPage(int pageNum) {
-        if (pageNum < 0)
-            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
-        Pageable pageable = PageRequest.of(pageNum, 10);
-        Page<News> page = repository.findAll(pageable);
-        if (pageNum == 0 && page.isEmpty())
-            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        if (page.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
-        return mapper.mapPage(page, NewsResponseDto.class, "news");
-    }
-
     public NewsResponseDto create(NewsRequestDto dto) {
         List<News> news = repository.findAll();
 
@@ -71,10 +43,24 @@ public class NewsServiceImpl implements INewsService {
         return mapper.map(entity, NewsResponseDto.class);
     }
 
-    public void delete (Long id) {
+    public NewsResponseDto getById(Long id) {
+        if (id <= 0) {
+            throw new ArithmeticException(messageSource.getMessage("error-negative-id", null, Locale.US));
+        }
         News entity = getNewsById(id);
-        entity.setUpdateDate(LocalDateTime.now());
-        repository.deleteById(id);
+        return mapper.map(entity, NewsResponseDto.class);
+    }
+
+    public PageDto<NewsResponseDto> getPage(int pageNum) {
+        if (pageNum < 0)
+            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
+        Pageable pageable = PageRequest.of(pageNum, 10);
+        Page<News> page = repository.findAll(pageable);
+        if (page.getTotalPages() == 0)
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        if (page.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
+        return mapper.mapPage(page, NewsResponseDto.class, "news");
     }
 
     public NewsResponseDto update(NewsRequestDto dto, Long id) {
@@ -87,8 +73,26 @@ public class NewsServiceImpl implements INewsService {
             updatedEntity = repository.save(updatedEntity);
             return mapper.map(updatedEntity, NewsResponseDto.class);
         }catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-news",null, Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-news",new Object[] {id}, Locale.US));
         }
+    }
+
+    public void delete (Long id) {
+        News entity = getNewsById(id);
+        try {
+            entity.setUpdateDate(LocalDateTime.now());
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-news", new Object[] {id}, Locale.US));
+        }
+    }
+
+    private News getNewsById(Long id) {
+        Optional<News> news = repository.findById(id);
+        if(news.isEmpty()){
+            throw new NotFoundException(messageSource.getMessage("news-not-found", new Object[] {id}, Locale.US));
+        }
+        return news.get();
     }
 
 }

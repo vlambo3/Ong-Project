@@ -56,6 +56,7 @@ public class MemberController implements IMemberController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(Long id) {
+
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

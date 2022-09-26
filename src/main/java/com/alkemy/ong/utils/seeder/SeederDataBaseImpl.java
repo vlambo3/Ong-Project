@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 
 import com.alkemy.ong.enums.RoleEnum;
+import com.alkemy.ong.model.Category;
+import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.security.model.Role;
 import com.alkemy.ong.security.model.User;
 import com.alkemy.ong.security.repository.RolesRepository;
@@ -29,6 +31,7 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
     private final RolesRepository rolesRepository;
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
+    private final CategoryRepository categoryRepository;
     private final MessageSource messageSource;
     private final BCryptPasswordEncoder encoder;
 
@@ -37,7 +40,7 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
 
     @Override
     public void run(String... args) throws Exception {
-        seedActivitiesTable(5);
+        seedActivitiesTable(25);
         seedRolesTable();
         seedUsersTable();
     }
@@ -66,6 +69,34 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
         } else {
             LOG.info(messageSource.getMessage("info-negative",
                     new Object[]{"Activities table"}, Locale.US));
+        }
+
+    }
+
+    @Override
+    public void seedCategoriesTable(int amount) {
+        if (categoryRepository.count() == 0) {
+            List<Category> categories = new ArrayList<>(amount);
+            int number = 1;
+            LocalDateTime date = LocalDateTime.now();
+
+            for (int i = 0; i < amount; i++) {
+                Category category = new Category();
+                category.setName("name" + number);
+                category.setDescription("description" + number);
+                category.setImage("image" + number);
+                category.setCreationDate(date);
+                category.setUpdateDate(date);
+                categories.add(category);
+                number++;
+            }
+            categoryRepository.saveAll(categories);
+
+            LOG.info(messageSource.getMessage("info-positive",
+                    new Object[]{"Categories table", amount}, Locale.US));
+        } else {
+            LOG.info(messageSource.getMessage("info-negative",
+                    new Object[]{"Categories table"}, Locale.US));
         }
 
     }

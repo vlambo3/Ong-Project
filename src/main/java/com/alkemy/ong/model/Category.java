@@ -9,9 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "categories")
@@ -25,7 +24,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name cannot be empty")
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
     private String description;

@@ -43,7 +43,7 @@ public class User {
 
     private String photo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     private boolean deleted = Boolean.FALSE;
