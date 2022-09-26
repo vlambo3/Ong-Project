@@ -32,7 +32,4 @@ public class UserRequestDto {
     private String password;
 
     private String photo;
-
-    private Role role;
-
 }

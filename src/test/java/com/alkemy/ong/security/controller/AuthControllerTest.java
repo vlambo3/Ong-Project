@@ -1,20 +1,13 @@
 package com.alkemy.ong.security.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,22 +20,17 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
-import org.springframework.security.test.context.support.WithMockUser;
-
-import com.alkemy.ong.enums.RoleEnum;
 import com.alkemy.ong.exception.BadRequestException;
-import com.alkemy.ong.exception.EmptyListException;
-import com.alkemy.ong.exception.ForbiddenException;
-import com.alkemy.ong.exception.NotFoundException;
 import com.alkemy.ong.security.auth.UserService;
-import com.alkemy.ong.security.dto.UserDto;
+import static com.alkemy.ong.security.controller.utils.AuthUtilsTest.*;
+
+import com.alkemy.ong.security.dto.AuthenticationRequest;
+import com.alkemy.ong.security.dto.AuthenticationResponse;
+import com.alkemy.ong.security.dto.RegisterResponseDto;
 import com.alkemy.ong.security.dto.UserRequestDto;
-import com.alkemy.ong.security.dto.UserResponseDto;
-import com.alkemy.ong.security.model.Role;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -51,6 +39,8 @@ public class AuthControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private UserService service;
@@ -60,28 +50,153 @@ public class AuthControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                .defaultRequest(get("/").with(user("user").roles("ADMIN")))
-                .alwaysExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
                 .apply(springSecurity())
                 .build();
     }
+    @Nested
+    public class Register{
+       
+        @Test
+        void registerOk() throws Exception {
+            UserRequestDto requestDto = generateRequestDto();
+            RegisterResponseDto responseDto = generateResponseDto();
+    
+            when(service.save(requestDto)).thenReturn(responseDto);
+    
+            mockMvc.perform(post("/auth/register")
+                    .contentType(APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(requestDto)))                                        
+                    .andExpect(status().isCreated());
+        }
 
-    @Test
-    void registerOk(){
-        when(service.save()).thenReturn(users);
+        @Test
+        void registerWhitNullFirstName() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithNullFirstName();
 
-            mockMvc.perform(get(ENDPOINT_URL)
-                        .contentType(APPLICATION_JSON)
-                        .with(user("user").roles("ADMIN")))
-                    .andExpect(jsonPath("@", hasSize(users.size())))
-                    .andExpect(jsonPath("$.[0].firstName").value(userOne.getFirstName()))
-                    .andExpect(jsonPath("$.[0].lastName").value(userOne.getLastName()))
-                    .andExpect(jsonPath("$.[0].email").value(userOne.getEmail()))
-                    .andExpect(jsonPath("$.[0].role").value(notNullValue()))
-                    .andExpect(status().isOk());
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
 
-            verify(service).getAll();
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitBlankFirstName() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithBlankFirstName();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitNullLastName() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithNullLastName();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitBlankLastName() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithBlankLastName();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitNullPassword() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithNullPassword();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitBlankPassword() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithBlankPassword();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitNullEmail() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithNullEmail();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void registerWhitBlankEmail() throws Exception{
+            UserRequestDto requestDto = generateRequestDtoWithBlankEmail();
+
+            when(service.save(requestDto)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/register")
+            .contentType(APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(requestDto)))                                        
+            .andExpect(status().isBadRequest());
+        }
     }
+
+    @Nested
+    public class Login {
+
+        @Test
+        void loginOK() throws Exception{
+            AuthenticationRequest request = generateAuthRequest();
+            AuthenticationResponse response = generateAuthResponse();
+
+            when(service.authenticate(request)).thenReturn(response);
+
+            mockMvc.perform(post("/auth/login")
+                    .contentType(APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request)))                                        
+                    .andExpect(status().isOk());
+        }
+
+        @Test
+        void loginWhitNullEmail() throws Exception{
+            AuthenticationRequest request = generateRequestWhitNullEmail();
+
+            when(service.authenticate(request)).thenThrow(BadRequestException.class);
+
+            mockMvc.perform(post("/auth/login")
+                    .contentType(APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request)))                                        
+                    .andExpect(status().isBadRequest());
+        }
+    }
+    
+
+
 
 
 }

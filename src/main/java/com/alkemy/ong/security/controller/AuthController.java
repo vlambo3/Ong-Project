@@ -19,13 +19,14 @@ public class AuthController {
 
    @PostMapping("/register")
    public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
-       return ResponseEntity.ok(service.save(user));
+       return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
    }
 
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
-        return ResponseEntity.ok(service.authenticate(authRequest));
+        AuthenticationResponse response = service.authenticate(authRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PatchMapping("/users/{id}")
