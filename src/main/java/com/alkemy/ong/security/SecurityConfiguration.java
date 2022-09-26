@@ -25,7 +25,7 @@ public class SecurityConfiguration {
     private final String[] developerRole = {"/v2/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
             "/configuration/**", "/api/docs"};
     private final String[] userRolePost = {"/comments", "/contacts", "/members"};
-    private final String[] userRoleGet = {"/auth/me", "/categories", "/members", "/news", "/organization/public",
+    private final String[] userRoleGet = {"/auth/me", "/activities", "/categories", "/members", "/news", "/organization/public",
             "/posts/*/comments", "/testimonials", "/users/me"};
     private final String[] userRolePut = {"/comments/*", "/members/*"};
     private final String[] userRoleDelete = {"/comments/*", "/users/*"};

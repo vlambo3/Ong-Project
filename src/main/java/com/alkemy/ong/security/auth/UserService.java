@@ -98,7 +98,7 @@ public class UserService {
 
             return new AuthenticationResponse(jwt);
         } else {
-            throw new NotFoundException(messageSource.getMessage("user-not-found", null, Locale.US));
+            throw new BadRequestException(messageSource.getMessage("user-not-found", null, Locale.US));
         }
     }
 
