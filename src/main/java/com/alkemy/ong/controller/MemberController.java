@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.util.List;
 
+import com.alkemy.ong.utils.documentation.IMemberController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,63 +29,33 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
-public class MemberController {
+public class MemberController implements IMemberController {
 
     private final IMemberService service;
 
-    @ApiOperation(value = "Add Member",notes = "save a new member")
-    @ApiResponses(value =  {
-            @ApiResponse(responseCode = "201",description = "Created",
-                    content = @Content(schema = @Schema(implementation = MemberResponseDto.class),mediaType = "application/json")),
-            @ApiResponse(responseCode = "400",description = "Bad Request"),
-            @ApiResponse(responseCode = "500",description = "Internal Server Error")
-    })
+
     @PostMapping
-    public ResponseEntity<MemberResponseDto> addNewMember(@Parameter(name = "Member",description = "Member data to save",required = true)
-                                                              @RequestBody @Valid MemberRequestDto dto){
+    public ResponseEntity<MemberResponseDto> addNewMember(MemberRequestDto dto){
         return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
-    @ApiOperation(value = "Find All",notes = "bring a list of members")
-    @ApiResponses(value =  {
-            @ApiResponse(responseCode = "200",description = "Ok",
-                    content = @Content(schema = @Schema(implementation = MemberResponseDto.class),mediaType = "application/json")),
-            @ApiResponse(responseCode = "500",description = "Internal Server Error")
-    })
     @GetMapping("/all")
     public ResponseEntity<List<MemberResponseDto>> findAll(){
-        
         return ResponseEntity.status(OK).body(service.findAll());
     }
     @GetMapping
-    public ResponseEntity<PageDto<MemberResponseDto>> getPage(@RequestParam int page) {
+    public ResponseEntity<PageDto<MemberResponseDto>> getPage(int page) {
         PageDto<MemberResponseDto> pageDto = service.getPage(page);
         return ResponseEntity.ok(pageDto);
     }
-    
 
-    @ApiOperation(value = "Update a member",notes = "update a member's details")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Ok",
-            content = @Content(schema = @Schema(implementation = MemberResponseDto.class),mediaType = "application/json")),
-            @ApiResponse(responseCode = "400",description = "Bad Request"),
-            @ApiResponse(responseCode = "500",description = "Internal Server Error")
-    })
     @PutMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> updateMember(@Parameter(name = "Member",description = "Member data to update",required = true)
-                                                              @Valid @RequestBody MemberRequestDto dto,
-                                                          @Parameter(description = "Id of member to update",required = true)
-                                                          @PathVariable Long id) {
+    public ResponseEntity<MemberResponseDto> updateMember(MemberRequestDto dto, Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(dto, id));
     }
 
-    @ApiOperation(value = "Delete a Member",notes = "remove a member from the database")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Ok"),
-            @ApiResponse(responseCode = "500",description = "Internal Server Error")
-    })
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@Parameter(description = "Id of member to delete",required = true)@PathVariable Long id) {
+    public ResponseEntity delete(Long id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
