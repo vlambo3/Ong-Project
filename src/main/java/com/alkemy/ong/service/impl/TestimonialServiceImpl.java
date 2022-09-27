@@ -6,6 +6,7 @@ import com.alkemy.ong.dto.testimonial.TestimonialResponseDto;
 import com.alkemy.ong.exception.*;
 import com.alkemy.ong.mapper.GenericMapper;
 import com.alkemy.ong.model.Testimonial;
+import com.alkemy.ong.service.IAmazonClient;
 import com.alkemy.ong.service.ITestimonialService;
 import com.alkemy.ong.repository.TestimonialRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
     private final TestimonialRepository repository;
     private final GenericMapper mapper;
     private final MessageSource messageSource;
-    private final AmazonClientImpl amazonClient;
+    private final IAmazonClient amazonClient;
 
     public TestimonialResponseDto save(TestimonialRequestDto dto) {
         try {

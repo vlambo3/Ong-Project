@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.exception.BadRequestException;
+import com.alkemy.ong.service.IAmazonClient;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.Date;
 
 @Service
-public class AmazonClientImpl {
+public class AmazonClientImpl implements IAmazonClient {
 
     private AmazonS3 s3;
 
@@ -44,7 +45,7 @@ public class AmazonClientImpl {
             file.delete();
             fileUrl = endpointUrl + "/" + bucketName + "/" + key;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
         return fileUrl;
     }

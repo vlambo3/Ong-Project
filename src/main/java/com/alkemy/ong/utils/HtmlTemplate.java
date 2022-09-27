@@ -1,6 +1,6 @@
 package com.alkemy.ong.utils;
 
-public class MailUtils {
+public class HtmlTemplate {
 
     public static final String TYPE= "text/html";
     public static String TEMPLATE = "<!doctype html>\n" +
