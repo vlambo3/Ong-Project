@@ -34,7 +34,7 @@ public class TestimonialServiceImpl implements ITestimonialService {
         try {
             Testimonial entity = mapper.map(dto, Testimonial.class);
             entity.setCreationDate(LocalDateTime.now());
-            entity.setImage(amazonClient.upload(dto.getImage(), dto.getImageName()));
+            entity.setImage(amazonClient.uploadFile(dto.getImage(), dto.getName()));
             entity = repository.save(entity);
             return mapper.map(entity, TestimonialResponseDto.class);
         } catch (Exception e){

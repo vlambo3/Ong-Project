@@ -26,8 +26,6 @@ public class TestimonialRequestDto implements Serializable {
     @ApiModelProperty(value = "Testimonial image", dataType = "String", example = "Image-url")
     private String image;
 
-    private String imageName;
-
     @ApiModelProperty(value = "Testimonial content", dataType = "String", required = true, example = "Content of testimonial")
     @NotBlank(message = "Content cannot be empty")
     private String content;
