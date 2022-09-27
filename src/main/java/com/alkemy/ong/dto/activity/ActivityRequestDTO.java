@@ -5,19 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
+import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActivityRequestDTO {
-
-    @NotBlank(message = "The name cannot be null")
+    @NotEmpty(message = "the name cannot be empty")
     private String name;
-    @NotBlank(message = "The content cannot be null")
+    @NotEmpty(message = "the content cannot be empty")
     private String content;
-    @NotBlank(message = "The image cannot be null")
+    @NotEmpty(message = "the image cannot be empty")
     private String image;
-
 }
