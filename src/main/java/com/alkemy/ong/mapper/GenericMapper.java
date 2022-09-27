@@ -33,9 +33,9 @@ public class GenericMapper {
     public <P, D> PageDto<D> mapPage(Page<P> page, Class<D> destinationClass, String classPath) {
         PageDto<D> dto = new PageDto<>();
         if (!page.isFirst())
-            dto.setPreviousPage(String.format(pageQueryLink, classPath) + (page.getNumber() - 1));
+            dto.setPreviousPage(String.format(pageQueryLink, classPath) + (page.getNumber()));
         if (!page.isLast())
-            dto.setNextPage(String.format(pageQueryLink, classPath) + (page.getNumber() + 1));
+            dto.setNextPage(String.format(pageQueryLink, classPath) + (page.getNumber() + 2));
         dto.setContent(mapAll(page.getContent(), destinationClass));
         return dto;
     }

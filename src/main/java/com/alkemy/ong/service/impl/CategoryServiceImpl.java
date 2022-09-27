@@ -85,14 +85,14 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     public PageDto<CategoryResponseDto> getPage(int pageNum) {
-        if (pageNum < 0)
+        if (pageNum < 1)
             throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
-        Pageable pageable = PageRequest.of(pageNum, 10);
+        Pageable pageable = PageRequest.of(pageNum - 1, 10);
         Page<Category> page = repository.findAll(pageable);
         if (page.getTotalPages() == 0)
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         if (page.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() }, Locale.US));
         return mapper.mapPage(page, CategoryResponseDto.class, "news");
     }
 
