@@ -2,6 +2,7 @@ package com.alkemy.ong.security.controller;
 
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.auth.UserService;
+import com.alkemy.ong.utils.documentation.IAuthController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,19 +13,18 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements IAuthController {
 
     private final UserService service;
 
 
    @PostMapping("/register")
-   public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
-       return ResponseEntity.ok(service.save(user));
+   public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
+       return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
    }
 
-
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authRequest) throws Exception {
         return ResponseEntity.ok(service.authenticate(authRequest));
     }
 

@@ -8,7 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -25,14 +25,14 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "the name can´t be null")
+    @NotBlank(message = "the name can´t be null")
     private String name;
 
     @Lob
-    @NotNull
+    @NotBlank
     private String content;
 
-    @NotNull
+    @NotBlank
     private String image;
 
     @Column(name = "creation_date", updatable = false)

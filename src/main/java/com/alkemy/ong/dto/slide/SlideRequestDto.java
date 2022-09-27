@@ -6,12 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SlideRequestDto {
 
+    @NotBlank(message = "field imageUrl cannot be null")
     private String image;
     private String text;
     @Nullable

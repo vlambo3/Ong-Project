@@ -1,7 +1,6 @@
 package com.alkemy.ong.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -67,7 +66,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
         );
     }
 
-    //TODO: intento de que swagger detecte el modelo, pero no funciona.
     private AlternateTypeRule getAllAlternateTypeForResponseEntity(){
         TypeResolver typeResolver = new TypeResolver();
         return AlternateTypeRules.newRule(

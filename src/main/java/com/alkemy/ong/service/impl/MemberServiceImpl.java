@@ -63,17 +63,15 @@ public class MemberServiceImpl implements IMemberService {
         return mapper.mapAll(members, MemberResponseDto.class);
     }
 
-    @Override
     public PageDto<MemberResponseDto> getPage(int pageNum) {
-        int size = 10;
-        if (pageNum < 0)
+        if (pageNum < 1)
             throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
-        Pageable pageable = PageRequest.of(pageNum, size);
+        Pageable pageable = PageRequest.of(pageNum - 1, 10);
         Page<Member> page = repository.findAll(pageable);
-        if (pageNum == 0 && page.isEmpty())
+        if (page.getTotalPages() == 0)
             throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
         if (page.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{page.getTotalPages() - 1}, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() }, Locale.US));
         return mapper.mapPage(page, MemberResponseDto.class, "member");
     }
 
@@ -81,14 +79,17 @@ public class MemberServiceImpl implements IMemberService {
     public MemberResponseDto update(MemberRequestDto dto, Long id) {
         Member entity = getMemberById(id);
         try {
-            Member updatedEntity = mapper.map(dto, Member.class);
-            updatedEntity.setId(entity.getId());
-            updatedEntity.setCreationDate(entity.getCreationDate());
-            updatedEntity.setUpdateDate(LocalDateTime.now());
-            repository.save(updatedEntity);
-            return mapper.map(updatedEntity, MemberResponseDto.class);
+            entity.setName(dto.getName());
+            entity.setFacebookUrl(dto.getFacebookUrl());
+            entity.setInstagramUrl(dto.getInstagramUrl());
+            entity.setLinkedinUrl(dto.getLinkedinUrl());
+            entity.setImage(dto.getImage());
+            entity.setDescription(dto.getDescription());
+            entity.setUpdateDate(LocalDateTime.now());
+            repository.save(entity);
+            return mapper.map(entity, MemberResponseDto.class);
         } catch (Exception e) {
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", null, Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-member", new Object[] {id}, Locale.US));
         }
     }
 
@@ -99,7 +100,7 @@ public class MemberServiceImpl implements IMemberService {
             repository.deleteById(id);
         } catch (Exception e) {
 
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-member", null, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-member", new Object[] {id}, Locale.US));
 
         }
     }
@@ -108,7 +109,7 @@ public class MemberServiceImpl implements IMemberService {
         Optional<Member> entity = repository.findById(id);
         if (entity.isEmpty())
 
-            throw new NotFoundException(messageSource.getMessage("member-not-found", null ,Locale.US));
+            throw new NotFoundException(messageSource.getMessage("member-not-found", new Object[] {id} ,Locale.US));
 
         return entity.get();
     }

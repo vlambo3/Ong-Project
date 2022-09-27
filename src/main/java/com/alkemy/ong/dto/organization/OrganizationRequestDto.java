@@ -13,13 +13,14 @@ import javax.validation.constraints.Pattern;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizationRequestDTO {
+public class OrganizationRequestDto {
     @NotBlank(message = "The name cannot be empty or null")
     private String name;
     @NotBlank(message = "The image cannot be empty or null")
     private String image;
     private String address;
     private String phone;
+    @NotBlank(message = "The email cannot be empty or null")
     @Email(regexp = "^[a-zA-Z]+((\\.|_)*[a-zA-Z0-9]+)*((\\.|_)[a-zA-Z0-9]+)*@[a-z]+\\.\\w\\w\\w(\\.\\w\\w)?$", message = "the email is invalid")
     private String email;
     @NotBlank(message = "The welcome text cannot be empty or null")

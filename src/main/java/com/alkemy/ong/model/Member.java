@@ -9,8 +9,7 @@ import javax.persistence.Id;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -34,7 +33,7 @@ public class Member {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Name may not be null or empty")
+    @NotBlank(message = "Name may not be null or empty")
     @Column(length = 35, nullable = false)
     private String name;
 
@@ -47,7 +46,7 @@ public class Member {
     @Column(name = "linkedin_url", length = 100, nullable = true)
     private String linkedinUrl;
 
-    @NotNull(message = "Image may not be null")
+    @NotBlank(message = "Image may not be null")
     @Column(length = 100, nullable = false)
     private String image;
 

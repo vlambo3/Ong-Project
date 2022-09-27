@@ -1,6 +1,5 @@
 package com.alkemy.ong.mapper;
 
-import java.io.Serializable;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
@@ -14,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class GenericMapper implements Serializable {
+public class GenericMapper {
 
     private final ModelMapper mapper;
 
@@ -34,28 +33,10 @@ public class GenericMapper implements Serializable {
     public <P, D> PageDto<D> mapPage(Page<P> page, Class<D> destinationClass, String classPath) {
         PageDto<D> dto = new PageDto<>();
         if (!page.isFirst())
-            dto.setPreviousPage(String.format(pageQueryLink, classPath) + (page.getNumber() - 1));
+            dto.setPreviousPage(String.format(pageQueryLink, classPath) + (page.getNumber()));
         if (!page.isLast())
-            dto.setNextPage(String.format(pageQueryLink, classPath) + (page.getNumber() + 1));
+            dto.setNextPage(String.format(pageQueryLink, classPath) + (page.getNumber() + 2));
         dto.setContent(mapAll(page.getContent(), destinationClass));
         return dto;
     }
-
-    /*
-    -> Explicit mapping example:
-
-    public SlideResponseDto mapSlideToResponseDto(Slide slide){
-        return mapper.typeMap(Slide.class, SlideResponseDto.class)
-                     .addMapping(s -> s.getOrganizationId(), SlideResponseDto::setOrganizationId)
-                     .map(slide);
-    }
-
-    -> Skipping ID atribute example:
-
-    public SlideResponseDto mapSkippingId(Slide slide){
-        return mapper.typeMap(Slide.class, SlideResponseDto.class)
-                     .addMappings(m -> m.skip(SlideResponseDto::setId))
-                     .map(slide);
-    } 
-    */
 }

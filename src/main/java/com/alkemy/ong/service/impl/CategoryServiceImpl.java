@@ -84,6 +84,18 @@ public class CategoryServiceImpl implements ICategoryService {
         return mapper.map(entity, CategoryResponseDto.class);
     }
 
+    public PageDto<CategoryResponseDto> getPage(int pageNum) {
+        if (pageNum < 1)
+            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
+        Pageable pageable = PageRequest.of(pageNum - 1, 10);
+        Page<Category> page = repository.findAll(pageable);
+        if (page.getTotalPages() == 0)
+            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
+        if (page.isEmpty())
+            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() }, Locale.US));
+        return mapper.mapPage(page, CategoryResponseDto.class, "news");
+    }
+
     @Override
     public CategoryResponseDto update(Long id, CategoryRequestDto dto) {
         Category entity = getCategoryById(id);
@@ -95,7 +107,7 @@ public class CategoryServiceImpl implements ICategoryService {
             repository.save(updatedEntity);
             return mapper.map(updatedEntity, CategoryResponseDto.class);
         }catch (Exception e){
-            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-category", null,Locale.US));
+            throw new UnableToUpdateEntityException(messageSource.getMessage("unable-to-update-category", new Object[] {id},Locale.US));
         }
     }
 
@@ -105,28 +117,15 @@ public class CategoryServiceImpl implements ICategoryService {
             entity.setUpdateDate(LocalDateTime.now());
             repository.deleteById(id);
         } catch (Exception e) {
-            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-category", null, Locale.US));
+            throw new UnableToDeleteEntityException(messageSource.getMessage("unable-to-delete-category", new Object[] {id}, Locale.US));
         }
     }
 
     private Category getCategoryById(Long id) {
         Optional<Category> entity = repository.findById(id);
         if (entity.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("category-not-found", null, Locale.US));
+            throw new NotFoundException(messageSource.getMessage("category-not-found", new Object[] {id}, Locale.US));
         return entity.get();
     }
-
-    public PageDto<CategoryResponseDto> getPage(int pageNum) {
-        if (pageNum < 0)
-            throw new BadRequestException(messageSource.getMessage("negative-page-number", null, Locale.US));
-        Pageable pageable = PageRequest.of(pageNum, 10);
-        Page<Category> page = repository.findAll(pageable);
-        if (pageNum == 0 && page.isEmpty())
-            throw new EmptyListException(messageSource.getMessage("empty-list", null, Locale.US));
-        if (page.isEmpty())
-            throw new NotFoundException(messageSource.getMessage("last-page-is", new Object[]{ page.getTotalPages() - 1 }, Locale.US));
-        return mapper.mapPage(page, CategoryResponseDto.class, "news");
-    }
-
 
 }
