@@ -116,7 +116,7 @@ public class CategoryControllerTest {
                         .content(objectMapper.writeValueAsString(requestDtoWithNullName))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
 
     }
     @Test
@@ -127,7 +127,7 @@ public class CategoryControllerTest {
                         .content(objectMapper.writeValueAsString(requestDtoWithBlankName))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
     @Test
     @WithMockUser(roles = "ADMIN")
@@ -291,7 +291,7 @@ public class CategoryControllerTest {
                         .content(objectMapper.writeValueAsString(requestDtoWithNullName))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
     @Test
     @WithMockUser(roles = "ADMIN")
@@ -301,7 +301,7 @@ public class CategoryControllerTest {
                         .content(objectMapper.writeValueAsString(requestDtoWithBlankName))
                         .with(user("admin").roles("ADMIN"))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
     @Test
     @WithMockUser(roles = "ADMIN")

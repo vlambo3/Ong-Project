@@ -35,7 +35,7 @@ public class MemberController implements IMemberController {
 
 
     @PostMapping
-    public ResponseEntity<MemberResponseDto> addNewMember(MemberRequestDto dto){
+    public ResponseEntity<MemberResponseDto> addNewMember( @RequestBody @Valid MemberRequestDto dto){
         return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 
@@ -44,18 +44,18 @@ public class MemberController implements IMemberController {
         return ResponseEntity.status(OK).body(service.findAll());
     }
     @GetMapping
-    public ResponseEntity<PageDto<MemberResponseDto>> getPage(int page) {
+    public ResponseEntity<PageDto<MemberResponseDto>> getPage(@RequestParam int page) {
         PageDto<MemberResponseDto> pageDto = service.getPage(page);
         return ResponseEntity.ok(pageDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MemberResponseDto> updateMember(MemberRequestDto dto, Long id) {
+    public ResponseEntity<MemberResponseDto> updateMember(@Valid @RequestBody MemberRequestDto dto, @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(dto, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
 
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

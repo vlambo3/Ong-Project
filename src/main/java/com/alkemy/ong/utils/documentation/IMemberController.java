@@ -28,7 +28,7 @@ public interface IMemberController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     ResponseEntity<MemberResponseDto> addNewMember(@Parameter(name = "Member", description = "Member data to save", required = true)
-                                                   @RequestBody @Valid MemberRequestDto dto);
+                                                  MemberRequestDto dto);
 
 
     @ApiOperation(value = "Find All", notes = "bring a list of members")
@@ -40,7 +40,7 @@ public interface IMemberController {
     ResponseEntity<List<MemberResponseDto>> findAll();
 
 
-    ResponseEntity<PageDto<MemberResponseDto>> getPage(@RequestParam int page);
+    ResponseEntity<PageDto<MemberResponseDto>> getPage(int page);
 
 
     @ApiOperation(value = "Update a member", notes = "update a member's details")
@@ -51,9 +51,9 @@ public interface IMemberController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     ResponseEntity<MemberResponseDto> updateMember(@Parameter(name = "Member", description = "Member data to update", required = true)
-                                                   @Valid @RequestBody MemberRequestDto dto,
+                                                   MemberRequestDto dto,
                                                    @Parameter(description = "Id of member to update", required = true)
-                                                   @PathVariable Long id);
+                                                   Long id);
 
 
     @ApiOperation(value = "Delete a Member", notes = "remove a member from the database")
@@ -61,5 +61,5 @@ public interface IMemberController {
             @ApiResponse(responseCode = "200", description = "Ok"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    ResponseEntity delete(@Parameter(description = "Id of member to delete", required = true) @PathVariable Long id);
+    ResponseEntity delete(@Parameter(description = "Id of member to delete", required = true) Long id);
 }
