@@ -5,8 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IAmazonClient {
 
-    public Image uploadFile(MultipartFile multipartFile);
+//    Image uploadFile(MultipartFile multipartFile);
 
-    public Image uploadFile(String base64, String fileName);
+    Image uploadFile(String base64, String fileName);
 
 }
