@@ -32,7 +32,9 @@ public class NewsController implements INewsController {
     }
 
     @GetMapping("/{id}")
+
     public ResponseEntity<NewsResponseDto> getNewsById(@PathVariable Long id)  {
+
         return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
     }
 
@@ -42,8 +44,9 @@ public class NewsController implements INewsController {
         return ResponseEntity.ok(pageDto);
     }
 
+
     @GetMapping("/{id}/comments")
-    public ResponseEntity<List<CommentBasicResponseDto>> getCommentsByNewsId(@Valid @PathVariable Long id){
+    public ResponseEntity<List<CommentBasicResponseDto>> getCommentsByNewsId(@Valid @PathVariable Long id) {
         List<CommentBasicResponseDto> comments = commentService.getAllCommentsByNewsId(id);
         return ResponseEntity.status(HttpStatus.OK).body(comments);
     }
