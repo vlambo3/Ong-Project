@@ -33,7 +33,7 @@ public class SlideController {
     }
 
     @PostMapping
-    public ResponseEntity<SlideResponseDto> createNewSlide(@Valid @RequestBody SlideRequestDto dto) {
+    public ResponseEntity<SlideResponseDto> createNewSlide(@Valid @RequestBody SlideRequestDto dto) throws Exception{
         return ResponseEntity.status(CREATED).body(service.create(dto));
     }
 

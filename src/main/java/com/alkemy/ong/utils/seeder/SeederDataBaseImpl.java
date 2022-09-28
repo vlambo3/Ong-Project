@@ -41,6 +41,7 @@ public class SeederDataBaseImpl implements CommandLineRunner, ISeederDataBase {
     @Override
     public void run(String... args) throws Exception {
         seedActivitiesTable(25);
+        seedCategoriesTable(25);
         seedRolesTable();
         seedUsersTable();
     }

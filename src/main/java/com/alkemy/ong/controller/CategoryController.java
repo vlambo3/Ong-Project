@@ -52,6 +52,7 @@ public class CategoryController implements ICategoriesController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(NO_CONTENT).build();

@@ -1,11 +1,14 @@
 package com.alkemy.ong.security.controller;
 
+import com.alkemy.ong.exception.BadRequestException;
 import com.alkemy.ong.security.dto.*;
 import com.alkemy.ong.security.auth.UserService;
 import com.alkemy.ong.utils.documentation.IAuthController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,12 +22,14 @@ public class AuthController implements IAuthController {
 
 
    @PostMapping("/register")
-   public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserRequestDto user) throws Exception {
-       return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
+   public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserRequestDto user, BindingResult bindingResult) {
+           if (bindingResult.hasErrors())
+               throw new BadRequestException("Blank properties are not allowed");
+           return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
    }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authRequest) throws Exception {
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authRequest) throws Exception{
         return ResponseEntity.ok(service.authenticate(authRequest));
     }
 
