@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +26,7 @@ public interface IAuthController {
     })
     @PostMapping("/register")
     ResponseEntity<RegisterResponseDto> register(@Parameter(name = "User",description = "User data to save",required = true)
-                                                 @Valid @RequestBody UserRequestDto user) throws Exception;
-
+                                                 UserRequestDto user, BindingResult bindingResult);
     @ApiOperation(value = "Login", notes = "Login to authenticate in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -38,8 +38,7 @@ public interface IAuthController {
     })
     @PostMapping("/login")
     ResponseEntity<AuthenticationResponse> login(@Parameter(name = "Credentials",description = "User credentials",required = true)
-                                                 @Valid @RequestBody AuthenticationRequest authRequest) throws Exception;
-
+                                                 AuthenticationRequest authRequest) throws Exception;
     @ApiOperation(value = "Update", notes = "Update user data by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -51,7 +50,8 @@ public interface IAuthController {
     })
     @PatchMapping("/users/{id}")
     ResponseEntity<UserResponseDto> update(@Parameter(name = "User",description = "User data to update",required = true)
-                                           @Valid @RequestBody UserRequestDto user,
+                                           UserRequestDto user,
                                            @Parameter(description = "Id of user to update",required = true)
-                                           @PathVariable Long id) throws Exception;
+                                           Long id) throws Exception;
+
 }

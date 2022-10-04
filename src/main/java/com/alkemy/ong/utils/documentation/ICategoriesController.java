@@ -73,7 +73,7 @@ public interface ICategoriesController {
 
     @ApiOperation(value = "Delete(soft) category by Id", notes = "As an admin user, you can delete(soft) a category by his ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "DELETED - Resource has been successfully removed", content = {
+            @ApiResponse(responseCode = "204", description = "DELETED - Resource has been successfully removed", content = {
                     @Content(mediaType = "application/json")
             }),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST - Invalid ID"),

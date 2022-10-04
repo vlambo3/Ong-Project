@@ -46,7 +46,8 @@ public class HandlerExceptionController {
     }
 
     @ResponseStatus(NOT_FOUND)
-    @ExceptionHandler({ NotFoundException.class })
+    @ExceptionHandler({ NotFoundException.class,
+            UsernameNotFoundException.class})
     @ResponseBody
     public CustomExceptionDetails notFoundRequest(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
@@ -70,7 +71,6 @@ public class HandlerExceptionController {
             NullPointerException.class,
             IllegalArgumentException.class,
             IndexOutOfBoundsException.class,
-            UsernameNotFoundException.class,
             BadCredentialsException.class
     })
     @ResponseBody
