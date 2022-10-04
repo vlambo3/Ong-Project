@@ -23,9 +23,11 @@ public class AuthController implements IAuthController {
 
    @PostMapping("/register")
    public ResponseEntity<RegisterResponseDto> register(@Valid @RequestBody UserRequestDto user, BindingResult bindingResult) {
+           /* EXAMPLE FOR DEMO
            if (bindingResult.hasErrors())
-               throw new BadRequestException("Blank properties are not allowed");
-           return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
+                throw new BadRequestException("Blank properties are not allowed");
+           return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));*/
+       return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
    }
 
     @PostMapping("/login")
