@@ -34,6 +34,7 @@ public class SlideServiceImpl implements ISlideService {
     private final IAmazonClient amazonClient;
 
     public SlideResponseDto create(SlideRequestDto dto) throws Exception {
+
         Organization org = organizationRepository.findAll().get(0);
         Slide slide = mapper.map(dto, Slide.class);
         slide.setOrganizationId(org.getId());
@@ -50,6 +51,7 @@ public class SlideServiceImpl implements ISlideService {
             slide.setPosition(dto.getPosition());
             slidesList.add(dto.getPosition(), slide);
         }
+
         slide.setImage(amazonClient.uploadFile(slide.getImage(), slide.getText()));
 
         slide = slideRepository.save(slide);

@@ -27,7 +27,6 @@ public interface IAuthController {
     @PostMapping("/register")
     ResponseEntity<RegisterResponseDto> register(@Parameter(name = "User",description = "User data to save",required = true)
                                                  UserRequestDto user, BindingResult bindingResult);
-
     @ApiOperation(value = "Login", notes = "Login to authenticate in the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -40,7 +39,6 @@ public interface IAuthController {
     @PostMapping("/login")
     ResponseEntity<AuthenticationResponse> login(@Parameter(name = "Credentials",description = "User credentials",required = true)
                                                  AuthenticationRequest authRequest) throws Exception;
-
     @ApiOperation(value = "Update", notes = "Update user data by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -55,4 +53,5 @@ public interface IAuthController {
                                            UserRequestDto user,
                                            @Parameter(description = "Id of user to update",required = true)
                                            Long id) throws Exception;
+
 }

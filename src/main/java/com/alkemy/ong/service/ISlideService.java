@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ISlideService {
 
+
     SlideResponseDto create(SlideRequestDto dto) throws Exception;
 
     List<SlideBasicResponseDto> getAll();

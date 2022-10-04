@@ -47,8 +47,7 @@ public class HandlerExceptionController {
 
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler({ NotFoundException.class,
-            UsernameNotFoundException.class
-    })
+            UsernameNotFoundException.class})
     @ResponseBody
     public CustomExceptionDetails notFoundRequest(HttpServletRequest request, Exception exception) {
         return new CustomExceptionDetails(exception, request.getRequestURI());
